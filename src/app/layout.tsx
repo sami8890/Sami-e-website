@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navigation } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import SmoothScroll from "@/components/layout/smooth-scroll";
+import LoadingWrapper from "./loading";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,10 +31,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <LoadingWrapper>
         <SmoothScroll/>
         <Navigation />
         {children}
         <Footer />
+        </LoadingWrapper>
       </body>
     </html>
   );
