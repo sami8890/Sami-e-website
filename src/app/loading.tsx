@@ -44,8 +44,18 @@ export default function LoadingWrapper({
 
 function PremiumLoadingAnimation() {
     const [progress, setProgress] = useState(0);
+    const [dimensions, setDimensions] = useState({ width: 1200, height: 800 });
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
+        setIsMounted(true);
+
+        // Update dimensions safely on the client side
+        setDimensions({
+            width: window.innerWidth,
+            height: window.innerHeight
+        });
+
         const interval = setInterval(() => {
             setProgress((prev) => {
                 const next = prev + (100 - prev) * 0.08;
@@ -53,7 +63,20 @@ function PremiumLoadingAnimation() {
             });
         }, 50);
 
-        return () => clearInterval(interval);
+        // Handle window resize
+        const handleResize = () => {
+            setDimensions({
+                width: window.innerWidth,
+                height: window.innerHeight
+            });
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            clearInterval(interval);
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
 
     // Enhanced animation variants
@@ -87,6 +110,23 @@ function PremiumLoadingAnimation() {
     const particleCount = 20;
     const particles = Array.from({ length: particleCount });
 
+    // Generate safe random positions
+    const getRandomPosition = (index: number) => {
+        // Use deterministic values for server-side rendering
+        if (!isMounted) {
+            return {
+                x: (index % 5) * 200,
+                y: Math.floor(index / 5) * 150
+            };
+        }
+
+        // Use random values on the client
+        return {
+            x: Math.random() * dimensions.width,
+            y: Math.random() * dimensions.height
+        };
+    };
+
     return (
         <motion.div
             className="fixed inset-0 flex items-center justify-center overflow-hidden"
@@ -100,32 +140,36 @@ function PremiumLoadingAnimation() {
             variants={containerVariants}
         >
             {/* Animated particles */}
-            {particles.map((_, i) => (
-                <motion.div
-                    key={i}
-                    className="absolute rounded-full bg-emerald-400/30"
-                    initial={{
-                        x: Math.random() * window.innerWidth,
-                        y: Math.random() * window.innerHeight,
-                        scale: Math.random() * 0.5 + 0.5,
-                        opacity: Math.random() * 0.3 + 0.1,
-                    }}
-                    animate={{
-                        x: Math.random() * window.innerWidth,
-                        y: Math.random() * window.innerHeight,
-                        transition: {
-                            duration: Math.random() * 20 + 15,
-                            repeat: Infinity,
-                            repeatType: "reverse" as const,
-                            ease: "linear",
-                        },
-                    }}
-                    style={{
-                        width: `${Math.random() * 6 + 2}px`,
-                        height: `${Math.random() * 6 + 2}px`,
-                    }}
-                />
-            ))}
+            {particles.map((_, i) => {
+                const position = getRandomPosition(i);
+
+                return (
+                    <motion.div
+                        key={i}
+                        className="absolute rounded-full bg-emerald-400/30"
+                        initial={{
+                            x: position.x,
+                            y: position.y,
+                            scale: isMounted ? Math.random() * 0.5 + 0.5 : 0.7,
+                            opacity: isMounted ? Math.random() * 0.3 + 0.1 : 0.2,
+                        }}
+                        animate={{
+                            x: isMounted ? Math.random() * dimensions.width : position.x + 100,
+                            y: isMounted ? Math.random() * dimensions.height : position.y + 100,
+                            transition: {
+                                duration: isMounted ? Math.random() * 20 + 15 : 20,
+                                repeat: Infinity,
+                                repeatType: "reverse" as const,
+                                ease: "linear",
+                            },
+                        }}
+                        style={{
+                            width: `${isMounted ? Math.random() * 6 + 2 : 4}px`,
+                            height: `${isMounted ? Math.random() * 6 + 2 : 4}px`,
+                        }}
+                    />
+                );
+            })}
 
             {/* Grid background */}
             <div
