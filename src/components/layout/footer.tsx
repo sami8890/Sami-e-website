@@ -10,7 +10,7 @@ export function Footer() {
             <Link href="/" className="flex items-center space-x-2">
               <div className="size-8 rounded bg-emerald-500 rotate-45" />
               <span className="text-lg font-bold bg-gradient-to-r from-white to-emerald-500 bg-clip-text text-transparent">
-                weCreate
+               Sami-e
               </span>
             </Link>
           </div>

@@ -1,108 +1,98 @@
-"use client";
+"use client"
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import type React from "react"
+import { useCallback, useMemo, useRef, useState } from "react"
+import Link from "next/link"
 
-interface MarqueeItem {
-  text: string;
-  icon?: React.ReactNode;
-  href: string;
-  color?: string;
-  className?: string;
-  tooltip?: string;
+export interface MarqueeItem {
+  text: string
+  href: string
+  icon?: React.ReactNode
+  color?: string
+  tooltip?: string
+  className?: string
 }
 
-interface MarqueeProps {
-  items: MarqueeItem[];
-  speed?: number;
-  direction?: "left" | "right";
-  className?: string;
-  gradientColor?: string;
-  pauseOnHover?: boolean;
-  itemClassName?: string;
-  fontSize?: "sm" | "base" | "lg" | "xl" | "2xl";
-  spacing?: "tight" | "normal" | "relaxed";
-  theme?: "light" | "dark" | "custom";
-  customColors?: {
-    background?: string;
-    text?: string;
-    hover?: string;
-    border?: string;
-  };
+interface Props {
+  items: MarqueeItem[]
+  speed?: number
+  direction?: "normal" | "reverse"
+  pauseOnHover?: boolean
+  fontSize?: "sm" | "base" | "lg" | "xl" | "2xl" | "3xl"
+  spacing?: "sm" | "base" | "lg" | "xl" | "2xl" | "3xl"
+  itemClassName?: string
+  gradient?: boolean
+  gradientColor?: string
+  theme?: {
+    text: string
+    hover: string
+  }
 }
 
-export function InfiniteMarquee({
+const InfiniteMarquee = ({
   items,
-  speed = 40,
-  direction = "left",
-  className = "",
-  gradientColor = "from-black/95",
+  speed = 30,
+  direction = "normal",
   pauseOnHover = true,
-  itemClassName = "",
   fontSize = "xl",
-  spacing = "normal",
-  theme = "dark",
-  customColors
-}: MarqueeProps) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
+  spacing = "2xl",
+  itemClassName = "",
+  gradient = true,
+  gradientColor = "from-black via-gray-600 to-black",
+  theme = {
+    text: "text-white",
+    hover: "hover:text-gray-400",
+  },
+}: Props) => {
+  const [isHovered, setIsHovered] = useState(false)
+  const marqueeRef = useRef<HTMLDivElement>(null)
 
-  // Determine theme colors
-  const themeColors = useMemo(() => {
-    if (customColors) return customColors;
-
-    const themes = {
-      light: {
-        background: "bg-white/95",
-        text: "text-gray-800",
-        hover: "hover:text-blue-600",
-        border: "border-gray-200"
-      },
-      dark: {
-        background: "bg-black/95",
-        text: "text-gray-300/90",
-        hover: "hover:text-white",
-        border: "border-gray-800"
-      }
-    };
-
-    return theme === "custom" ? themes.dark : themes[theme];
-  }, [theme, customColors]);
-
-  // Determine font size class
-  const fontSizeClass = useMemo(() => ({
-    sm: "text-sm",
-    base: "text-base",
-    lg: "text-lg",
-    xl: "text-xl",
-    "2xl": "text-2xl"
-  }[fontSize]), [fontSize]);
-
-  // Determine spacing class
-  const spacingClass = useMemo(() => ({
-    tight: "gap-2 px-2",
-    normal: "gap-4 px-4",
-    relaxed: "gap-6 px-6"
-  }[spacing]), [spacing]);
-
-  // Create multiple copies of items for smooth infinite scrolling
-  const repeatedItems = useMemo(() => [...items, ...items, ...items, ...items], [items]);
-
-  // Handle hover state
-  useEffect(() => {
-    if (!pauseOnHover) return;
-    let timeoutId: NodeJS.Timeout;
-
-    if (isHovered) {
-      timeoutId = setTimeout(() => setIsPaused(true), 100);
-    } else {
-      setIsPaused(false);
+  const fontSizeClass = useMemo(() => {
+    switch (fontSize) {
+      case "sm":
+        return "text-sm"
+      case "base":
+        return "text-base"
+      case "lg":
+        return "text-lg"
+      case "xl":
+        return "text-xl"
+      case "2xl":
+        return "text-2xl"
+      case "3xl":
+        return "text-3xl"
+      default:
+        return "text-xl"
     }
+  }, [fontSize])
 
-    return () => clearTimeout(timeoutId);
-  }, [isHovered, pauseOnHover]);
+  const spacingClass = useMemo(() => {
+    switch (spacing) {
+      case "sm":
+        return "mr-2"
+      case "base":
+        return "mr-4"
+      case "lg":
+        return "mr-6"
+      case "xl":
+        return "mr-8"
+      case "2xl":
+        return "mr-10"
+      case "3xl":
+        return "mr-12"
+      default:
+        return "mr-10"
+    }
+  }, [spacing])
 
-  // Memoize the render item function
+  const themeColors = useMemo(
+    () => ({
+      text: theme.text,
+      hover: theme.hover,
+    }),
+    [theme.text, theme.hover],
+  )
+
   const renderItem = useCallback(
     (item: MarqueeItem, idx: number) => (
       <Link
@@ -112,10 +102,10 @@ export function InfiniteMarquee({
           group flex items-center ${spacingClass} ${fontSizeClass} font-medium 
           ${themeColors.text} ${themeColors.hover}
           transition-all duration-500 ease-in-out
-          rounded-full py-2 backdrop-blur-sm
+          rounded-full py-2 
           focus:outline-none focus:ring-2 focus:ring-white/20
           focus:ring-offset-2 focus:ring-offset-black
-          relative
+          relative whitespace-nowrap
           ${item.className || ""}
           ${itemClassName}
         `}
@@ -124,97 +114,64 @@ export function InfiniteMarquee({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {item.icon && (
-          <span className="transition-all duration-500 ease-in-out transform ">
-            {item.icon}
-          </span>
-        )}
-        <span className="transition-all duration-500 ease-in-out group-hover:tracking-wider">
-          {item.text}
-        </span>
-        <span className="mx-4 opacity-30 transition-all duration-500 ease-in-out ">
-          •
-        </span>
+        {item.icon && <span className="transition-all duration-500 ease-in-out transform mr-2">{item.icon}</span>}
+        <span className="transition-all duration-500 ease-in-out">{item.text}</span>
+        <span className="mx-6 opacity-30 transition-all duration-500 ease-in-out">•</span>
       </Link>
     ),
-    [spacingClass, fontSizeClass, themeColors, itemClassName]
-  );
+    [spacingClass, fontSizeClass, themeColors, itemClassName],
+  )
+
+  const animationDuration = useMemo(() => {
+    return `${speed}s`
+  }, [speed])
+
+  const marqueeDirection = useMemo(() => {
+    return direction === "reverse" ? "reverse" : "normal"
+  }, [direction])
 
   return (
-    <div
-      className={`
-        relative flex overflow-x-hidden ${themeColors.background}
-        border-y ${themeColors.border} transition-all duration-500
-        ${className}
-      `}
-      role="region"
-      aria-label="Scrolling announcements"
-    >
-      {/* First Marquee Animation */}
+    <div className="relative w-full overflow-hidden">
+      {gradient && <div className="absolute inset-y-0 left-0 z-10 w-32 bg-gradient-to-r from-black" />}
+      {gradient && <div className="absolute inset-y-0 right-0 z-10 w-32 bg-gradient-to-l from-black" />}
       <div
-        className="flex items-center py-6 animate-marquee whitespace-nowrap"
+        ref={marqueeRef}
+        className={`animate-marquee flex whitespace-nowrap ${gradient ? gradientColor : ""}`}
         style={{
-          animationDuration: `${speed}s`,
-          animationDirection: direction === "left" ? "normal" : "reverse",
-          animationPlayState: isPaused ? "paused" : "running"
+          animationDuration: animationDuration,
+          animationDirection: marqueeDirection,
+          animationPlayState: isHovered && pauseOnHover ? "paused" : "running",
         }}
       >
-        {repeatedItems.map(renderItem)}
+        {items.map(renderItem)}
+        {items.map(renderItem)}
       </div>
-
-      {/* Second Marquee Animation (Clone) */}
-      <div
-        className="flex items-center py-6 animate-marquee whitespace-nowrap"
-        style={{
-          animationDuration: `${speed}s`,
-          animationDirection: direction === "left" ? "normal" : "reverse",
-          animationPlayState: isPaused ? "paused" : "running"
-        }}
-      >
-        {repeatedItems.map(renderItem)}
-      </div>
-
-      {/* Gradient Overlays */}
-      <div
-        className={`
-          absolute left-0 top-0 bottom-0 w-20 z-10 
-          bg-gradient-to-r ${gradientColor} to-transparent 
-          pointer-events-none transition-opacity duration-500
-          ${isPaused ? 'opacity-0' : 'opacity-100'}
-        `}
-      />
-      <div
-        className={`
-          absolute right-0 top-0 bottom-0 w-20 z-10 
-          bg-gradient-to-l ${gradientColor} to-transparent 
-          pointer-events-none transition-opacity duration-500
-          ${isPaused ? 'opacity-0' : 'opacity-100'}
-        `}
-      />
-
       <style jsx>{`
-        .animate-marquee {
-          min-width: 100%;
-          will-change: transform;
-          animation: scroll-x linear infinite;
-          animation-fill-mode: both;
-        }
+  .animate-marquee {
+    min-width: 100%;
+    will-change: transform;
+    animation: scroll-x linear infinite;
+    animation-fill-mode: both;
+  }
 
-        @keyframes scroll-x {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(-100%);
-          }
-        }
+  @keyframes scroll-x {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
 
-        @media (prefers-reduced-motion: reduce) {
-          .animate-marquee {
-            animation-duration: ${speed * 2}s;
-          }
-        }
-      `}</style>
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee {
+      animation-duration: ${speed * 2}s;
+    }
+  }
+`}</style>
     </div>
-  );
+  )
 }
+
+export default InfiniteMarquee
+

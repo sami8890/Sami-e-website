@@ -1,70 +1,38 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import { ArrowRight, Globe, Github, Users, Calendar } from "lucide-react";
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import Image from "next/image"
+import { ArrowRight, Globe, Users } from "lucide-react"
+import { useMediaQuery } from "@/hooks/use-media-querry"
 
 interface ProjectCardProps {
   project: {
-    name: string;
-    metric: string;
-    imageUrl: string;
-    category: string;
-    technologies: string[];
-    timeline?: {
-      started: string;
-      completed?: string;
-    };
-    githubUrl?: string;
-    demoUrl?: string;
+    name: string
+    metric: string
+    imageUrl: string
+    category: string
+    technologies: string[]
+    demoUrl?: string
     engagement?: {
-      users?: number;
-      commits?: number;
-    };
-    status?: "live" | "development" | "completed";
-  };
-  onClick: () => void;
+      users?: number
+      commits?: number
+    }
+  }
+  onClick: () => void
 }
 
 export function ProjectCard({ project, onClick }: ProjectCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [isImageError, setIsImageError] = useState(false);
+  const [isHovered, setIsHovered] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [isImageError, setIsImageError] = useState(false)
+  const isMobile = useMediaQuery("(max-width: 640px)")
 
   // Reset image error state when imageUrl changes
   useEffect(() => {
-    setIsImageError(false);
-    setImageLoaded(false);
-  }, [project.imageUrl]);
-
-  const getStatusConfig = (status?: string) => {
-    switch (status) {
-      case "live":
-        return {
-          color: "bg-emerald-500",
-          text: "Live",
-          textColor: "text-emerald-500",
-          bgLight: "bg-emerald-500/10",
-        };
-      case "development":
-        return {
-          color: "bg-amber-500",
-          text: "In Development",
-          textColor: "text-amber-500",
-          bgLight: "bg-amber-500/10",
-        };
-      default:
-        return {
-          color: "bg-blue-500",
-          text: "Completed",
-          textColor: "text-blue-500",
-          bgLight: "bg-blue-500/10",
-        };
-    }
-  };
-
-  const statusConfig = getStatusConfig(project.status);
+    setIsImageError(false)
+    setImageLoaded(false)
+  }, [project.imageUrl])
 
   const imageVariants = {
     hover: {
@@ -81,11 +49,11 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
         ease: [0.32, 0.72, 0, 1],
       },
     },
-  };
+  }
 
   return (
     <motion.div
-      className="group relative rounded-xl overflow-hidden bg-zinc-900 cursor-pointer border border-zinc-800"
+      className="group relative rounded-xl overflow-hidden bg-zinc-900 cursor-pointer border border-zinc-800 active:scale-[0.98] transition-transform shadow-lg hover:shadow-emerald-900/10"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -94,10 +62,10 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
       onClick={onClick}
       role="button"
       tabIndex={0}
-      whileHover={{ y: -4 }}
+      whileHover={{ y: -5 }}
     >
-      {/* Image Container */}
-      <div className="w-full h-full md:h-[300px] relative overflow-hidden bg-zinc-800">
+      {/* Image Container - Moderately Larger */}
+      <div className="w-full h-[220px] sm:h-[240px] md:h-[260px] relative overflow-hidden bg-zinc-800">
         <motion.div
           className="relative w-full h-full"
           variants={imageVariants}
@@ -121,11 +89,10 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
           {/* Main Image */}
           <Image
             src={project.imageUrl || "/placeholder.svg"}
-            alt={project.name}
+            alt={project.name || "Project image"}
             fill
-            className={`object-cover transition-all duration-700 ease-in-out ${
-              imageLoaded ? "opacity-100 blur-0" : "opacity-0 blur-lg"
-            }`}
+            className={`object-cover transition-all duration-700 ease-in-out ${imageLoaded ? "opacity-100 blur-0" : "opacity-0 blur-lg"
+              }`}
             priority
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             onLoad={() => setImageLoaded(true)}
@@ -143,121 +110,58 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
           />
         </motion.div>
 
-        {/* Top Badges */}
-        <div className="absolute top-4 left-4 flex items-center gap-3">
-          {/* Status Badge */}
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${statusConfig.bgLight} backdrop-blur-sm`}
-          >
-            <span className="relative flex h-2 w-2">
-              <span
-                className={`animate-ping absolute inline-flex h-full w-full rounded-full ${statusConfig.color} opacity-75`}
-              />
-              <span
-                className={`relative inline-flex rounded-full h-2 w-2 ${statusConfig.color}`}
-              />
-            </span>
-            <span className={`text-xs font-medium ${statusConfig.textColor}`}>
-              {statusConfig.text}
-            </span>
-          </motion.div>
-        </div>
-
-        {/* Project Links */}
-        <div className="absolute top-4 right-4 flex items-center gap-2">
+        {/* Project Links - Only Demo URL */}
+        <div className="absolute top-4 right-4 flex items-center gap-1 sm:gap-2">
           {project.demoUrl && (
             <motion.a
               href={project.demoUrl}
-              className="p-2 rounded-lg bg-zinc-800/90 text-zinc-300 backdrop-blur-sm hover:bg-zinc-700 transition-colors"
+              className="p-2.5 sm:p-2 rounded-lg bg-zinc-800/90 text-zinc-300 backdrop-blur-sm hover:bg-zinc-700 transition-colors"
               onClick={(e) => e.stopPropagation()}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Globe className="w-4 h-4" />
-            </motion.a>
-          )}
-          {project.githubUrl && (
-            <motion.a
-              href={project.githubUrl}
-              className="p-2 rounded-lg bg-zinc-800/90 text-zinc-300 backdrop-blur-sm hover:bg-zinc-700 transition-colors"
-              onClick={(e) => e.stopPropagation()}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Github className="w-4 h-4" />
+              <Globe className="w-5 h-5 sm:w-4 sm:h-4" />
             </motion.a>
           )}
         </div>
       </div>
 
-      {/* Content Section */}
-      <div className="relative p-6 bg-zinc-900">
+      {/* Content Section - Balanced Spacing */}
+      <div className="relative p-5 sm:p-6 bg-zinc-900">
         <div className="space-y-4">
           {/* Project Category & Timeline */}
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
             <motion.span
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="px-3 py-1 text-xs font-medium bg-zinc-800 text-zinc-300 rounded-full"
+              className="px-3 py-1.5 sm:py-1 text-xs font-medium bg-zinc-800 text-zinc-300 rounded-full w-fit"
             >
               {project.category}
             </motion.span>
-            {project.timeline && (
-              <div className="flex items-center gap-1.5 text-xs text-zinc-400">
-                <Calendar className="w-3.5 h-3.5" />
-                <span>
-                  {new Date(project.timeline.started).toLocaleDateString(
-                    "en-US",
-                    { month: "short", year: "numeric" }
-                  )}
-                </span>
-              </div>
-            )}
           </div>
 
           {/* Project Info */}
           <div className="space-y-2">
             <motion.h3
-              className="text-xl font-bold text-white"
+              className="text-lg sm:text-xl font-bold text-white line-clamp-2"
               animate={{ y: isHovered ? -2 : 0 }}
             >
-              {project.name}
+              {project.name || "Untitled Project"}
             </motion.h3>
-            <motion.p
-              className="text-emerald-400 font-medium"
-              animate={{ y: isHovered ? -1 : 0 }}
-            >
+            <motion.p className="text-emerald-400 font-medium text-sm sm:text-base" animate={{ y: isHovered ? -1 : 0 }}>
               {project.metric}
             </motion.p>
           </div>
 
-          {/* Engagement Metrics */}
-          {project.engagement && (
-            <div className="flex items-center gap-4 text-sm text-zinc-400">
-              {project.engagement.users && (
-                <motion.div
-                  className="flex items-center gap-1.5"
-                  whileHover={{ scale: 1.05, color: "#ffffff" }}
-                >
-                  <Users className="w-4 h-4" />
-                  <span>{project.engagement.users.toLocaleString()} users</span>
-                </motion.div>
-              )}
-              {project.engagement.commits && (
-                <motion.div
-                  className="flex items-center gap-1.5"
-                  whileHover={{ scale: 1.05, color: "#ffffff" }}
-                >
-                  <Github className="w-4 h-4" />
-                  <span>{project.engagement.commits} commits</span>
-                </motion.div>
-              )}
+          {/* Engagement Metrics - Only Users */}
+          {project.engagement && project.engagement.users && (
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-zinc-400">
+              <motion.div className="flex items-center gap-2 sm:gap-1.5" whileHover={{ scale: 1.05, color: "#ffffff" }}>
+                <Users className="w-4 h-4" />
+                <span>{project.engagement.users.toLocaleString()} users</span>
+              </motion.div>
             </div>
           )}
 
@@ -278,7 +182,7 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
                   scale: 1.05,
                   backgroundColor: "rgb(63 63 70 / 1)",
                 }}
-                className="px-2.5 py-1 text-xs bg-zinc-800 text-zinc-400 rounded-lg hover:text-zinc-300 transition-colors"
+                className="px-2.5 py-1.5 sm:py-1 text-xs bg-zinc-800 text-zinc-400 rounded-lg hover:text-zinc-300 transition-colors"
               >
                 {tech}
               </motion.span>
@@ -288,16 +192,16 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
 
         {/* View Project Button */}
         <AnimatePresence>
-          {isHovered && (
+          {(isHovered || isMobile) && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.2 }}
-              className="absolute right-6 top-1/2 -translate-y-1/2"
+              className="sm:absolute sm:right-6 sm:top-1/2 sm:-translate-y-1/2 mt-4 sm:mt-0"
             >
               <motion.button
-                className="px-4 py-2 rounded-lg bg-emerald-500 text-sm text-white flex items-center gap-2 transition-all hover:bg-emerald-600"
+                className="w-full sm:w-auto px-4 py-2.5 sm:py-2 rounded-lg bg-emerald-500 text-sm text-white flex items-center justify-center sm:justify-start gap-2 transition-all hover:bg-emerald-600"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -311,13 +215,14 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
 
       {/* Progress Bar */}
       <motion.div
-        className="absolute bottom-0 left-0 h-0.5 bg-emerald-500"
+        className="absolute bottom-0 left-0 h-1 bg-emerald-500"
         initial={{ width: "0%" }}
         animate={{ width: isHovered ? "100%" : "0%" }}
         transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
       />
     </motion.div>
-  );
+  )
 }
 
-export default ProjectCard;
+export default ProjectCard
+

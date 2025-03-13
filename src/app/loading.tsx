@@ -1,26 +1,43 @@
-"use client";
+"use client"
 
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { anton } from "@/lib/font";
-import { ChevronRight } from "lucide-react";
+import React, { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { anton } from "@/lib/font"
 
 export default function LoadingWrapper({
     children,
 }: {
-    children: React.ReactNode;
+    children: React.ReactNode
 }) {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true)
+    const [contentReady, setContentReady] = useState(false)
 
     useEffect(() => {
-        // Set a minimum display time of 2.5 seconds for the loading animation
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 2500);
+        setContentReady(true)
 
-        // Cleanup the timer on component unmount
-        return () => clearTimeout(timer);
-    }, []);
+        // Safely handle requestIdleCallback
+        const timer =
+            typeof window !== "undefined" && "requestIdleCallback" in window
+                ? window.requestIdleCallback(
+                    () => {
+                        setLoading(false)
+                    },
+                    { timeout: 800 },
+                )
+                : setTimeout(() => {
+                    setLoading(false)
+                }, 800)
+
+        return () => {
+            if (typeof window !== "undefined") {
+                if ("requestIdleCallback" in window && "cancelIdleCallback" in window) {
+                    window.cancelIdleCallback(timer as number)
+                } else {
+                    clearTimeout(timer)
+                }
+            }
+        }
+    }, [])
 
     return (
         <>
@@ -32,216 +49,182 @@ export default function LoadingWrapper({
                         key="content"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        className="min-h-screen w-full bg-black" // Critical fix
                     >
                         {children}
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            {loading && contentReady && (
+                <div className="sr-only" aria-hidden="true">
+                    {children}
+                </div>
+            )}
         </>
-    );
+    )
 }
 
 function PremiumLoadingAnimation() {
-    const [progress, setProgress] = useState(0);
-    const [dimensions, setDimensions] = useState({ width: 1200, height: 800 });
-    const [isMounted, setIsMounted] = useState(false);
+    const [progress, setProgress] = useState(0)
+    const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+    const [isMounted, setIsMounted] = useState(false)
+    const particleCount = 10
 
     useEffect(() => {
-        setIsMounted(true);
+        setIsMounted(true)
 
-        // Update dimensions safely on the client side
-        setDimensions({
-            width: window.innerWidth,
-            height: window.innerHeight
-        });
-
-        const interval = setInterval(() => {
-            setProgress((prev) => {
-                const next = prev + (100 - prev) * 0.08;
-                return Math.min(next, 100);
-            });
-        }, 50);
-
-        // Handle window resize
-        const handleResize = () => {
+        // Safely handle window dimensions
+        if (typeof window !== "undefined") {
             setDimensions({
                 width: window.innerWidth,
-                height: window.innerHeight
-            });
-        };
+                height: window.innerHeight,
+            })
 
-        window.addEventListener('resize', handleResize);
+            const interval = setInterval(() => {
+                setProgress((prev) => {
+                    const next = prev + (100 - prev) * 0.15
+                    return Math.min(next, 100)
+                })
+            }, 100)
 
-        return () => {
-            clearInterval(interval);
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+            let resizeTimer: NodeJS.Timeout
+            const handleResize = () => {
+                clearTimeout(resizeTimer)
+                resizeTimer = setTimeout(() => {
+                    setDimensions({
+                        width: window.innerWidth,
+                        height: window.innerHeight,
+                    })
+                }, 250)
+            }
 
-    // Enhanced animation variants
+            window.addEventListener("resize", handleResize, { passive: true })
+
+            return () => {
+                clearInterval(interval)
+                clearTimeout(resizeTimer)
+                window.removeEventListener("resize", handleResize)
+            }
+        }
+
+        // Fallback for SSR
+        return () => { }
+    }, [])
+
     const containerVariants = {
-        initial: {
-            backgroundPosition: "0% 0%",
-        },
+        initial: { backgroundPosition: "0% 0%" },
         animate: {
             backgroundPosition: ["0% 0%", "100% 100%"],
             transition: {
                 duration: 8,
                 ease: "linear",
-                repeat: Infinity,
+                repeat: Number.POSITIVE_INFINITY,
                 repeatType: "reverse" as const,
             },
         },
-    };
+    }
 
     const logoVariants = {
-        initial: { scale: 0.8, opacity: 0 },
+        initial: { scale: 0.9, opacity: 0 },
         animate: {
             scale: 1,
             opacity: 1,
-            transition: {
-                duration: 0.8,
-                ease: "easeOut",
-            },
+            transition: { duration: 0.6, ease: "easeOut" },
         },
-    };
+    }
 
-    const particleCount = 20;
-    const particles = Array.from({ length: particleCount });
-
-    // Generate safe random positions
-    const getRandomPosition = (index: number) => {
-        // Use deterministic values for server-side rendering
-        if (!isMounted) {
+    const particles = React.useMemo(() => {
+        return Array.from({ length: particleCount }).map((_, i) => {
+            if (!isMounted) {
+                return {
+                    x: (i % 5) * 200,
+                    y: Math.floor(i / 5) * 150,
+                    scale: 0.7,
+                    opacity: 0.2,
+                    size: 4,
+                }
+            }
             return {
-                x: (index % 5) * 200,
-                y: Math.floor(index / 5) * 150
-            };
-        }
-
-        // Use random values on the client
-        return {
-            x: Math.random() * dimensions.width,
-            y: Math.random() * dimensions.height
-        };
-    };
+                x: Math.random() * dimensions.width,
+                y: Math.random() * dimensions.height,
+                targetX: Math.random() * dimensions.width,
+                targetY: Math.random() * dimensions.height,
+                scale: Math.random() * 0.5 + 0.5,
+                opacity: Math.random() * 0.3 + 0.1,
+                size: Math.random() * 6 + 2,
+                duration: Math.random() * 15 + 10,
+            }
+        })
+    }, [dimensions.width, dimensions.height, isMounted, particleCount])
 
     return (
         <motion.div
-            className="fixed inset-0 flex items-center justify-center overflow-hidden"
+            className="fixed inset-0 flex items-center justify-center overflow-hidden h-screen w-screen z-[9999]"
             initial="initial"
             animate="animate"
-            exit={{ opacity: 0, transition: { duration: 0.5 } }}
+            exit={{
+                opacity: 0,
+                transition: {
+                    duration: 0.3,
+                    backgroundColor: { duration: 0.4 },
+                },
+            }}
             style={{
                 background: "linear-gradient(135deg, #000000, #0f172a)",
                 backgroundSize: "400% 400%",
             }}
             variants={containerVariants}
         >
-            {/* Animated particles */}
-            {particles.map((_, i) => {
-                const position = getRandomPosition(i);
-
-                return (
+            {isMounted &&
+                particles.map((particle, i) => (
                     <motion.div
                         key={i}
                         className="absolute rounded-full bg-emerald-400/30"
                         initial={{
-                            x: position.x,
-                            y: position.y,
-                            scale: isMounted ? Math.random() * 0.5 + 0.5 : 0.7,
-                            opacity: isMounted ? Math.random() * 0.3 + 0.1 : 0.2,
+                            x: particle.x,
+                            y: particle.y,
+                            scale: particle.scale,
+                            opacity: particle.opacity,
                         }}
                         animate={{
-                            x: isMounted ? Math.random() * dimensions.width : position.x + 100,
-                            y: isMounted ? Math.random() * dimensions.height : position.y + 100,
+                            x: particle.targetX,
+                            y: particle.targetY,
                             transition: {
-                                duration: isMounted ? Math.random() * 20 + 15 : 20,
-                                repeat: Infinity,
+                                duration: particle.duration,
+                                repeat: Number.POSITIVE_INFINITY,
                                 repeatType: "reverse" as const,
                                 ease: "linear",
                             },
                         }}
                         style={{
-                            width: `${isMounted ? Math.random() * 6 + 2 : 4}px`,
-                            height: `${isMounted ? Math.random() * 6 + 2 : 4}px`,
+                            width: `${particle.size}px`,
+                            height: `${particle.size}px`,
                         }}
                     />
-                );
-            })}
+                ))}
 
-            {/* Grid background */}
             <div
                 className="absolute inset-0 opacity-20"
                 style={{
                     backgroundImage: `
-            linear-gradient(to right, #1a1a1a 1px, transparent 1px),
-            linear-gradient(to bottom, #1a1a1a 1px, transparent 1px)
-          `,
+                        linear-gradient(to right, #1a1a1a 1px, transparent 1px),
+                        linear-gradient(to bottom, #1a1a1a 1px, transparent 1px)
+                    `,
                     backgroundSize: "50px 50px",
                 }}
-            >
-                <motion.div
-                    className="w-full h-full"
-                    animate={{
-                        y: [0, -50],
-                        x: [0, -10],
-                        transition: {
-                            duration: 15,
-                            ease: "linear",
-                            repeat: Infinity,
-                        },
-                    }}
-                />
-            </div>
+            />
 
-            {/* Center content */}
             <div className="relative z-10 flex flex-col items-center px-4">
-                {/* Logo circle with pulse effect */}
                 <motion.div className="relative mb-12" variants={logoVariants}>
-                    <motion.div
-                        className="absolute -inset-3 rounded-full bg-gradient-to-r from-emerald-400/20 to-green-500/20"
-                        animate={{
-                            scale: [1, 1.2, 1],
-                            opacity: [0.5, 0.3, 0.5],
-                        }}
-                        transition={{
-                            duration: 2,
-                            ease: "easeInOut",
-                            repeat: Infinity,
-                        }}
-                    />
-
                     <div className="relative w-32 h-32 mb-4">
-                        <motion.div
-                            className="absolute inset-0 rounded-full bg-gradient-to-r from-emerald-400 to-green-400"
-                            animate={{
-                                rotate: 360,
-                                transition: {
-                                    duration: 15,
-                                    ease: "linear",
-                                    repeat: Infinity,
-                                },
-                            }}
-                        >
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-emerald-400 to-green-400">
                             <div className="absolute inset-1 rounded-full bg-black" />
-                        </motion.div>
-
+                        </div>
                         <div className="absolute inset-4 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center">
-                            <motion.div
-                                className="text-white text-5xl font-bold"
-                                animate={{
-                                    opacity: [0.7, 1, 0.7],
-                                    scale: [0.95, 1, 0.95],
-                                }}
-                                transition={{
-                                    duration: 3,
-                                    ease: "easeInOut",
-                                    repeat: Infinity,
-                                }}
-                            >
-                                <span className="sr-only">Your Website Logo</span>
+                            <div className="text-white text-5xl font-bold">
                                 <svg
                                     viewBox="0 0 24 24"
                                     fill="none"
@@ -253,106 +236,55 @@ function PremiumLoadingAnimation() {
                                 >
                                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                                 </svg>
-                            </motion.div>
+                            </div>
                         </div>
                     </div>
                 </motion.div>
 
-                {/* Text with typewriter effect */}
                 <motion.div
                     className="text-center space-y-6"
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
                 >
                     <h2
-                        className={`${anton.className} text-5xl font-normal text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-600 drop-shadow-lg tracking-wider`}
+                        className={`${anton.className} text-5xl font-normal text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-600 tracking-wider`}
                     >
                         LOADING EXPERIENCE
                     </h2>
 
-                    <motion.div
-                        className="flex items-center justify-center space-x-2"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.8 }}
-                    >
-                        <motion.span
-                            className="text-emerald-400 font-medium"
-                            animate={{
-                                opacity: [0.5, 1, 0.5],
-                            }}
-                            transition={{
-                                duration: 1.5,
-                                repeat: Infinity,
-                            }}
-                        >
-                            Preparing your website
-                        </motion.span>
-
-                        <motion.div
-                            className="flex space-x-1"
-                            animate={{
-                                x: [0, 5, 0],
-                            }}
-                            transition={{
-                                duration: 1.5,
-                                repeat: Infinity,
-                            }}
-                        >
+                    <div className="flex items-center justify-center space-x-2">
+                        <span className="text-emerald-400 font-medium">Preparing your website</span>
+                        <div className="flex space-x-1">
                             {[0, 1, 2].map((i) => (
                                 <motion.div
                                     key={i}
                                     className="w-2 h-2 rounded-full bg-emerald-400"
-                                    animate={{
-                                        scale: [1, 1.5, 1],
-                                        opacity: [0.5, 1, 0.5],
-                                    }}
+                                    animate={{ opacity: [0.5, 1, 0.5] }}
                                     transition={{
                                         duration: 1,
-                                        repeat: Infinity,
+                                        repeat: Number.POSITIVE_INFINITY,
                                         delay: i * 0.2,
                                     }}
                                 />
                             ))}
-                        </motion.div>
-                    </motion.div>
+                        </div>
+                    </div>
                 </motion.div>
 
-                {/* Progress bar */}
                 <motion.div
                     className="w-64 sm:w-80 h-1 bg-gray-700 rounded-full overflow-hidden mt-12"
-                    initial={{ opacity: 0, scaleX: 0.3 }}
-                    animate={{ opacity: 1, scaleX: 1 }}
-                    transition={{ duration: 0.6, delay: 1 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 0.3 }}
                 >
                     <motion.div
                         className="h-full bg-gradient-to-r from-emerald-400 to-green-500 rounded-full"
                         style={{ width: `${progress}%` }}
                     />
                 </motion.div>
-
-                {/* Additional animated element */}
-                <motion.div
-                    className="absolute bottom-8 flex items-center text-white/50 text-sm"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.2 }}
-                >
-                    <ChevronRight className="w-4 h-4 mr-1 text-emerald-400" />
-                    <motion.span
-                        animate={{
-                            opacity: [0.5, 1, 0.5],
-                        }}
-                        transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                        }}
-                    >
-                        Creating stunning experience
-                    </motion.span>
-                </motion.div>
             </div>
         </motion.div>
-    );
+    )
 }
+

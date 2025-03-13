@@ -1,897 +1,343 @@
-// "use client"
+"use client"
 
-// import type React from "react"
+import type React from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { ChevronDown } from 'lucide-react'
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { TextPlugin } from "gsap/TextPlugin"
+import { Anton } from 'next/font/google'
+const anton = Anton({
+  weight: ["400"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-anton",
+})
+import MainMarquee from "./hero-marquee"
+import { HeroCarousel } from "@/components/hero/hero-carousel"
+import { HeroButtons } from "@/components/hero/hero-buttons"
+import { VideoModal } from "@/components/hero/hero-video-modal"
+import { FloatingElements, useIntersectionObserver } from "@/components/hero/hero-floating-elements"
+import { sections, animations, prefersReducedMotion } from "@/components/hero/hero-data"
 
-// import { useState, useEffect, useRef, useCallback } from "react"
-// import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
-// import { Button } from "@/components/ui/button"
-// import { ChevronRight, Play, ArrowDown } from "lucide-react"
-// import gsap from "gsap"
-// import { ScrollTrigger } from "gsap/ScrollTrigger"
-// import { TextPlugin } from "gsap/TextPlugin"
-// import { anton } from "@/lib/font"
-
-// // Register GSAP plugins
-// gsap.registerPlugin(ScrollTrigger, TextPlugin)
-
-// // Constants
-// const SECTION_INTERVAL = 5000
-// const WATER_ANIMATION_DURATION = 9
-// const WAVE_ANIMATION_DURATION = 5
-
-// const sections = [
-//   {
-//     title: "Innovative Solutions",
-//     description: "We design websites that are more than just pages—they're powerful tools for your business.",
-//   },
-//   {
-//     title: "Expert Team",
-//     description: "With years of experience, we craft websites that combine creativity and functionality.",
-//   },
-//   {
-//     title: "Global Reach",
-//     description: "From local startups to global brands, we help businesses connect with their audiences everywhere.",
-//   },
-//   {
-//     title: "Your Vision, Our Mission",
-//     description: "We're here to bring your ideas to life, building a website that reflects who you are.",
-//   },
-//   {
-//     title: "Future-Ready Designs",
-//     description: "Our websites are built to grow with your business and keep up with new trends and technologies.",
-//   },
-// ]
-
-// // Animation variants
-// const animations = {
-//   waterInside: {
-//     animate: {
-//       height: ["10%", "50%", "10%"],
-//       transition: {
-//         duration: WATER_ANIMATION_DURATION,
-//         ease: "easeInOut",
-//         repeat: Number.POSITIVE_INFINITY,
-//         repeatType: "reverse" as const,
-//       },
-//     },
-//   },
-//   waterWave: {
-//     animate: {
-//       y: ["0%", "-50%"],
-//       transition: {
-//         duration: WAVE_ANIMATION_DURATION,
-//         ease: "linear",
-//         repeat: Number.POSITIVE_INFINITY,
-//         repeatType: "reverse" as const,
-//       },
-//     },
-//   },
-//   background: {
-//     animate: {
-//       background: [
-//         "linear-gradient(45deg, #000000, #1a1a1a)",
-//         "linear-gradient(45deg, #1a1a1a, #000000)",
-//         "linear-gradient(45deg, #000000, #1a1a1a)",
-//       ],
-//       transition: {
-//         duration: 10,
-//         ease: "linear",
-//         repeat: Number.POSITIVE_INFINITY,
-//       },
-//     },
-//   },
-// }
-
-// interface AnimatedButtonProps {
-//   variant?: "default" | "outline"
-//   children: React.ReactNode
-//   onClick?: () => void
-//   className?: string
-//   ariaLabel?: string
-// }
-
-// const AnimatedButton = ({ variant = "default", children, onClick, className = "", ariaLabel }: AnimatedButtonProps) => {
-//   const buttonRef = useRef<HTMLButtonElement>(null)
-
-//   useEffect(() => {
-//     if (buttonRef.current) {
-//       gsap.to(buttonRef.current, {
-//         scale: 1.05,
-//         duration: 0.5,
-//         repeat: -1,
-//         yoyo: true,
-//         ease: "power1.inOut",
-//       })
-//     }
-//   }, [])
-
-//   const baseStyles =
-//     "relative overflow-hidden font-semibold py-5 px-6 rounded-full text-lg transition-all duration-300 flex items-center gap-2"
-//   const variantStyles =
-//     variant === "outline"
-//       ? "bg-transparent text-white border-green-400 hover:bg-green-400/10"
-//       : "bg-gradient-to-r from-green-400 to-emerald-600 hover:opacity-90 text-white shadow-lg hover:shadow-xl"
-
-//   return (
-//     <Button
-//       ref={buttonRef}
-//       onClick={onClick}
-//       className={`${baseStyles} ${variantStyles} ${className}`}
-//       aria-label={ariaLabel}
-//     >
-//       <motion.div
-//         animate="animate"
-//         variants={animations.waterInside}
-//         className="absolute bottom-0 left-0 w-full z-0 bg-gradient-to-t from-green-300 to-transparent opacity-30"
-//       >
-//         <motion.div
-//           animate="animate"
-//           variants={animations.waterWave}
-//           className="absolute bottom-0 left-0 w-full h-full"
-//           style={{
-//             backgroundImage:
-//               "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.4' d='M0,32L48,80C96,128,192,224,288,224C384,224,480,128,576,90.7C672,53,768,75,864,96C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E\")",
-//             backgroundRepeat: "repeat-x",
-//             backgroundSize: "100% 100%",
-//           }}
-//         />
-//       </motion.div>
-//       <span className="relative z-10">{children}</span>
-//     </Button>
-//   )
-// }
-
-// interface VideoModalProps {
-//   isOpen: boolean
-//   onClose: () => void
-// }
-
-// const VideoModal = ({ isOpen, onClose }: VideoModalProps) => {
-//   const modalRef = useRef<HTMLDivElement>(null)
-
-//   useEffect(() => {
-//     if (isOpen && modalRef.current) {
-//       gsap.from(modalRef.current, {
-//         scale: 0.5,
-//         opacity: 0,
-//         duration: 0.5,
-//         ease: "back.out(1.7)",
-//       })
-//     }
-
-//     if (isOpen) {
-//       document.body.style.overflow = "hidden"
-//       return () => {
-//         document.body.style.overflow = "unset"
-//       }
-//     }
-//   }, [isOpen])
-
-//   if (!isOpen) return null
-
-//   return (
-//     <motion.div
-//       initial={{ opacity: 0 }}
-//       animate={{ opacity: 1 }}
-//       exit={{ opacity: 0 }}
-//       className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-//       onClick={onClose}
-//       role="dialog"
-//       aria-modal="true"
-//       aria-labelledby="video-modal-title"
-//     >
-//       <div
-//         ref={modalRef}
-//         className="bg-gray-900 p-2 rounded-lg max-w-4xl w-full aspect-video relative overflow-hidden"
-//         onClick={(e) => e.stopPropagation()}
-//       >
-//         <iframe
-//           width="100%"
-//           height="100%"
-//           src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-//           title="Product Reviews"
-//           loading="lazy"
-//           className="w-full h-full"
-//           frameBorder="0"
-//           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-//           allowFullScreen
-//         />
-//       </div>
-//     </motion.div>
-//   )
-// }
-
-// // Custom hook for intersection observer
-// const useIntersectionObserver = (ref: React.RefObject<Element>, options: IntersectionObserverInit = {}) => {
-//   const [isIntersecting, setIsIntersecting] = useState(false)
-
-//   useEffect(() => {
-//     const element = ref.current
-//     if (!element) return
-
-//     const observer = new IntersectionObserver(([entry]) => {
-//       setIsIntersecting(entry.isIntersecting)
-//     }, options)
-
-//     observer.observe(element)
-//     return () => observer.unobserve(element)
-//   }, [ref, options])
-
-//   return { isIntersecting }
-// }
-
-// export function Hero() {
-//   const [activeSection, setActiveSection] = useState(0)
-//   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
-//   const containerRef = useRef<HTMLDivElement>(null)
-//   const titleRef = useRef<HTMLHeadingElement>(null)
-//   const descriptionRef = useRef<HTMLParagraphElement>(null)
-
-//   const { isIntersecting } = useIntersectionObserver(containerRef as React.RefObject<Element>, {
-//     threshold: 0.1,
-//     rootMargin: "50px",
-//   })
-
-//   const { scrollYProgress } = useScroll({
-//     target: containerRef,
-//     offset: ["start start", "end start"],
-//   })
-
-//   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
-//   const scale = useTransform(scrollYProgress, [0, 0.8], [1, 0.98])
-
-//   const handleSectionChange = useCallback(() => {
-//     setActiveSection((prev) => (prev + 1) % sections.length)
-//   }, [])
-
-//   useEffect(() => {
-//     if (!isIntersecting) return
-//     const timer = setInterval(handleSectionChange, SECTION_INTERVAL)
-//     return () => clearInterval(timer)
-//   }, [isIntersecting, handleSectionChange])
-
-//   useEffect(() => {
-//     if (titleRef.current && descriptionRef.current) {
-//       gsap.fromTo(titleRef.current, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
-
-//       gsap.fromTo(
-//         descriptionRef.current,
-//         { opacity: 0, y: 30 },
-//         { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: "power3.out" },
-//       )
-//     }
-
-//     // Set up scroll animations
-//     const tl = gsap.timeline({
-//       scrollTrigger: {
-//         trigger: containerRef.current,
-//         start: "top top",
-//         end: "bottom top",
-//         scrub: true,
-//       },
-//     })
-
-//     tl.to(containerRef.current, {
-//       backgroundPosition: "0% 50%",
-//       ease: "none",
-//     })
-//   }, [])
-
-//   return (
-//     <main>
-//       <motion.div
-//         ref={containerRef}
-//         className="relative min-h-screen text-white font-sans overflow-hidden pt-8"
-//         variants={animations.background}
-//         animate="animate"
-//         aria-label="Hero section"
-//       >
-//         {/* Animated Grid Background */}
-//         <div className="absolute inset-0 z-0 overflow-hidden">
-//           <div className="absolute inset-0 bg-black opacity-70"></div>
-//           <div
-//             className="absolute inset-0 opacity-20"
-//             style={{
-//               backgroundImage: `
-//                 linear-gradient(to right, #1a1a1a 1px, transparent 1px),
-//                 linear-gradient(to bottom, #1a1a1a 1px, transparent 1px)
-//               `,
-//               backgroundSize: "50px 50px",
-//               animation: "moveGrid 15s linear infinite",
-//             }}
-//           ></div>
-//         </div>
-
-//         {/* Main Content */}
-//         <motion.div
-//           className="container relative z-10 mx-auto px-4 pt-32 pb-20 min-h-screen flex flex-col justify-center hero-content backdrop-blur-sm bg-black bg-opacity-30"
-//           style={{ opacity, scale }}
-//         >
-//           <div className="max-w-4xl mx-auto text-center space-y-8">
-//             <h1
-//               ref={titleRef}
-//               className={`${anton.className} text-6xl md:text-8xl font-normal leading-[1.1] text-white drop-shadow-lg tracking-tight uppercase`}
-//             >
-//               TURNING <span className="text-emerald-400 mx-1 "> </span>YOUR IDEAS <br />
-//               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-600 drop-shadow-lg">
-//                 INTO STUNNING WEBSITES
-//               </span>
-//             </h1>
-
-//             <div className="h-20">
-//               <AnimatePresence mode="wait">
-//                 <motion.p
-//                   ref={descriptionRef}
-//                   key={activeSection}
-//                   initial={{ opacity: 0, y: 20 }}
-//                   animate={{ opacity: 1, y: 0 }}
-//                   exit={{ opacity: 0, y: -20 }}
-//                   transition={{ duration: 0.5 }}
-//                   className="text-xl md:text-2xl text-gray-100 font-light drop-shadow-md"
-//                 >
-//                   {sections[activeSection].description}
-//                 </motion.p>
-//               </AnimatePresence>
-//             </div>
-
-//             <motion.div
-//               initial={{ opacity: 0, y: 20 }}
-//               animate={{ opacity: 1, y: 0 }}
-//               transition={{ duration: 0.8, delay: 0.4 }}
-//               className="flex flex-col sm:flex-row items-center justify-center gap-4"
-//             >
-//               <AnimatedButton ariaLabel="Get Started" className="relative">
-//                 <span className="flex items-center gap-2">
-//                   <span>Get Started</span>
-//                   <ChevronRight className="w-5 h-5" />
-//                 </span>
-//               </AnimatedButton>
-
-//               <AnimatedButton
-//                 variant="outline"
-//                 onClick={() => setIsVideoModalOpen(true)}
-//                 ariaLabel="Watch Reviews"
-//                 className="relative"
-//               >
-//                 <span className="flex items-center gap-2">
-//                   <Play className="w-5 h-5" />
-//                   <span>Watch Reviews</span>
-//                 </span>
-//               </AnimatedButton>
-//             </motion.div>
-//           </div>
-
-//           <motion.div
-//             className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-//             initial={{ opacity: 0, y: -20 }}
-//             animate={{ opacity: 1, y: 0 }}
-//             transition={{ delay: 1, duration: 1 }}
-//           >
-//             <ArrowDown className="w-6 h-6 text-white animate-bounce" aria-hidden="true" />
-//             <span className="sr-only">Scroll down</span>
-//           </motion.div>
-//         </motion.div>
-
-//         {/* Video Modal */}
-//         <AnimatePresence>
-//           {isVideoModalOpen && <VideoModal isOpen={isVideoModalOpen} onClose={() => setIsVideoModalOpen(false)} />}
-//         </AnimatePresence>
-//       </motion.div>
-//       <style jsx global>{`
-//         @media (max-width: 640px) {
-//           .hero-content {
-//             opacity: 0.9 !important;
-//           }
-//         }
-//       `}</style>
-//     </main>
-//   )
-// }
-
-"use client";
-
-import React from "react";
-import { useState, useEffect, useRef, useCallback } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-} from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { ChevronRight, Play,} from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { TextPlugin } from "gsap/TextPlugin";
-import { anton } from "@/lib/font";
-import MainMarquee from "./hero-marquee";
-
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger, TextPlugin);
-
-// Constants
-const SECTION_INTERVAL = 5000;
-const WATER_ANIMATION_DURATION = 9;
-const WAVE_ANIMATION_DURATION = 5;
-
-const sections = [
-  {
-    title: "Innovative Solutions",
-    description:
-      "We design websites that are more than just pages—they're powerful tools for your business.",
-  },
-  {
-    title: "Expert Team",
-    description:
-      "With years of experience, we craft websites that combine creativity and functionality.",
-  },
-  {
-    title: "Global Reach",
-    description:
-      "From local startups to global brands, we help businesses connect with their audiences everywhere.",
-  },
-  {
-    title: "Your Vision, Our Mission",
-    description:
-      "We're here to bring your ideas to life, building a website that reflects who you are.",
-  },
-  {
-    title: "Future-Ready Designs",
-    description:
-      "Our websites are built to grow with your business and keep up with new trends and technologies.",
-  },
-];
-
-// Animation variants
-const animations = {
-  waterInside: {
-    animate: {
-      height: ["10%", "50%", "10%"],
-      transition: {
-        duration: WATER_ANIMATION_DURATION,
-        ease: "easeInOut",
-        repeat: Number.POSITIVE_INFINITY,
-        repeatType: "reverse" as const,
-      },
-    },
-  },
-  waterWave: {
-    animate: {
-      y: ["0%", "-50%"],
-      transition: {
-        duration: WAVE_ANIMATION_DURATION,
-        ease: "linear",
-        repeat: Number.POSITIVE_INFINITY,
-        repeatType: "reverse" as const,
-      },
-    },
-  },
-  background: {
-    animate: {
-      background: [
-        "linear-gradient(45deg, #000000, #1a1a1a)",
-        "linear-gradient(45deg, #1a1a1a, #000000)",
-        "linear-gradient(45deg, #000000, #1a1a1a)",
-      ],
-      transition: {
-        duration: 10,
-        ease: "linear",
-        repeat: Number.POSITIVE_INFINITY,
-      },
-    },
-  },
-};
-
-// Detect user preference for reduced motion
-const prefersReducedMotion = () => {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-};
-
-interface AnimatedButtonProps {
-  variant?: "default" | "outline";
-  children: React.ReactNode;
-  onClick?: () => void;
-  className?: string;
-  ariaLabel?: string;
-}
-
-const AnimatedButton = React.memo(
-  ({
-    variant = "default",
-    children,
-    onClick,
-    className = "",
-    ariaLabel,
-  }: AnimatedButtonProps) => {
-    const buttonRef = useRef<HTMLButtonElement>(null);
-
-    useEffect(() => {
-      if (buttonRef.current && !prefersReducedMotion()) {
-        gsap.to(buttonRef.current, {
-          scale: 1.05,
-          duration: 0.5,
-          repeat: -1,
-          yoyo: true,
-          ease: "power1.inOut",
-        });
-      }
-    }, []);
-
-    const baseStyles =
-      "relative overflow-hidden font-semibold py-5 px-8 rounded-full text-lg transition-all duration-300 flex items-center gap-2 transform hover:scale-105";
-    const variantStyles =
-      variant === "outline"
-        ? "bg-transparent text-white border-2 border-green-400 hover:bg-green-400/20"
-        : "bg-gradient-to-r from-green-400 to-emerald-600 hover:from-green-500 hover:to-emerald-700 text-white shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50";
-
-    return (
-      <Button
-        ref={buttonRef}
-        onClick={onClick}
-        className={`${baseStyles} ${variantStyles} ${className}`}
-        aria-label={ariaLabel}
-      >
-        <motion.div
-          animate="animate"
-          variants={animations.waterInside}
-          className="absolute bottom-0 left-0 w-full z-0 bg-gradient-to-t from-green-300 to-transparent opacity-30"
-        >
-          <motion.div
-            animate="animate"
-            variants={animations.waterWave}
-            className="absolute bottom-0 left-0 w-full h-full"
-            style={{
-              backgroundImage:
-                "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.4' d='M0,32L48,80C96,128,192,224,288,224C384,224,480,128,576,90.7C672,53,768,75,864,96C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E\")",
-              backgroundRepeat: "repeat-x",
-              backgroundSize: "100% 100%",
-            }}
-          />
-        </motion.div>
-        <span className="relative z-10">{children}</span>
-      </Button>
-    );
-  }
-);
-
-AnimatedButton.displayName = "AnimatedButton";
-
-interface VideoModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const VideoModal = ({ isOpen, onClose }: VideoModalProps) => {
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isOpen && modalRef.current) {
-      gsap.from(modalRef.current, {
-        scale: 0.5,
-        opacity: 0,
-        duration: 0.5,
-        ease: "back.out(1.7)",
-      });
-    }
-
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = "unset";
-      };
-    }
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="video-modal-title"
-    >
-      <div
-        ref={modalRef}
-        className="bg-gray-900 p-2 rounded-lg max-w-4xl w-full aspect-video relative overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <iframe
-          width="100%"
-          height="100%"
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-          title="Product Reviews"
-          loading="lazy"
-          className="w-full h-full"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
-    </motion.div>
-  );
-};
-
-// Custom hook for intersection observer
-const useIntersectionObserver = (
-  ref: React.RefObject<Element>,
-  options: IntersectionObserverInit = {}
-) => {
-  const [isIntersecting, setIsIntersecting] = useState(false);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(([entry]) => {
-      setIsIntersecting(entry.isIntersecting);
-    }, options);
-
-    observer.observe(element);
-    return () => observer.unobserve(element);
-  }, [ref, options]);
-
-  return { isIntersecting };
-};
+gsap.registerPlugin(ScrollTrigger, TextPlugin)
 
 export function Hero() {
-  const [activeSection, setActiveSection] = useState(0);
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isPaused, setIsPaused] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const descriptionRef = useRef<HTMLParagraphElement>(null);
+  const [activeSection, setActiveSection] = useState(0)
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [hasScrolled, setHasScrolled] = useState(false)
+  const [isReducedMotion, setIsReducedMotion] = useState(false)
+
+  const containerRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null)
 
   const { isIntersecting } = useIntersectionObserver(
     containerRef as React.RefObject<Element>,
-    {
-      threshold: 0.1,
-      rootMargin: "50px",
-    }
-  );
+    { threshold: 0.1, rootMargin: "50px" }
+  )
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
-  });
+  })
 
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.8], [1, 0.98]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  const scale = useTransform(scrollYProgress, [0, 0.8], [1, 0.98])
+
+  useEffect(() => {
+    setIsReducedMotion(prefersReducedMotion())
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const handleChange = (e: MediaQueryListEvent) => {
+      setIsReducedMotion(e.matches)
+    }
+    mediaQuery.addEventListener("change", handleChange)
+    return () => mediaQuery.removeEventListener("change", handleChange)
+  }, [])
 
   const handleSectionChange = useCallback(() => {
-    setActiveSection((prev) => (prev + 1) % sections.length);
-  }, []);
+    setActiveSection((prev) => (prev + 1) % sections.length)
+  }, [])
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
+    if (!isIntersecting) return
+    const timer = setInterval(handleSectionChange, 5000)
+    return () => clearInterval(timer)
+  }, [isIntersecting, handleSectionChange])
 
   useEffect(() => {
-    if (!isIntersecting || isPaused) return;
-    const timer = setInterval(handleSectionChange, SECTION_INTERVAL);
-    return () => clearInterval(timer);
-  }, [isIntersecting, handleSectionChange, isPaused]);
-
-  useEffect(() => {
-    if (titleRef.current && descriptionRef.current) {
-      gsap.fromTo(
+    if (titleRef.current && !isReducedMotion) {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
+      tl.fromTo(
         titleRef.current,
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
-      );
-
-      gsap.fromTo(
-        descriptionRef.current,
         { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: "power3.out" }
-      );
+        { opacity: 1, y: 0, duration: 0.8 }
+      )
+    }
+  }, [isReducedMotion])
+
+  useEffect(() => {
+    if (isReducedMotion || isVideoModalOpen) return
+
+    const handleMouseMove = (e: MouseEvent) => {
+      requestAnimationFrame(() => {
+        setMousePosition({
+          x: (e.clientX / window.innerWidth - 0.5) * 10,
+          y: (e.clientY / window.innerHeight - 0.5) * 10,
+        })
+      })
     }
 
-    // Set up scroll animations
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-      },
-    });
+    const handleScroll = () => {
+      if (!hasScrolled && window.scrollY > 50) {
+        setHasScrolled(true)
+      }
+    }
 
-    tl.to(containerRef.current, {
-      backgroundPosition: "0% 50%",
-      ease: "none",
-    });
-  }, []);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true })
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove)
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [hasScrolled, isReducedMotion, isVideoModalOpen])
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (prefersReducedMotion()) return;
+    if (scrollIndicatorRef.current && !hasScrolled && !isReducedMotion) {
+      gsap.to(scrollIndicatorRef.current, {
+        y: 10,
+        opacity: 0.7,
+        duration: 1.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut",
+      })
+    }
+    return () => {
+      if (scrollIndicatorRef.current) {
+        gsap.killTweensOf(scrollIndicatorRef.current)
+      }
+    }
+  }, [hasScrolled, isReducedMotion])
 
-      setMousePosition({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
-      });
-    };
+  const handleScrollDown = () => {
+    if (typeof window !== "undefined") {
+      const targetY = window.innerHeight
+      window.scrollTo({
+        top: targetY,
+        behavior: isReducedMotion ? "auto" : "smooth",
+      })
+      setHasScrolled(true)
+    }
+  }
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        setActiveSection((prev) => (prev - 1 + sections.length) % sections.length)
+      } else if (e.key === "ArrowRight") {
+        setActiveSection((prev) => (prev + 1) % sections.length)
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
 
-  const togglePause = () => {
-    setIsPaused((prev) => !prev);
-  };
+  const parallaxY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["0%", isReducedMotion ? "0%" : "20%"]
+  )
 
   return (
     <main>
-      {isLoading && (
-        <motion.div
-          className="fixed inset-0 z-50 bg-black flex items-center justify-center"
-          initial={{ opacity: 1 }}
-          animate={{ opacity: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          onAnimationComplete={() => setIsLoading(false)}
-        >
-          <div className="text-emerald-400 text-2xl">WebStudio</div>
-        </motion.div>
-      )}
-
-      <div className="fixed top-0 left-0 right-0 h-1 z-50">
-        <motion.div
-          className="h-full bg-gradient-to-r from-emerald-400 to-green-500"
-          style={{ scaleX: scrollYProgress, transformOrigin: "0%" }}
-        />
-      </div>
-
       <motion.div
         ref={containerRef}
-        className="relative min-h-screen text-white font-sans overflow-hidden pt-8"
-        variants={animations.background}
+        className="relative min-h-screen text-white font-sans overflow-hidden pt-8 bg-black"
+        variants={isReducedMotion ? undefined : animations.background}
         animate="animate"
         aria-label="Hero section"
+        style={{
+          backgroundImage: isReducedMotion
+            ? undefined
+            : "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%23ffffff' fillOpacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
+        }}
       >
-        {/* Animated Grid Background */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
+        <div className="absolute inset-0 z-0 overflow-hidden"
+          style={{ transform: isReducedMotion ? undefined : `translateY(${parallaxY})` }}>
           <div className="absolute inset-0 bg-black opacity-70"></div>
-          <div
-            className="absolute inset-0 opacity-20"
+          <div className="absolute inset-0 opacity-20"
             style={{
               backgroundImage: `
-                linear-gradient(to right, #1a1a1a 1px, transparent 1px),
-                linear-gradient(to bottom, #1a1a1a 1px, transparent 1px)
-              `,
-              backgroundSize: "50px 50px",
-              animation: "moveGrid 15s linear infinite",
-            }}
-          ></div>
+                                radial-gradient(circle, rgba(16, 185, 129, 0.1) 1px, transparent 1px),
+                                linear-gradient(to right, #1a1a1a 1px, transparent 1px),
+                                linear-gradient(to bottom, #1a1a1a 1px, transparent 1px)
+                            `,
+              backgroundSize: "50px 50px, 50px 50px, 50px 50px",
+              animation: isReducedMotion ? "none" : "moveGrid 15s linear infinite",
+            }}>
+          </div>
         </div>
 
-        {/* Main Content */}
+        {!isReducedMotion && <FloatingElements />}
+
         <motion.div
-          className="container relative z-10 mx-auto px-4 pt-32 pb-20 min-h-screen flex flex-col justify-center hero-content backdrop-blur-sm bg-black bg-opacity-30"
+          className="container relative z-10 mx-auto px-4 pt-24 sm:pt-32 pb-20 min-h-screen flex flex-col justify-center hero-content backdrop-blur-sm bg-black bg-opacity-30 rounded-2xl backdrop-filter"
           style={{
             opacity,
             scale,
-            transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
+            transform: isReducedMotion || isVideoModalOpen
+              ? undefined
+              : `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
             transition: "transform 0.2s ease-out",
           }}
         >
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <h1
-              ref={titleRef}
-              className={`${anton.className} text-6xl md:text-8xl font-normal leading-[1.1] text-white drop-shadow-lg tracking-tight uppercase`}
-            >
-              <span className="text-emerald-400">TURNING</span> YOUR IDEAS{" "}
+          <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8">
+            <h1 ref={titleRef} className={`${anton.className} text-5xl sm:text-6xl space-x-4 md:text-7xl lg:text-8xl font-normal leading-[1.1] text-white drop-shadow-[0_4px_15px_rgba(0,0,0,0.4)] tracking-tight uppercase mb-6 sm:mb-8`}>
+              <motion.span
+                className="text-emerald-400"
+                initial={{ opacity: 0, y: isReducedMotion ? 0 : 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                TURNING
+              </motion.span>
+              <motion.span
+                initial={{ opacity: 0, y: isReducedMotion ? 0 : 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                YOUR IDEAS
+              </motion.span>
               <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-600 drop-shadow-lg">
+              <motion.span
+                className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-600 drop-shadow-lg"
+                initial={{ opacity: 0, y: isReducedMotion ? 0 : 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
                 INTO STUNNING WEBSITES
-              </span>
+              </motion.span>
             </h1>
 
-            <div className="h-20 relative">
-              <button
-                onClick={togglePause}
-                className="absolute -right-5 top-0 text-xs text-gray-400 hover:text-white p-1"
-                aria-label={
-                  isPaused ? "Resume auto-rotation" : "Pause auto-rotation"
-                }
-              >
-                {isPaused ? "▶" : "❚❚"}
-              </button>
-              <AnimatePresence mode="wait">
-                <motion.p
-                  ref={descriptionRef}
-                  key={activeSection}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5 }}
-                  className="text-xl md:text-2xl text-gray-100 font-light drop-shadow-md"
-                >
-                  {sections[activeSection].description}
-                </motion.p>
-              </AnimatePresence>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
-            >
-              <AnimatedButton ariaLabel="Get Started" className="relative">
-                <span className="flex items-center gap-2">
-                  <span>Get Started</span>
-                  <ChevronRight className="w-5 h-5" />
-                </span>
-              </AnimatedButton>
-
-              <AnimatedButton
-                variant="outline"
-                onClick={() => setIsVideoModalOpen(true)}
-                ariaLabel="Watch Reviews"
-                className="relative"
-              >
-                <span className="flex items-center gap-2">
-                  <Play className="w-5 h-5" />
-                  <span>Watch Reviews</span>
-                </span>
-              </AnimatedButton>
-            </motion.div>
-          </div>
-         
-        <span className="mt-20 mb-20 ">
-          <MainMarquee />
-        </span>
-        </motion.div>
-        {/* Video Modal */}
-        <AnimatePresence>
-          {isVideoModalOpen && (
-            <VideoModal
-              isOpen={isVideoModalOpen}
-              onClose={() => setIsVideoModalOpen(false)}
+            <HeroCarousel
+              activeSection={activeSection}
+              setActiveSection={setActiveSection}
+              isReducedMotion={isReducedMotion}
             />
-          )}
-        </AnimatePresence>
+
+            <HeroButtons
+              setIsVideoModalOpen={setIsVideoModalOpen}
+              isReducedMotion={isReducedMotion}
+            />
+          </div>
+
+          <div className="mt-16 mb-14">
+            <MainMarquee />
+          </div>
+
+          <motion.div
+            ref={scrollIndicatorRef}
+            className={`flex flex-col items-center absolute bottom-8 left-1/2 transform -translate-x-1/2 transition-opacity duration-500 ${hasScrolled ? "opacity-0" : "opacity-100"}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: hasScrolled ? 0 : 1 }}
+            transition={{ delay: 1.5 }}
+          >
+            <span className="text-sm text-gray-300 mb-2">Scroll to explore</span>
+            <button
+              onClick={handleScrollDown}
+              className="text-emerald-400 hover:text-emerald-300 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-black rounded-full p-1"
+              aria-label="Scroll down"
+            >
+              <ChevronDown className="w-6 h-6" />
+            </button>
+          </motion.div>
+        </motion.div>
       </motion.div>
+
+      {isVideoModalOpen && (
+        <VideoModal
+          isOpen={isVideoModalOpen}
+          onClose={() => setIsVideoModalOpen(false)}
+        />
+      )}
+
       <style jsx global>{`
-        @keyframes moveGrid {
-          0% {
-            background-position: 0 0;
-          }
-          100% {
-            background-position: 50px 50px;
-          }
-        }
+                @keyframes moveGrid {
+                    0% { background-position: 0 0; }
+                    100% { background-position: 50px 50px; }
+                }
 
-        @media (max-width: 640px) {
-          .hero-content {
-            opacity: 0.9 !important;
-          }
-        }
+                @media (max-width: 640px) {
+                    .hero-content {
+                        padding: 1rem;
+                        padding-top: 5rem;
+                    }
+                    .hero-content h1 {
+                        font-size: 2.75rem;
+                        line-height: 1.2;
+                        margin-bottom: 1.5rem;
+                    }
+                    .hero-content p {
+                        font-size: 1.125rem;
+                        line-height: 1.5;
+                    }
+                }
 
-        @media (max-width: 480px) {
-          .hero-content h1 {
-            font-size: 2.5rem;
-          }
-          .hero-content p {
-            font-size: 1rem;
-          }
-        }
+                @media (hover: none) {
+                    .hover\\:scale-105:hover,
+                    .hover\\:-translate-y-0\\.5:hover {
+                        transform: none !important;
+                    }
+                    button {
+                        min-height: 44px;
+                        min-width: 44px;
+                    }
+                }
 
-        @media (prefers-reduced-motion: reduce) {
-          .animate-bounce {
-            animation: none;
-          }
-        }
-      `}</style>
+                @media (hover: none) and (max-width: 480px) {
+                    .swipe-hint {
+                        animation: swipeHint 2s ease-in-out 1s;
+                    }
+                    @keyframes swipeHint {
+                        0% { opacity: 0; transform: translate(-80%, -50%); }
+                        20% { opacity: 0.7; transform: translate(-50%, -50%); }
+                        80% { opacity: 0.7; transform: translate(-20%, -50%); }
+                        100% { opacity: 0; transform: translate(10%, -50%); }
+                    }
+                }
+
+                @media (prefers-reduced-motion: reduce) {
+                    .parallax-bg,
+                    * {
+                        transform: none !important;
+                        animation-duration: 0.001ms !important;
+                        animation-iteration-count: 1 !important;
+                        transition-duration: 0.001ms !important;
+                    }
+                }
+
+                @media (hover: none) {
+                    button:active {
+                        transform: scale(0.97) !important;
+                        transition: transform 0.1s !important;
+                    }
+                    .active\\:scale-95:active {
+                        transform: scale(0.95) !important;
+                    }
+                }
+
+                @media (min-width: 480px) {
+                    .xs\\:flex { display: flex; }
+                    .xs\\:hidden { display: none; }
+                }
+                @media (max-width: 479px) {
+                    .hidden.xs\\:flex { display: none; }
+                    .xs\\:hidden { display: block; }
+                }
+            `}</style>
     </main>
-  );
+  )
 }

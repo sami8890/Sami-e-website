@@ -1,11 +1,12 @@
-//src/components/main/project-section.tsx
+//src//components/main/project-section.tsx
 "use client"
 
-import { useState, useMemo, useCallback } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useState, useMemo, useCallback, useRef, useEffect } from "react"
+import { motion, useInView, useAnimation, useMotionValue, useTransform } from "framer-motion"
 import { ProjectCard } from "@/components/main/project-card"
 import { ProjectFilter } from "@/components/main/product-filter"
 import ProjectModal from "@/components/main/project-modal"
+import { ChevronDown, ChevronUp, Star } from "lucide-react"
 
 interface Project {
   id: number
@@ -19,27 +20,29 @@ interface Project {
   githubUrl: string
   duration?: string
   views?: number
+  status?: "live" | "development"
 }
 
 const projects: Project[] = [
   {
     id: 1,
-    name: "E-comerce", 
+    name: "E-comerce",
     metric: "Full Stack E-comerce Website",
     imageUrl: "/furniro.png",
     category: "Ecormerce",
     description:
       "E-commerce platform that connects buyers and sellers, providing a seamless shopping experience for users.",
-    technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS" , "Sanity"],
+    technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Sanity"],
     liveUrl: "https://figma-hackaton.vercel.app/",
     githubUrl: "#",
     duration: "3 months",
     views: 1234,
+    status: "live",
   },
   {
     id: 2,
     name: "Drone",
-    metric: "$1M+ raised in funding",
+    metric: "A complete E-comerce drone website",
     imageUrl: "/drone1.png",
     category: "E-commerce",
     description:
@@ -47,6 +50,7 @@ const projects: Project[] = [
     technologies: ["React", "Node.js", "MongoDB", "AWS"],
     liveUrl: "#",
     githubUrl: "#",
+    status: "development",
   },
   {
     id: 3,
@@ -59,18 +63,20 @@ const projects: Project[] = [
     technologies: ["Next.js", "PostgreSQL", "Prisma", "Stripe"],
     liveUrl: "#",
     githubUrl: "#",
+    status: "live",
   },
   {
     id: 4,
     name: "",
     metric: "80% growth in teaching leads",
-    imageUrl: "/docter.png",
-    category: "E-commerce",
+    imageUrl: "/social-media-managment.png",
+    category: "p",
     description:
       "Educational platform connecting students with resources and career opportunities, facilitating growth in the education sector.",
     technologies: ["Next.js", "PostgreSQL", "Prisma", "Stripe"],
     liveUrl: "#",
     githubUrl: "#",
+    status: "development",
   },
 ]
 
@@ -78,6 +84,75 @@ export function ProjectsSection() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [showAllProjects, setShowAllProjects] = useState(false)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isHoveringHeading, setIsHoveringHeading] = useState(false)
+
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const headingRef = useRef<HTMLDivElement>(null)
+  const headingTextRef = useRef<HTMLHeadingElement>(null)
+
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 })
+  const isHeadingInView = useInView(headingRef, { once: true, amount: 0.5 })
+
+  const headingControls = useAnimation()
+  const lineControls = useAnimation()
+  const glowControls = useAnimation()
+
+  // Parallax effect values
+  const y = useMotionValue(0)
+  const rotateX = useTransform(y, [-100, 100], [5, -5])
+  const rotateY = useTransform(y, [-100, 100], [-5, 5])
+
+  // Handle mouse movement for interactive effects
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (headingTextRef.current && isHoveringHeading) {
+        const rect = headingTextRef.current.getBoundingClientRect()
+        const centerY = rect.top + rect.height / 2
+
+
+        const distanceY = e.clientY - centerY
+        y.set(distanceY / 10)
+
+        // Update mouse position for glow effect
+        setMousePosition({
+          x: (e.clientX - rect.left) / rect.width,
+          y: (e.clientY - rect.top) / rect.height,
+        })
+      }
+    }
+
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [y, isHoveringHeading])
+
+  // Start animations when heading comes into view
+  useEffect(() => {
+    if (isHeadingInView) {
+      // Sequence of animations
+      const sequence = async () => {
+        await headingControls.start({
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+        })
+
+        await lineControls.start({
+          scaleX: 1,
+          transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+        })
+
+        await glowControls.start({
+          opacity: 0.8,
+          scale: 1,
+          transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+        })
+      }
+
+      sequence()
+    }
+  }, [isHeadingInView, headingControls, lineControls, glowControls])
 
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {
@@ -89,12 +164,18 @@ export function ProjectsSection() {
     })
   }, [selectedCategory, searchTerm])
 
+  const visibleProjects = useMemo(() => {
+    return showAllProjects ? filteredProjects : filteredProjects.slice(0, 2)
+  }, [filteredProjects, showAllProjects])
+
   const handleCategoryChange = useCallback((category: string) => {
     setSelectedCategory(category)
+    setShowAllProjects(false)
   }, [])
 
   const handleSearch = useCallback((term: string) => {
     setSearchTerm(term)
+    setShowAllProjects(false)
   }, [])
 
   const handleProjectClick = useCallback((project: Project) => {
@@ -105,57 +186,206 @@ export function ProjectsSection() {
     setSelectedProject(null)
   }, [])
 
+  const toggleShowAllProjects = useCallback(() => {
+    setShowAllProjects((prev) => !prev)
+
+    if (!showAllProjects && filteredProjects.length > 2) {
+      setTimeout(() => {
+        const element = document.getElementById("more-projects")
+        if (element) {
+          const yOffset = -100
+          const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
+          window.scrollTo({ top: y, behavior: "smooth" })
+        }
+      }, 100)
+    }
+  }, [showAllProjects, filteredProjects.length])
+
+  // Premium animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.1,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  }
+
+  // Calculate glow position based on mouse
+  const glowX = useTransform(useMotionValue(mousePosition.x), [0, 1], ["-50%", "50%"])
+
+  const glowY = useTransform(useMotionValue(mousePosition.y), [0, 1], ["-50%", "50%"])
+
   return (
-    <section className="py-24 bg-gradient-to-b from-gray-950 to-black text-white" id="works">
+    <section
+      ref={sectionRef}
+      className="py-24 bg-gradient-to-b from-gray-950 to-black text-white overflow-hidden"
+      id="works"
+    >
       <div className="container px-4 mx-auto">
+        {/* Premium Award-Worthy Heading */}
+
+        <div
+          ref={headingRef}
+          className="relative mb-16"
+          onMouseEnter={() => setIsHoveringHeading(true)}
+          onMouseLeave={() => setIsHoveringHeading(false)}
+        >
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={headingControls} className="relative z-10">
+            <motion.h2
+              ref={headingTextRef}
+              style={{ rotateX, rotateY }}
+              className="text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-emerald-300 to-white text-center"
+            >
+              Featured Projects
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-gray-400 text-center mt-4 max-w-2xl mx-auto"
+            >
+              Explore my portfolio of innovative digital solutions crafted with precision and creativity.
+            </motion.p>
+          </motion.div>
+
+          {/* Animated underline */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={lineControls}
+            className="h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent w-48 md:w-64 mx-auto mt-6"
+            style={{ originX: 0.5 }}
+          />
+
+          {/* Glow effect */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={glowControls}
+            style={{
+              x: glowX,
+              y: glowY,
+              left: "50%",
+              top: "50%",
+            }}
+            className="absolute w-64 h-64 rounded-full bg-emerald-500/20 blur-3xl pointer-events-none"
+          />
+
+          {/* Star decoration */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+            className="absolute -top-6 -right-2 md:top-0 md:right-1/4 text-emerald-400"
+          >
+            <Star className="w-6 h-6 fill-emerald-400" />
+          </motion.div>
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-4xl mx-auto text-center space-y-4 mb-16"
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.5 }}
+          className="mb-10"
         >
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight">
-            Our{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00C18F] to-[#00E6AB]">
-              Innovative
-            </span>{" "}
-            Projects
-          </h2>
-          <p className="text-xl text-gray-300">Discover how we&apos;ve transformed ideas into digital realities</p>
+          <ProjectFilter onFilterChange={handleCategoryChange} onSearch={handleSearch} />
         </motion.div>
 
-        <ProjectFilter onFilterChange={handleCategoryChange} onSearch={handleSearch} />
-
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
-          <AnimatePresence>
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                layout
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 50 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
+          {visibleProjects.map((project) => (
+            <motion.div key={project.id} variants={itemVariants} className="flex">
+              <ProjectCard project={project} onClick={() => handleProjectClick(project)} />
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Hidden projects that will be revealed */}
+        {showAllProjects && filteredProjects.length > 2 && (
+          <motion.div
+            id="more-projects"
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8"
+          >
+            {filteredProjects.slice(2).map((project) => (
+              <motion.div key={project.id} variants={itemVariants} className="flex">
                 <ProjectCard project={project} onClick={() => handleProjectClick(project)} />
               </motion.div>
             ))}
-          </AnimatePresence>
-        </motion.div>
+          </motion.div>
+        )}
 
         {filteredProjects.length === 0 && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center text-xl text-gray-400 mt-12"
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-16">
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-xl text-gray-400 mb-4"
+            >
+              No projects found matching your criteria.
+            </motion.p>
+            <motion.button
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              onClick={() => {
+                setSearchTerm("")
+                setSelectedCategory("All")
+              }}
+              className="px-6 py-3 bg-gradient-to-r from-[#00C18F] to-[#00E6AB] text-black font-medium rounded-lg hover:shadow-lg hover:shadow-emerald-500/20 transition-all"
+            >
+              Reset Filters
+            </motion.button>
+          </motion.div>
+        )}
+
+        {/* See More / See Less Button */}
+        {filteredProjects.length > 2 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex justify-center mt-12"
           >
-            No projects found matching your criteria.
-          </motion.p>
+            <motion.button
+              onClick={toggleShowAllProjects}
+              whileHover={{ scale: 1.03, boxShadow: "0 0 20px rgba(0, 193, 143, 0.3)" }}
+              whileTap={{ scale: 0.97 }}
+              className="group flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#00C18F]/10 to-[#00E6AB]/10 border border-[#00C18F]/20 rounded-full text-[#00E6AB] font-medium hover:from-[#00C18F]/20 hover:to-[#00E6AB]/20 transition-all duration-300"
+            >
+              {showAllProjects ? (
+                <>
+                  Show Less
+                  <ChevronUp className="w-5 h-5 group-hover:-translate-y-1 transition-transform duration-300" />
+                </>
+              ) : (
+                <>
+                  See More Projects
+                  <ChevronDown className="w-5 h-5 group-hover:translate-y-1 transition-transform duration-300" />
+                </>
+              )}
+            </motion.button>
+          </motion.div>
         )}
       </div>
 
