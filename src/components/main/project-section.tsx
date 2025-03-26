@@ -1,12 +1,11 @@
-//src//components/main/project-section.tsx
 "use client"
 
 import { useState, useMemo, useCallback, useRef, useEffect } from "react"
 import { motion, useInView, useAnimation, useMotionValue, useTransform } from "framer-motion"
 import { ProjectCard } from "@/components/main/project-card"
-import { ProjectFilter } from "@/components/main/product-filter"
+import { ProjectFilter } from "@/components/main/project-filter"
 import ProjectModal from "@/components/main/project-modal"
-import { ChevronDown, ChevronUp, Star } from "lucide-react"
+import { ChevronDown, ChevronUp, Star, Info } from "lucide-react"
 
 interface Project {
   id: number
@@ -26,6 +25,18 @@ interface Project {
 const projects: Project[] = [
   {
     id: 1,
+    name: "A agency Website",
+    metric: "80% growth in leads",
+    imageUrl: "/projects/kyle.png",
+    category: "Portfolio",
+    description: "A new startup agency website that showcases the company's services, portfolio ",
+    technologies: ["Next.js", "PostgreSQL", "Prisma", "Stripe"],
+    liveUrl: "www.contntr.com",
+    githubUrl: "#",
+    status: "live",
+  },
+  {
+    id: 4,
     name: "E-comerce",
     metric: "Full Stack E-comerce Website",
     imageUrl: "/furniro.png",
@@ -35,8 +46,20 @@ const projects: Project[] = [
     technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Sanity"],
     liveUrl: "https://figma-hackaton.vercel.app/",
     githubUrl: "#",
-    duration: "3 months",
-    views: 1234,
+    duration: "2 months",
+    status: "live",
+  },
+  {
+    id: 3,
+    name: "Docters Website",
+    metric: "The Modern healthcare website",
+    imageUrl: "/docter.png",
+    category: "E-commerce",
+    description:
+      "Educational platform connecting students with resources and career opportunities, facilitating growth in the education sector.",
+    technologies: ["Next.js", "PostgreSQL", "Prisma", "Stripe"],
+    liveUrl: "health-website-w.vercel.app/",
+    githubUrl: "#",
     status: "live",
   },
   {
@@ -48,39 +71,13 @@ const projects: Project[] = [
     description:
       "Content creation platform that streamlines the workflow for content creators, saving time and improving productivity.",
     technologies: ["React", "Node.js", "MongoDB", "AWS"],
-    liveUrl: "#",
-    githubUrl: "#",
-    status: "development",
-  },
-  {
-    id: 3,
-    name: "Goodigoo",
-    metric: "80% growth in teaching leads",
-    imageUrl: "/docter.png",
-    category: "E-commerce",
-    description:
-      "Educational platform connecting students with resources and career opportunities, facilitating growth in the education sector.",
-    technologies: ["Next.js", "PostgreSQL", "Prisma", "Stripe"],
-    liveUrl: "#",
-    githubUrl: "#",
-    status: "live",
-  },
-  {
-    id: 4,
-    name: "",
-    metric: "80% growth in teaching leads",
-    imageUrl: "/social-media-managment.png",
-    category: "p",
-    description:
-      "Educational platform connecting students with resources and career opportunities, facilitating growth in the education sector.",
-    technologies: ["Next.js", "PostgreSQL", "Prisma", "Stripe"],
-    liveUrl: "#",
+    liveUrl: "https://example.com/drone",
     githubUrl: "#",
     status: "development",
   },
 ]
 
-export function ProjectsSection() {
+export default function ProjectsSection() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
@@ -91,6 +88,7 @@ export function ProjectsSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const headingRef = useRef<HTMLDivElement>(null)
   const headingTextRef = useRef<HTMLHeadingElement>(null)
+  const projectsContainerRef = useRef<HTMLDivElement>(null)
 
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 })
   const isHeadingInView = useInView(headingRef, { once: true, amount: 0.5 })
@@ -110,7 +108,6 @@ export function ProjectsSection() {
       if (headingTextRef.current && isHoveringHeading) {
         const rect = headingTextRef.current.getBoundingClientRect()
         const centerY = rect.top + rect.height / 2
-
 
         const distanceY = e.clientY - centerY
         y.set(distanceY / 10)
@@ -187,17 +184,25 @@ export function ProjectsSection() {
   }, [])
 
   const toggleShowAllProjects = useCallback(() => {
+    // First, capture the current scroll position
+    const currentScrollPosition = window.scrollY
+
+    // Toggle the state
     setShowAllProjects((prev) => !prev)
 
+    // If we're showing more projects, we need a small delay to let React render the new content
     if (!showAllProjects && filteredProjects.length > 2) {
-      setTimeout(() => {
-        const element = document.getElementById("more-projects")
-        if (element) {
-          const yOffset = -100
-          const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
-          window.scrollTo({ top: y, behavior: "smooth" })
-        }
-      }, 100)
+      // Use requestAnimationFrame to wait for the DOM to update
+      requestAnimationFrame(() => {
+        // Use another requestAnimationFrame to ensure the browser has painted
+        requestAnimationFrame(() => {
+          // Stay at the same position or scroll just a tiny bit to show there's new content
+          window.scrollTo({
+            top: currentScrollPosition + 50, // Just scroll down slightly to indicate new content
+            behavior: "smooth",
+          })
+        })
+      })
     }
   }, [showAllProjects, filteredProjects.length])
 
@@ -234,7 +239,7 @@ export function ProjectsSection() {
     <section
       ref={sectionRef}
       className="py-24 bg-gradient-to-b from-gray-950 to-black text-white overflow-hidden"
-      id="works"
+      id="work"
     >
       <div className="container px-4 mx-auto">
         {/* Premium Award-Worthy Heading */}
@@ -257,7 +262,7 @@ export function ProjectsSection() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-gray-400 text-center mt-4 max-w-2xl mx-auto"
+              className="text-green-400/70 text-center mt-4 max-w-2xl mx-auto"
             >
               Explore my portfolio of innovative digital solutions crafted with precision and creativity.
             </motion.p>
@@ -304,35 +309,51 @@ export function ProjectsSection() {
           <ProjectFilter onFilterChange={handleCategoryChange} onSearch={handleSearch} />
         </motion.div>
 
+        {/* Project count indicator */}
         <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="flex justify-between items-center mb-6"
+        >
+          <p className="text-sm text-gray-400">
+            Showing <span className="text-emerald-400 font-medium">{visibleProjects.length}</span> of{" "}
+            <span className="text-emerald-400 font-medium">{filteredProjects.length}</span> projects
+          </p>
+
+          {filteredProjects.length > 0 && (
+            <div className="flex items-center gap-1 text-xs text-gray-400">
+              <Info className="w-3 h-3" />
+              <span>Click on a project to view details</span>
+            </div>
+          )}
+        </motion.div>
+
+        <motion.div
+          ref={projectsContainerRef}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={containerVariants}
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
+          layout
         >
+          {/* Only render projects based on showAllProjects state */}
           {visibleProjects.map((project) => (
-            <motion.div key={project.id} variants={itemVariants} className="flex">
+            <motion.div
+              key={project.id}
+              variants={itemVariants}
+              className="flex"
+              whileHover={{
+                scale: 1.02,
+                transition: { duration: 0.2 },
+              }}
+              whileTap={{ scale: 0.98 }}
+              layout
+            >
               <ProjectCard project={project} onClick={() => handleProjectClick(project)} />
             </motion.div>
           ))}
         </motion.div>
-
-        {/* Hidden projects that will be revealed */}
-        {showAllProjects && filteredProjects.length > 2 && (
-          <motion.div
-            id="more-projects"
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8"
-          >
-            {filteredProjects.slice(2).map((project) => (
-              <motion.div key={project.id} variants={itemVariants} className="flex">
-                <ProjectCard project={project} onClick={() => handleProjectClick(project)} />
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
 
         {filteredProjects.length === 0 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-16">
@@ -369,7 +390,10 @@ export function ProjectsSection() {
           >
             <motion.button
               onClick={toggleShowAllProjects}
-              whileHover={{ scale: 1.03, boxShadow: "0 0 20px rgba(0, 193, 143, 0.3)" }}
+              whileHover={{
+                scale: 1.03,
+                boxShadow: "0 0 20px rgba(0, 193, 143, 0.3)",
+              }}
               whileTap={{ scale: 0.97 }}
               className="group flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#00C18F]/10 to-[#00E6AB]/10 border border-[#00C18F]/20 rounded-full text-[#00E6AB] font-medium hover:from-[#00C18F]/20 hover:to-[#00E6AB]/20 transition-all duration-300"
             >

@@ -1,4 +1,3 @@
-//src/components/main/project-modal.tsx
 "use client"
 
 import type React from "react"
@@ -7,10 +6,19 @@ import { useState, useRef, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Github, X, ChevronLeft, ChevronRight, Loader2 } from "lucide-react"
+import {
+  ExternalLink,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  Clock,
+  Eye,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react"
 import { motion, AnimatePresence, type PanInfo } from "framer-motion"
 import { cn } from "@/lib/utilts"
-import Link from "next/link"
 import { useMediaQuery } from "@/hooks/use-media-querry"
 
 interface Project {
@@ -21,6 +29,9 @@ interface Project {
   imageUrl?: string
   liveUrl?: string
   githubUrl?: string
+  duration?: string
+  views?: number
+  status?: "live" | "development"
 }
 
 interface ProjectModalProps {
@@ -34,11 +45,13 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const constraintsRef = useRef(null)
   const isMobile = useMediaQuery("(max-width: 768px)")
-  const images = project?.images || [project?.imageUrl]
+  const images = project?.images || (project?.imageUrl ? [project.imageUrl] : [])
+  const [imageLoadError, setImageLoadError] = useState(false)
 
   useEffect(() => {
     setLoading(true)
     setCurrentImageIndex(0)
+    setImageLoadError(false)
   }, [project])
 
   if (!project) return null
@@ -70,11 +83,57 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
     }
   }
 
+  // Function to ensure URL has proper format for external links
+  const formatExternalUrl = (url: string) => {
+    if (!url) return "#"
 
+    // Check if the URL already starts with http:// or https://
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+      return url
+    }
+
+    // Add https:// prefix if missing
+    return `https://${url}`
+  }
+
+  // Get status color and icon
+  const getStatusInfo = (status?: string) => {
+    if (!status) return { color: "text-gray-400", icon: null }
+
+    switch (status) {
+      case "live":
+        return {
+          color: "text-green-400",
+          icon: <CheckCircle2 className="w-4 h-4 mr-1" />,
+          label: "Live",
+        }
+      case "development":
+        return {
+          color: "text-amber-400",
+          icon: <AlertCircle className="w-4 h-4 mr-1" />,
+          label: "In Development",
+        }
+      default:
+        return {
+          color: "text-gray-400",
+          icon: null,
+          label: status,
+        }
+    }
+  }
+
+  const statusInfo = getStatusInfo(project.status)
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[95%] sm:w-11/12 max-w-5xl p-0 bg-gradient-to-br from-gray-900 to-gray-800 border-none rounded-xl overflow-hidden shadow-2xl">
+      <DialogContent
+        className="w-[95%] sm:w-11/12 max-w-5xl p-0 bg-gradient-to-br from-gray-900 to-gray-800 border-none rounded-xl overflow-hidden shadow-2xl"
+        onInteractOutside={(e) => {
+          e.preventDefault()
+          // Add a small vibration feedback when clicking outside
+          if (navigator.vibrate) navigator.vibrate(20)
+        }}
+      >
         {/* Close Button with hover effect */}
         <DialogClose className="absolute right-3 top-3 z-50 sm:right-4 sm:top-4">
           <motion.div
@@ -89,11 +148,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
         <div className="grid md:grid-cols-2 gap-0">
           {/* Image Section with Gallery */}
           <div className="relative h-72 sm:h-80 md:h-full group">
-            <div className="absolute bg-gradient-to-t from-gray-900/80 to-transparent z-10 " />
 
             {/* Loading Spinner */}
             <AnimatePresence>
-              {loading && (
+              {loading && !imageLoadError && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -118,17 +176,52 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
                 onDragEnd={handleDragEnd}
                 className="relative h-full touch-none"
               >
-                <Image
-                  src={images[currentImageIndex] || "/placeholder.svg"}
-                  alt={`${project.name} - Image ${currentImageIndex + 1}`}
-                  fill
-                  className="object-cover transition-transform duration-700 hover:scale-105"
-                  onLoadingComplete={() => setLoading(false)}
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority
-                />
+                {imageLoadError ? (
+                  <div className="absolute inset-0 flex items-center justify-center bg-gray-800 text-gray-400">
+                    <div className="text-center">
+                      <svg
+                        className="w-16 h-16 mx-auto mb-2 text-gray-600"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1}
+                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg>
+                      <p>Image could not be loaded</p>
+                    </div>
+                  </div>
+                ) : (
+                  <Image
+                    src={images[currentImageIndex] || "/placeholder.svg"}
+                    alt={`${project.name} - Image ${currentImageIndex + 1}`}
+                    fill
+                    className="object-cover transition-transform duration-700 hover:scale-105"
+                    onLoadingComplete={() => setLoading(false)}
+                    onError={() => {
+                      setLoading(false)
+                      setImageLoadError(true)
+                    }}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
+                  />
+                )}
               </motion.div>
             </AnimatePresence>
+
+            {/* Project Status Badge */}
+            {project.status && (
+              <div
+                className={`absolute top-4 left-4 z-20 px-3 py-1.5 rounded-full bg-black/30 backdrop-blur-sm ${statusInfo.color} flex items-center text-xs font-medium`}
+              >
+                {statusInfo.icon}
+                {statusInfo.label}
+              </div>
+            )}
 
             {/* Gallery Navigation */}
             {images.length > 1 && (
@@ -181,10 +274,32 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
                   >
                     {project.name}
                   </motion.h2>
-                 
                 </div>
               </DialogTitle>
             </DialogHeader>
+
+            {/* Project metadata */}
+            {(project.duration || project.views) && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1 }}
+                className="flex flex-wrap gap-4 text-sm text-gray-400"
+              >
+                {project.duration && (
+                  <div className="flex items-center gap-1">
+                    <Clock className="w-4 h-4" />
+                    <span>{project.duration}</span>
+                  </div>
+                )}
+                {project.views && (
+                  <div className="flex items-center gap-1">
+                    <Eye className="w-4 h-4" />
+                    <span>{project.views.toLocaleString()} views</span>
+                  </div>
+                )}
+              </motion.div>
+            )}
 
             <motion.p
               initial={{ opacity: 0 }}
@@ -207,16 +322,16 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
                   key={tech}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(0, 193, 143, 0.2)" }}
                   transition={{ delay: 0.1 * index }}
-                  className="px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#00C18F]/10 to-[#00E1A0]/10 border border-[#00C18F]/20 text-[#00C18F] text-xs sm:text-sm font-medium cursor-default"
+                  className="px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#00C18F]/10 to-[#00E1A0]/10 border border-[#00C18F]/20 text-[#00C18F] text-xs sm:text-sm font-medium cursor-default hover:shadow-sm"
                 >
                   {tech}
                 </motion.span>
               ))}
             </motion.div>
 
-            {/* Enhanced Buttons */}
+            {/* Enhanced Buttons - Only showing Live Project button */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -225,28 +340,32 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
             >
               {project.liveUrl && (
                 <Button
-                  asChild
-                  className="w-full sm:w-auto bg-gradient-to-r from-[#00C18F] to-[#00E1A0]  text-black/60 px-4 sm:px-6 py-5 transition-transform hover:scale-105 text-sm sm:text-base"
+                  onClick={() => {
+                    if (project.liveUrl) {
+                      window.open(formatExternalUrl(project.liveUrl), "_blank")
+                    }
+                    // Add haptic feedback when clicking the button
+                    if (navigator.vibrate) navigator.vibrate([15, 30, 15])
+                  }}
+                  className="w-full sm:w-auto bg-gradient-to-r from-[#00C18F] to-[#00E1A0] text-black/60 px-4 sm:px-6 py-5 transition-all hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/20 text-sm sm:text-base font-medium"
                 >
-                  <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    View Live Project
-                  </Link>
-                </Button>
-              )}
-              {project.githubUrl && (
-                <Button
-                  asChild
-                  variant="outline"
-                  className="w-full sm:w-auto border-[#00C18F] text-[#00C18F] hover:bg-[#00C18F]/10 hover:text-[#00C18F] px-4 sm:px-6 py-5 transition-transform hover:scale-105 text-sm sm:text-base"
-                >
-                  <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                    <Github className="mr-2 h-4 w-4" />
-                    View Source Code
-                  </Link>
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  View Live Project
                 </Button>
               )}
             </motion.div>
+
+            {/* Swipe instruction for mobile */}
+            {isMobile && images.length > 1 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.7 }}
+                transition={{ delay: 0.6 }}
+                className="text-center text-xs text-gray-400 mt-4"
+              >
+                <span>Swipe image to see more</span>
+              </motion.div>
+            )}
           </div>
         </div>
       </DialogContent>

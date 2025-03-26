@@ -60,11 +60,7 @@ export const AnimatedButton = React.memo(
                 })
             }
 
-            return () => {
-                if (buttonRef.current) {
-                    gsap.killTweensOf(buttonRef.current)
-                }
-            }
+           
         }, [isHovered, isAnimating])
 
         const handleHoverStart = () => setIsHovered(true)

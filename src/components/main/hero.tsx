@@ -1,673 +1,380 @@
-// "use client"
+"use client";
 
-// import type React from "react"
-// import { useState, useEffect, useRef, useCallback } from "react"
-// import { motion, useScroll, useTransform } from "framer-motion"
-// import { ChevronDown } from 'lucide-react'
-// import gsap from "gsap"
-// import { ScrollTrigger } from "gsap/ScrollTrigger"
-// import { TextPlugin } from "gsap/TextPlugin"
-// import { Anton } from 'next/font/google'
-// const anton = Anton({
-//   weight: ["400"],
-//   subsets: ["latin"],
-//   display: "swap",
-//   variable: "--font-anton",
-// })
-// import MainMarquee from "./hero-marquee"
-// import { HeroCarousel } from "@/components/hero/hero-carousel"
-// import { HeroButtons } from "@/components/hero/hero-buttons"
-// import { VideoModal } from "@/components/hero/hero-video-modal"
-// import { FloatingElements, useIntersectionObserver } from "@/components/hero/hero-floating-elements"
-// import { sections, animations, prefersReducedMotion } from "@/components/hero/hero-data"
+import { useState, useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Star,
+  ExternalLink,
+  ChevronDown,
+  Layout,
+  Zap,
+  Sparkles,
+  Calendar
+} from "lucide-react";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
-// gsap.registerPlugin(ScrollTrigger, TextPlugin)
+export default function EnhancedHeroSection() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [typedText, setTypedText] = useState("");
+  const [activeTab, setActiveTab] = useState(0);
+  const fullText =
+    "I build websites that attract customers and grow your business and brand! ";
+  const heroRef = useRef(null);
 
-// export function Hero() {
-//   const [activeSection, setActiveSection] = useState(0)
-//   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
-//   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-//   const [hasScrolled, setHasScrolled] = useState(false)
-//   const [isReducedMotion, setIsReducedMotion] = useState(false)
-
-//   const containerRef = useRef<HTMLDivElement>(null)
-//   const titleRef = useRef<HTMLHeadingElement>(null)
-//   const scrollIndicatorRef = useRef<HTMLDivElement>(null)
-
-//   const { isIntersecting } = useIntersectionObserver(
-//     containerRef as React.RefObject<Element>,
-//     { threshold: 0.1, rootMargin: "50px" }
-//   )
-
-//   const { scrollYProgress } = useScroll({
-//     target: containerRef,
-//     offset: ["start start", "end start"],
-//   })
-
-//   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
-//   const scale = useTransform(scrollYProgress, [0, 0.8], [1, 0.98])
-
-//   useEffect(() => {
-//     setIsReducedMotion(prefersReducedMotion())
-//     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-//     const handleChange = (e: MediaQueryListEvent) => {
-//       setIsReducedMotion(e.matches)
-//     }
-//     mediaQuery.addEventListener("change", handleChange)
-//     return () => mediaQuery.removeEventListener("change", handleChange)
-//   }, [])
-
-//   const handleSectionChange = useCallback(() => {
-//     setActiveSection((prev) => (prev + 1) % sections.length)
-//   }, [])
-
-//   useEffect(() => {
-//     if (!isIntersecting) return
-//     const timer = setInterval(handleSectionChange, 5000)
-//     return () => clearInterval(timer)
-//   }, [isIntersecting, handleSectionChange])
-
-//   useEffect(() => {
-//     if (titleRef.current && !isReducedMotion) {
-//       const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
-//       tl.fromTo(
-//         titleRef.current,
-//         { opacity: 0, y: 30 },
-//         { opacity: 1, y: 0, duration: 0.8 }
-//       )
-//     }
-//   }, [isReducedMotion])
-
-//   useEffect(() => {
-//     if (isReducedMotion || isVideoModalOpen) return
-
-//     const handleMouseMove = (e: MouseEvent) => {
-//       requestAnimationFrame(() => {
-//         setMousePosition({
-//           x: (e.clientX / window.innerWidth - 0.5) * 10,
-//           y: (e.clientY / window.innerHeight - 0.5) * 10,
-//         })
-//       })
-//     }
-
-//     const handleScroll = () => {
-//       if (!hasScrolled && window.scrollY > 50) {
-//         setHasScrolled(true)
-//       }
-//     }
-
-//     window.addEventListener("mousemove", handleMouseMove, { passive: true })
-//     window.addEventListener("scroll", handleScroll, { passive: true })
-//     return () => {
-//       window.removeEventListener("mousemove", handleMouseMove)
-//       window.removeEventListener("scroll", handleScroll)
-//     }
-//   }, [hasScrolled, isReducedMotion, isVideoModalOpen])
-
-//   useEffect(() => {
-//     if (scrollIndicatorRef.current && !hasScrolled && !isReducedMotion) {
-//       gsap.to(scrollIndicatorRef.current, {
-//         y: 10,
-//         opacity: 0.7,
-//         duration: 1.5,
-//         repeat: -1,
-//         yoyo: true,
-//         ease: "power1.inOut",
-//       })
-//     }
-//     return () => {
-//       if (scrollIndicatorRef.current) {
-//         gsap.killTweensOf(scrollIndicatorRef.current)
-//       }
-//     }
-//   }, [hasScrolled, isReducedMotion])
-
-//   const handleScrollDown = () => {
-//     if (typeof window !== "undefined") {
-//       const targetY = window.innerHeight
-//       window.scrollTo({
-//         top: targetY,
-//         behavior: isReducedMotion ? "auto" : "smooth",
-//       })
-//       setHasScrolled(true)
-//     }
-//   }
-
-//   useEffect(() => {
-//     const handleKeyDown = (e: KeyboardEvent) => {
-//       if (e.key === "ArrowLeft") {
-//         setActiveSection((prev) => (prev - 1 + sections.length) % sections.length)
-//       } else if (e.key === "ArrowRight") {
-//         setActiveSection((prev) => (prev + 1) % sections.length)
-//       }
-//     }
-//     window.addEventListener("keydown", handleKeyDown)
-//     return () => window.removeEventListener("keydown", handleKeyDown)
-//   }, [])
-
-//   const parallaxY = useTransform(
-//     scrollYProgress,
-//     [0, 1],
-//     ["0%", isReducedMotion ? "0%" : "20%"]
-//   )
-
-//   return (
-//     <main>
-//       <motion.div
-//         ref={containerRef}
-//         className="relative min-h-screen text-white font-sans overflow-hidden pt-8 bg-black"
-//         variants={isReducedMotion ? undefined : animations.background}
-//         animate="animate"
-//         aria-label="Hero section"
-//         style={{
-//           backgroundImage: isReducedMotion
-//             ? undefined
-//             : "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%23ffffff' fillOpacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
-//         }}
-//       >
-//         <div className="absolute inset-0 z-0 overflow-hidden"
-//           style={{ transform: isReducedMotion ? undefined : `translateY(${parallaxY})` }}>
-//           <div className="absolute inset-0 bg-black opacity-70"></div>
-//           <div className="absolute inset-0 opacity-20"
-//             style={{
-//               backgroundImage: `
-//                                 radial-gradient(circle, rgba(16, 185, 129, 0.1) 1px, transparent 1px),
-//                                 linear-gradient(to right, #1a1a1a 1px, transparent 1px),
-//                                 linear-gradient(to bottom, #1a1a1a 1px, transparent 1px)
-//                             `,
-//               backgroundSize: "50px 50px, 50px 50px, 50px 50px",
-//               animation: isReducedMotion ? "none" : "moveGrid 15s linear infinite",
-//             }}>
-//           </div>
-//         </div>
-
-//         {!isReducedMotion && <FloatingElements />}
-
-//         <motion.div
-//           className="container relative z-10 mx-auto px-4 pt-24 sm:pt-32 pb-20 min-h-screen flex flex-col justify-center hero-content backdrop-blur-sm bg-black bg-opacity-30 rounded-2xl backdrop-filter"
-//           style={{
-//             opacity,
-//             scale,
-//             transform: isReducedMotion || isVideoModalOpen
-//               ? undefined
-//               : `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
-//             transition: "transform 0.2s ease-out",
-//           }}
-//         >
-//           <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8">
-//             <h1 ref={titleRef} className={`${anton.className} text-5xl sm:text-6xl space-x-4 md:text-7xl lg:text-8xl font-normal leading-[1.1] text-white drop-shadow-[0_4px_15px_rgba(0,0,0,0.4)] tracking-tight uppercase mb-6 sm:mb-8`}>
-//               <motion.span
-//                 className="text-emerald-400"
-//                 initial={{ opacity: 0, y: isReducedMotion ? 0 : 30 }}
-//                 animate={{ opacity: 1, y: 0 }}
-//                 transition={{ duration: 0.8, delay: 0.2 }}
-//               >
-//                 TURNING
-//               </motion.span>
-//               <motion.span
-//                 initial={{ opacity: 0, y: isReducedMotion ? 0 : 30 }}
-//                 animate={{ opacity: 1, y: 0 }}
-//                 transition={{ duration: 0.8, delay: 0.4 }}
-//               >
-//                 YOUR IDEAS
-//               </motion.span>
-//               <br />
-//               <motion.span
-//                 className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-600 drop-shadow-lg"
-//                 initial={{ opacity: 0, y: isReducedMotion ? 0 : 30 }}
-//                 animate={{ opacity: 1, y: 0 }}
-//                 transition={{ duration: 0.8, delay: 0.6 }}
-//               >
-//                 INTO STUNNING WEBSITES
-//               </motion.span>
-//             </h1>
-
-//             <HeroCarousel
-//               activeSection={activeSection}
-//               setActiveSection={setActiveSection}
-//               isReducedMotion={isReducedMotion}
-//             />
-
-//             <HeroButtons
-//               setIsVideoModalOpen={setIsVideoModalOpen}
-//               isReducedMotion={isReducedMotion}
-//             />
-//           </div>
-
-//           <div className="mt-16 mb-14">
-//             <MainMarquee />
-//           </div>
-
-//           <motion.div
-//             ref={scrollIndicatorRef}
-//             className={`flex flex-col items-center absolute bottom-8 left-1/2 transform -translate-x-1/2 transition-opacity duration-500 ${hasScrolled ? "opacity-0" : "opacity-100"}`}
-//             initial={{ opacity: 0 }}
-//             animate={{ opacity: hasScrolled ? 0 : 1 }}
-//             transition={{ delay: 1.5 }}
-//           >
-//             <span className="text-sm text-gray-300 mb-2">Scroll to explore</span>
-//             <button
-//               onClick={handleScrollDown}
-//               className="text-emerald-400 hover:text-emerald-300 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-black rounded-full p-1"
-//               aria-label="Scroll down"
-//             >
-//               <ChevronDown className="w-6 h-6" />
-//             </button>
-//           </motion.div>
-//         </motion.div>
-//       </motion.div>
-
-//       {isVideoModalOpen && (
-//         <VideoModal
-//           isOpen={isVideoModalOpen}
-//           onClose={() => setIsVideoModalOpen(false)}
-//         />
-//       )}
-
-//       <style jsx global>{`
-//                 @keyframes moveGrid {
-//                     0% { background-position: 0 0; }
-//                     100% { background-position: 50px 50px; }
-//                 }
-
-//                 @media (max-width: 640px) {
-//                     .hero-content {
-//                         padding: 1rem;
-//                         padding-top: 5rem;
-//                     }
-//                     .hero-content h1 {
-//                         font-size: 2.75rem;
-//                         line-height: 1.2;
-//                         margin-bottom: 1.5rem;
-//                     }
-//                     .hero-content p {
-//                         font-size: 1.125rem;
-//                         line-height: 1.5;
-//                     }
-//                 }
-
-//                 @media (hover: none) {
-//                     .hover\\:scale-105:hover,
-//                     .hover\\:-translate-y-0\\.5:hover {
-//                         transform: none !important;
-//                     }
-//                     button {
-//                         min-height: 44px;
-//                         min-width: 44px;
-//                     }
-//                 }
-
-//                 @media (hover: none) and (max-width: 480px) {
-//                     .swipe-hint {
-//                         animation: swipeHint 2s ease-in-out 1s;
-//                     }
-//                     @keyframes swipeHint {
-//                         0% { opacity: 0; transform: translate(-80%, -50%); }
-//                         20% { opacity: 0.7; transform: translate(-50%, -50%); }
-//                         80% { opacity: 0.7; transform: translate(-20%, -50%); }
-//                         100% { opacity: 0; transform: translate(10%, -50%); }
-//                     }
-//                 }
-
-//                 @media (prefers-reduced-motion: reduce) {
-//                     .parallax-bg,
-//                     * {
-//                         transform: none !important;
-//                         animation-duration: 0.001ms !important;
-//                         animation-iteration-count: 1 !important;
-//                         transition-duration: 0.001ms !important;
-//                     }
-//                 }
-
-//                 @media (hover: none) {
-//                     button:active {
-//                         transform: scale(0.97) !important;
-//                         transition: transform 0.1s !important;
-//                     }
-//                     .active\\:scale-95:active {
-//                         transform: scale(0.95) !important;
-//                     }
-//                 }
-
-//                 @media (min-width: 480px) {
-//                     .xs\\:flex { display: flex; }
-//                     .xs\\:hidden { display: none; }
-//                 }
-//                 @media (max-width: 479px) {
-//                     .hidden.xs\\:flex { display: none; }
-//                     .xs\\:hidden { display: block; }
-//                 }
-//             `}</style>
-//     </main>
-//   )
-// }
-"use client"
-
-import type React from "react"
-
-import { useState, useEffect, useRef, useCallback } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
-import { ChevronDown } from "lucide-react"
-import { Anton } from "next/font/google"
-import MainMarquee from "./hero-marquee"
-import { HeroCarousel } from "@/components/hero/hero-carousel"
-import { HeroButtons } from "@/components/hero/hero-buttons"
-import { VideoModal } from "@/components/hero/hero-video-modal"
-import { FloatingElements, useIntersectionObserver } from "@/components/hero/hero-floating-elements"
-import { sections, prefersReducedMotion } from "@/components/hero/hero-data"
-
-// Load font outside component to prevent re-evaluation
-const anton = Anton({
-  weight: ["400"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-anton",
-})
-
-// Animation variants defined outside component to prevent re-creation
-const backgroundVariants = {
-  animate: {
-    backgroundPosition: ["0% 0%", "100% 100%"],
-    transition: {
-      duration: 20,
-      ease: "linear",
-      repeat: Number.POSITIVE_INFINITY,
-      repeatType: "reverse" as const,
-    },
-  },
-}
-
-export function Hero() {
-  const [activeSection, setActiveSection] = useState(0)
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [hasScrolled, setHasScrolled] = useState(false)
-  const [isReducedMotion, setIsReducedMotion] = useState(false)
-
-  const containerRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const scrollIndicatorRef = useRef<HTMLDivElement>(null)
-
-  const { isIntersecting } = useIntersectionObserver(containerRef as React.RefObject<Element>, {
-    threshold: 0.1,
-    rootMargin: "50px",
-  })
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  })
-
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.8], [1, 0.98])
-  const parallaxY = useTransform(scrollYProgress, [0, 1], ["0%", isReducedMotion ? "0%" : "20%"])
-
-  // Check for reduced motion preference once on mount
-  useEffect(() => {
-    setIsReducedMotion(prefersReducedMotion())
-
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsReducedMotion(e.matches)
-    }
-
-    mediaQuery.addEventListener("change", handleChange)
-    return () => mediaQuery.removeEventListener("change", handleChange)
-  }, [])
-
-  // Section rotation with memoized handler
-  const handleSectionChange = useCallback(() => {
-    setActiveSection((prev) => (prev + 1) % sections.length)
-  }, [])
+  const tabs = [
+    { name: "Design", icon: Layout },
+    { name: "Branding", icon: Sparkles },
+    { name: "Speed", icon: Zap },
+  ];
 
   useEffect(() => {
-    if (!isIntersecting) return
+    setIsVisible(true);
 
-    const timer = setInterval(handleSectionChange, 5000)
-    return () => clearInterval(timer)
-  }, [isIntersecting, handleSectionChange])
-
-  // Simplified mouse movement effect with throttling
-  useEffect(() => {
-    if (isReducedMotion || isVideoModalOpen) return
-
-    let rafId: number
-    let lastUpdateTime = 0
-    const THROTTLE_MS = 50 // Only update every 50ms
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const now = Date.now()
-      if (now - lastUpdateTime < THROTTLE_MS) return
-
-      lastUpdateTime = now
-      rafId = requestAnimationFrame(() => {
-        setMousePosition({
-          x: (e.clientX / window.innerWidth - 0.5) * 5, // Reduced intensity
-          y: (e.clientY / window.innerHeight - 0.5) * 5,
-        })
-      })
-    }
-
-    const handleScroll = () => {
-      if (!hasScrolled && window.scrollY > 50) {
-        setHasScrolled(true)
+    // Typing effect
+    let i = 0;
+    const typingInterval = setInterval(() => {
+      if (i < fullText.length) {
+        setTypedText(fullText.substring(0, i + 1));
+        i++;
+      } else {
+        clearInterval(typingInterval);
       }
-    }
+    }, 70);
 
-    window.addEventListener("mousemove", handleMouseMove, { passive: true })
-    window.addEventListener("scroll", handleScroll, { passive: true })
+    // Auto-rotate tabs
+    const tabInterval = setInterval(() => {
+      setActiveTab((prev) => (prev + 1) % tabs.length);
+    }, 3000);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-      window.removeEventListener("scroll", handleScroll)
-      cancelAnimationFrame(rafId)
-    }
-  }, [hasScrolled, isReducedMotion, isVideoModalOpen])
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        setActiveSection((prev) => (prev - 1 + sections.length) % sections.length)
-      } else if (e.key === "ArrowRight") {
-        setActiveSection((prev) => (prev + 1) % sections.length)
-      }
-    }
-
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [])
-
-  const handleScrollDown = () => {
-    if (typeof window !== "undefined") {
-      const targetY = window.innerHeight
-      window.scrollTo({
-        top: targetY,
-        behavior: isReducedMotion ? "auto" : "smooth",
-      })
-      setHasScrolled(true)
-    }
+      clearInterval(typingInterval);
+      clearInterval(tabInterval);
+    };
   }
+  , []);
+
+  const scrollToContent = () => {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: "smooth",
+    });
+  };
 
   return (
-    <main>
-      <motion.div
-        ref={containerRef}
-        className="relative min-h-screen text-white font-sans overflow-hidden pt-8 bg-black"
-        variants={isReducedMotion ? undefined : backgroundVariants}
-        animate="animate"
-        aria-label="Hero section"
-        style={{
-          backgroundImage: isReducedMotion
-            ? undefined
-            : "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%23ffffff' fillOpacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
-        }}
-      >
-        <div
-          className="absolute inset-0 z-0 overflow-hidden"
-          style={{ transform: isReducedMotion ? undefined : `translateY(${parallaxY})` }}
-        >
-          <div className="absolute inset-0 bg-black opacity-70"></div>
-          <div
-            className="absolute inset-0 opacity-20"
-            style={{
-              backgroundImage: `
-                radial-gradient(circle, rgba(16, 185, 129, 0.1) 1px, transparent 1px),
-                linear-gradient(to right, #1a1a1a 1px, transparent 1px),
-                linear-gradient(to bottom, #1a1a1a 1px, transparent 1px)
-              `,
-              backgroundSize: "50px 50px, 50px 50px, 50px 50px",
-            }}
-          ></div>
-        </div>
+    <div
+      className="relative w-full min-h-screen overflow-hidden bg-zinc-950 text-white font-sans pt-16"
+      ref={heroRef}
+    >
+      {/* Background elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-900/10 via-zinc-900 to-zinc-950"></div>
 
-        {!isReducedMotion && <FloatingElements />}
+      {/* Animated grid background */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMDIwMjAiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0aDR2MWgtNHYtMXptMC0yaDF2NGgtMXYtNHptMi0yaDF2MWgtMXYtMXptLTIgMmgtMXYxaDF2LTF6bS0yLTJoMXYxaC0xdi0xem0yLTJoMXYxaC0xdi0xem0yLTJoMXYxaC0xdi0xem0tMi0yaDF2MWgtMXYtMXptLTItMmgxdjFoLTF2LTF6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-10"></div>
 
-        <motion.div
-          className="container relative z-10 mx-auto px-4 pt-24 sm:pt-32 pb-20 min-h-screen flex flex-col justify-center hero-content backdrop-blur-sm bg-black bg-opacity-30 rounded-2xl backdrop-filter"
-          style={{
-            opacity,
-            scale,
-            transform:
-              isReducedMotion || isVideoModalOpen ? undefined : `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
-            transition: "transform 0.2s ease-out",
-          }}
-        >
-          <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8">
-            <h1
-              ref={titleRef}
-              className={`${anton.className} text-5xl sm:text-6xl space-x-4 md:text-7xl lg:text-8xl font-normal leading-[1.1] text-white drop-shadow-[0_4px_15px_rgba(0,0,0,0.4)] tracking-tight uppercase mb-6 sm:mb-8`}
+      {/* Hero content */}
+      <div className="relative flex flex-col justify-center min-h-screen pt-8">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
+          <div className="grid lg:grid-cols-[1fr,auto] gap-8 lg:gap-12 items-center">
+            <div
+              className={`transition-all duration-1000 max-w-2xl ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
             >
-              <motion.span
-                className="text-emerald-400"
-                initial={{ opacity: 0, y: isReducedMotion ? 0 : 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
+              {/* Agency badge */}
+              <div
+                className={`inline-flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs font-medium text-green-400 transition-all duration-700 ${isVisible ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"}`}
               >
-                TURNING
-              </motion.span>{" "}
-              <motion.span
-                initial={{ opacity: 0, y: isReducedMotion ? 0 : 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                YOUR IDEAS
-              </motion.span>
-              <br />
-              <motion.span
-                className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-600 drop-shadow-lg"
-                initial={{ opacity: 0, y: isReducedMotion ? 0 : 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-              >
-                INTO STUNNING WEBSITES
-              </motion.span>
-            </h1>
+                <span className="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+                <span>Web Design Expert</span>
+              </div>
 
-            <HeroCarousel
-              activeSection={activeSection}
-              setActiveSection={setActiveSection}
-              isReducedMotion={isReducedMotion}
-            />
+              {/* Main heading */}
+              <h1
+                className={`mt-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl leading-[1.1] transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+              >
+                Need A{" "}
+                <span className="text-green-400 relative inline-block">
+                  Website
+                  <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 100 15" preserveAspectRatio="none">
+                    <path d="M0,5 Q50,15 100,5" stroke="rgba(34, 197, 94, 0.3)" strokeWidth="2" fill="none" />
+                  </svg>
+                </span>{" "}
+                That
+                <br />
+                Drives{" "}
+                <span className="text-green-400 relative inline-block">
+                  Results?
+                  <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 100 15" preserveAspectRatio="none">
+                    <path d="M0,5 Q50,15 100,5" stroke="rgba(34, 197, 94, 0.3)" strokeWidth="2" fill="none" />
+                  </svg>
+                </span>
+              </h1>
 
-            <HeroButtons setIsVideoModalOpen={setIsVideoModalOpen} isReducedMotion={isReducedMotion} />
+
+              {/* Service tabs */}
+              <div className="mt-6 flex space-x-1 bg-zinc-900/50 p-1 rounded-lg w-fit">
+                {tabs.map((tab, index) => {
+                  const Icon = tab.icon;
+                  return (
+                    <button
+                      key={index}
+                      className={`relative px-3 py-1.5 text-xs font-medium rounded-md flex items-center gap-1.5 transition-all duration-300 ${
+                        activeTab === index
+                          ? "text-black bg-green-400"
+                          : "text-zinc-400 hover:text-zinc-200"
+                      }`}
+                      onClick={() => setActiveTab(index)}
+                      aria-selected={activeTab === index}
+                      role="tab"
+                    >
+                      <Icon className="w-3.5 h-3.5" />
+                      {tab.name}
+                      {activeTab === index && (
+                        <motion.div
+                          layoutId="activeTab"
+                          className="absolute inset-0 bg-green-400 rounded-md -z-10"
+                          transition={{ type: "spring", duration: 0.5 }}
+                        />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Client-friendly benefits */}
+              <div className="mt-6 relative h-6 overflow-hidden">
+                <div className="absolute left-0 animate-marquee whitespace-nowrap flex gap-4">
+                  {[
+                    "Mobile-Friendly",
+                    "Fast Loading",
+                    "Easy to Update",
+                    "Search Optimized",
+                    "User-Friendly",
+                    "Brand-Focused",
+                    "Secure",
+                    "Affordable",
+                  ].map((benefit, index) => (
+                    <span
+                      key={index}
+                      className="text-xs px-2 py-1 rounded-full bg-zinc-800/50 text-zinc-400"
+                    >
+                      {benefit}
+                    </span>
+                  ))}
+                </div>
+                <div className="absolute left-0 animate-marquee2 whitespace-nowrap flex gap-4">
+                  {[
+                    "Mobile-Friendly",
+                    "Fast Loading",
+                    "Easy to Update",
+                    "Search Optimized",
+                    "User-Friendly",
+                    "Brand-Focused",
+                    "Secure",
+                    "Affordable",
+                  ].map((benefit, index) => (
+                    <span
+                      key={index}
+                      className="text-xs px-2 py-1 rounded-full bg-zinc-800/50 text-zinc-400"
+                    >
+                      {benefit}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Subheading */}
+              <div
+                className={`mt-4 transition-all duration-1000 delay-100 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+              >
+                <p className="text-base text-zinc-300 leading-relaxed">
+                  Let&apos;s create a website that boosts your business and converts
+                  visitors into customers!
+                </p>
+              </div>
+
+              {/* Typed text */}
+              <div
+                className={`mt-4 transition-all duration-1000 delay-100 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+              >
+                <div className="inline-block px-3 py-1 rounded-md bg-zinc-900/80 border border-zinc-800 backdrop-blur-sm">
+                  <p className="text-sm font-medium text-green-400">
+                    {typedText}
+                    <span className="animate-pulse">|</span>
+                  </p>
+                </div>
+              </div>
+
+              {/* CTA buttons */}
+              <div
+                className={`mt-8 flex flex-col gap-4 sm:flex-row transition-all duration-1000 delay-200 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+              >
+                <Link
+                  href="https://calendly.com/your-username/45min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-green-400 rounded-full opacity-0 group-hover:opacity-20 transition duration-200"></div>
+                  <Button className="relative bg-green-500 px-6 py-2 text-sm font-medium hover:bg-green-600 overflow-hidden shadow-lg shadow-green-900/20 group-hover:shadow-green-900/40 transition-all duration-300">
+                    <Calendar className="relative z-10 mr-2 h-4 w-4" />
+                    <span className="relative z-10">
+                      Schedule a 45-Min Call
+                    </span>
+                    <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
+                  </Button>
+                </Link>
+
+                <Link href="#work">
+                  <Button
+                    variant="outline"
+                    className="border-zinc-800 bg-zinc-900/50 px-6 py-2 text-sm font-medium backdrop-blur hover:bg-zinc-800 hover:text-white"
+                  >
+                    <span>View My Work</span>
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Trusted by */}
+              <div
+                className={`mt-12 transition-all duration-1000 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+              >
+                <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+                  Trusted by
+                </p>
+                <div className="mt-3 flex flex-wrap gap-4 items-center">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div
+                      key={i}
+                      className="h-6 w-16 bg-zinc-800/50 rounded-md flex items-center justify-center"
+                    >
+                      <div className="h-3 w-10 bg-zinc-700/50 rounded"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div
+              className={`transition-all duration-1000 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+            >
+              <div className="grid grid-cols-2 gap-4 max-w-lg">
+                {/* Stats boxes with hover effects - client-friendly metrics */}
+                <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group">
+                  <div className="flex items-end justify-between">
+                    <p className="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform duration-300">
+                      98%
+                    </p>
+                    <span className="text-green-500/50 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      ★★★★★
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-zinc-400">
+                    Client Satisfaction
+                  </p>
+                </div>
+
+                <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group">
+                  <div className="flex items-end justify-between">
+                    <p className="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform duration-300">
+                      20+
+                    </p>
+                    <span className="text-green-500/50 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      🚀
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-zinc-400">
+                    Websites Delivered
+                  </p>
+                </div>
+
+                <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group">
+                  <div className="flex items-end justify-between">
+                    <p className="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform duration-300">
+                      40%
+                    </p>
+                    <span className="text-green-500/50 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      📈
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-zinc-400">More Visitors</p>
+                </div>
+
+                <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group">
+                  <div className="flex items-end justify-between">
+                    <p className="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform duration-300">
+                      24/7
+                    </p>
+                    <span className="text-green-500/50 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      ⏰
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-zinc-400">
+                    Support Available
+                  </p>
+                </div>
+
+                {/* Enhanced testimonial */}
+                <div className="col-span-2 mt-4 rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 mt-1">
+                      <div className="flex">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                          <Star
+                            key={i}
+                            className="h-3 w-3 fill-green-400 text-green-400"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="italic text-zinc-300 text-xs leading-relaxed">
+                        &quot;Working with Muhammad Sami was an excellent experience.
+                        He delivered our website ahead of schedule and our
+                        online sales have increased by 40% since launch!&quot;
+                      </p>
+                      <p className="mt-2 text-xs font-medium text-green-400">
+                        — CEO, Contntr.com
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-zinc-800 flex justify-between items-center">
+                    <p className="text-xs text-zinc-500">Verified Client</p>
+                    <Link
+                      href="#testimonial"
+                      className="text-green-400 text-xs flex items-center gap-1 hover:text-green-300"
+                    >
+                      <span>View more testimonials</span>
+                      <ExternalLink className="h-3 w-3" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="mt-16 mb-14">
-            <MainMarquee />
-          </div>
-
-          <motion.div
-            ref={scrollIndicatorRef}
-            className={`flex flex-col items-center absolute bottom-8 left-1/2 transform -translate-x-1/2 transition-opacity duration-500 ${hasScrolled ? "opacity-0" : "opacity-100"}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: hasScrolled ? 0 : 1 }}
-            transition={{ delay: 1.5 }}
-          >
-            <span className="text-sm text-gray-300 mb-2">Scroll to explore</span>
+          {/* Scroll indicator */}
+          <div className="absolute left-1/2 bottom-8 transform -translate-x-1/2 flex flex-col items-center cursor-pointer transition-opacity duration-300 hover:opacity-80 mt">
             <button
-              onClick={handleScrollDown}
-              className="text-emerald-400 hover:text-emerald-300 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-black rounded-full p-1"
-              aria-label="Scroll down"
+              onClick={scrollToContent}
+              aria-label="Scroll to explore more content"
+              className="flex flex-col items-center  focus:ring-offset-zinc-900 rounded-full p-2"
             >
-              <ChevronDown className="w-6 h-6" />
+              <p className="text-xs text-zinc-500 mb-1">Scroll to explore</p>
+              <div className="animate-bounce">
+                <ChevronDown className="h-4 w-4 text-green-400" />
+              </div>
             </button>
-          </motion.div>
-        </motion.div>
-      </motion.div>
+          </div>
+        </div>
+      </div>
 
-      {isVideoModalOpen && <VideoModal isOpen={isVideoModalOpen} onClose={() => setIsVideoModalOpen(false)} />}
-
-      <style jsx global>{`
-        @media (max-width: 640px) {
-          .hero-content {
-            padding: 1rem;
-            padding-top: 5rem;
-          }
-          .hero-content h1 {
-            font-size: 2.75rem;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-          }
-          .hero-content p {
-            font-size: 1.125rem;
-            line-height: 1.5;
-          }
-        }
-
-        @media (hover: none) {
-          .hover\\:scale-105:hover,
-          .hover\\:-translate-y-0\\.5:hover {
-            transform: none !important;
-          }
-          button {
-            min-height: 44px;
-            min-width: 44px;
-          }
-        }
-
-        @media (hover: none) and (max-width: 480px) {
-          .swipe-hint {
-            animation: swipeHint 2s ease-in-out 1s;
-          }
-          @keyframes swipeHint {
-            0% { opacity: 0; transform: translate(-80%, -50%); }
-            20% { opacity: 0.7; transform: translate(-50%, -50%); }
-            80% { opacity: 0.7; transform: translate(-20%, -50%); }
-            100% { opacity: 0; transform: translate(10%, -50%); }
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .parallax-bg,
-          * {
-            transform: none !important;
-            animation-duration: 0.001ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.001ms !important;
-          }
-        }
-
-        @media (hover: none) {
-          button:active {
-            transform: scale(0.97) !important;
-            transition: transform 0.1s !important;
-          }
-          .active\\:scale-95:active {
-            transform: scale(0.95) !important;
-          }
-        }
-
-        @media (min-width: 480px) {
-          .xs\\:flex { display: flex; }
-          .xs\\:hidden { display: none; }
-        }
-        @media (max-width: 479px) {
-          .hidden.xs\\:flex { display: none; }
-          .xs\\:hidden { display: block; }
-        }
-      `}</style>
-    </main>
-  )
+      {/* Accessibility skip link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-green-500 text-black px-4 py-2 rounded-md text-sm font-medium z-50"
+      >
+        Skip to main content
+      </a>
+    </div>
+  );
 }
-

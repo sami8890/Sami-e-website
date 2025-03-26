@@ -1,3 +1,4 @@
+//src/components/main/project-card.tsx
 "use client"
 
 import { useState, useEffect } from "react"
@@ -205,7 +206,7 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                View Project
+                View Details
                 <ArrowRight className="w-4 h-4" />
               </motion.button>
             </motion.div>
