@@ -248,6 +248,7 @@ const AboutMe = () => {
 
   return (
     <motion.section
+    id="about"
       ref={sectionRef}
       className="relative bg-black text-white py-16 md:py-24 px-4 md:px-6 lg:px-12 overflow-hidden min-h-screen flex items-center"
       variants={isReducedMotion ? undefined : backgroundVariants}
@@ -256,6 +257,7 @@ const AboutMe = () => {
         backgroundImage: isReducedMotion
           ? undefined
           : "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%23ffffff' fillOpacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
+          
       }}
     >
       {/* Enhanced background elements */}
@@ -404,8 +406,8 @@ const AboutMe = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <span className="text-emerald-400">ABOUT</span>{" "}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-600">
+                <span className="text-white mx-3">ABOUT</span>
+                <span className="bg-clip-text text-transparent bg-[#00D69F]">
                   ME
                 </span>
               </motion.h2>

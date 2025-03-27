@@ -1,15 +1,11 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Mail, Phone, Twitter, Linkedin, Heart, ChevronUp, Calendar, Send } from "lucide-react"
+import { Mail, Phone, Twitter, Linkedin, Heart, ChevronUp, Calendar, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 
 export default function MYFooter() {
-  const [email, setEmail] = useState("")
   const [isVisible, setIsVisible] = useState(false)
   const [year, setYear] = useState(new Date().getFullYear())
 
@@ -23,14 +19,6 @@ export default function MYFooter() {
       top: 0,
       behavior: "smooth",
     })
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle newsletter subscription
-    console.log("Subscribing email:", email)
-    setEmail("")
-    // Add your newsletter subscription logic here
   }
 
   const socialLinks = [
@@ -61,26 +49,26 @@ export default function MYFooter() {
             >
               <div className="flex items-center gap-2 mb-6">
                 <div className="h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                  <span className="text-green-400 font-bold">WD</span>
+                  <span className="text-green-400 font-bold">SE</span>
                 </div>
                 <h3 className="text-xl font-bold">
-                  WebDesign<span className="text-green-400">Pro</span>
+                  Sami-<span className="text-green-400">e</span>
                 </h3>
               </div>
 
               <p className="text-zinc-400 text-sm mb-6 leading-relaxed">
-                I build websites that attract customers and grow your business. Let&apos;s create a digital presence that
-                converts visitors into loyal customers.
+                I build websites that attract customers and grow your business. Let&apos;s create a digital presence
+                that converts visitors into loyal customers.
               </p>
 
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-green-400" />
                   <a
-                    href="mailto:hello@webdesignpro.com"
+                    href="mailto:sami.gabol13@gmail.com"
                     className="text-sm text-zinc-300 hover:text-green-400 transition-colors"
                   >
-                    hello@webdesignpro.com
+                    sami.gabol13@gmail.com
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
@@ -121,67 +109,54 @@ export default function MYFooter() {
               </div>
             </div>
 
-            {/* Column 2: Newsletter */}
+            {/* Column 2: Contact Me */}
             <div
               className={`transition-all duration-1000 delay-100 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
             >
               <h3 className="text-lg font-semibold mb-6 flex items-center">
                 <span className="h-1.5 w-1.5 rounded-full bg-green-500 mr-2"></span>
-                Stay Updated
+                Contact Me
               </h3>
-              <p className="text-sm text-zinc-400 mb-4">
-                Subscribe to my newsletter for web design tips and exclusive offers.
+              <p className="text-sm text-zinc-400 mb-8">
+                Have a project in mind? Let&apos;s discuss how I can help you achieve your goals.
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-3">
-                <div className="relative">
-                  <Input
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="bg-zinc-900/50 border-zinc-800 text-zinc-300 placeholder:text-zinc-500 focus:border-green-500/50 focus:ring-green-500/20"
-                  />
-                  <button
-                    type="submit"
-                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 rounded-md bg-green-500 flex items-center justify-center hover:bg-green-600 transition-colors"
-                    aria-label="Subscribe"
-                  >
-                    <Send className="h-3.5 w-3.5 text-zinc-950" />
-                  </button>
+              {/* Book a Consultation section - kept as requested */}
+              <div className="p-5 rounded-lg border border-zinc-800 bg-zinc-900/30 backdrop-blur group">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="text-sm font-medium text-white flex items-center">
+                    <Calendar className="h-5 w-5 mr-2 text-green-400 group-hover:rotate-12 transition-transform" />
+                    Free Strategy Call
+                  </h4>
+                  <span className="text-xs text-green-400 bg-green-500/20 px-2 py-1 rounded-full">
+                    45 min
+                  </span>
                 </div>
-              </form>
-
-              <div className="mt-8 p-4 rounded-lg border border-zinc-800 bg-zinc-900/30 backdrop-blur">
-                <h4 className="text-sm font-medium text-white mb-2 flex items-center">
-                  <Calendar className="h-4 w-4 mr-2 text-green-400" />
-                  Book a Consultation
-                </h4>
-                <p className="text-xs text-zinc-400 mb-3">
-                  Ready to discuss your project? Schedule a free 45-minute consultation.
+                <p className="text-xs text-zinc-400 mb-4 leading-relaxed">
+                  Unlock your digital potential. Get personalized insights and a clear roadmap
+                  for your project in a complimentary 45-minute consultation.
                 </p>
-                <Link href="https://calendly.com/your-username/45min" target="_blank" rel="noopener noreferrer">
-                  <Button className="w-full bg-green-500 hover:bg-green-600 text-xs py-1 h-auto">
-                    Schedule a Call
+                <Link
+                  href="https://calendly.com/sami-gabol13/45min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button className="w-full bg-green-500 hover:bg-green-600 text-xs py-2 h-auto group-hover:scale-[1.02] transition-transform">
+                    Schedule Your Free Call
+                    <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
               </div>
+
             </div>
           </div>
 
           {/* Bottom section with copyright */}
           <div className="mt-16 pt-8 border-t border-zinc-800/50">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-xs text-zinc-500">© {year} WebDesignPro. All rights reserved.</p>
+              <p className="text-xs text-zinc-500">© {year} Sami-e. All rights reserved.</p>
 
               <div className="flex items-center gap-6">
-                <Link href="/privacy" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
-                  Privacy Policy
-                </Link>
-                <Link href="/terms" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
-                  Terms of Service
-                </Link>
                 <button
                   onClick={scrollToTop}
                   className="h-8 w-8 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:bg-green-500/20 hover:border-green-500/30 hover:text-green-400 transition-all"
@@ -194,7 +169,7 @@ export default function MYFooter() {
 
             <div className="mt-6 text-center">
               <p className="text-xs text-zinc-600 flex items-center justify-center gap-1">
-                Made with <Heart className="h-3 w-3 text-green-500 fill-green-500" /> by WebDesignPro
+              Let&apos;s Connect <Heart className="h-3 w-3 text-green-500 fill-green-500" /> by Sami-e and helped you bussiness
               </p>
             </div>
           </div>

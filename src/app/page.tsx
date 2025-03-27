@@ -15,11 +15,11 @@ export default function Page() {
       <SocialFab/> 
       <EnhancedHeroSection />
       <ProjectsSection />
-      <ProcessSection/> 
       <Newsection/>
       <ServicesShowcase/>
       <AboutMe />
       <WhyChooseUs/>
+      <ProcessSection/> 
       <FAQSection/>
     </main> 
   )  

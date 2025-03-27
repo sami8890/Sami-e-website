@@ -24,7 +24,7 @@ export default function WhyChooseUs() {
   const [hovered, setHovered] = useState<null | number>(null);
 
   const stats = [
-    { value: "50+", label: "Projects Completed" },
+    { value: "20+", label: "Projects Completed" },
     { value: "100%", label: "Client Satisfaction" },
     { value: "24/7", label: "Support Available" },
   ];

@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Star,
   ExternalLink,
-  ChevronDown,
   Layout,
   Zap,
   Sparkles,
@@ -13,6 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function EnhancedHeroSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -26,6 +26,25 @@ export default function EnhancedHeroSection() {
     { name: "Design", icon: Layout },
     { name: "Branding", icon: Sparkles },
     { name: "Speed", icon: Zap },
+  ];
+
+  const clients = [
+    {
+      name: "Kyle",
+      image: "/testimonials/kyle.png" 
+    },
+    {
+      name: "Client 2",
+      image: "/testimonials/man2.png" 
+    },
+    {
+      name: "Charles Benford",
+      image: "/testimonials/man3.png"
+    },
+    {
+      name: "Henry Mouzon",
+      image: "/testimonials/man1.png"
+    }
   ];
 
   useEffect(() => {
@@ -54,12 +73,6 @@ export default function EnhancedHeroSection() {
   }
   , []);
 
-  const scrollToContent = () => {
-    window.scrollTo({
-      top: window.innerHeight,
-      behavior: "smooth",
-    });
-  };
 
   return (
     <div
@@ -209,7 +222,7 @@ export default function EnhancedHeroSection() {
                 className={`mt-8 flex flex-col gap-4 sm:flex-row transition-all duration-1000 delay-200 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
               >
                 <Link
-                  href="https://calendly.com/your-username/45min"
+                  href="https://calendly.com/sami-gabol13/45min"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative"
@@ -238,16 +251,29 @@ export default function EnhancedHeroSection() {
               <div
                 className={`mt-12 transition-all duration-1000 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
               >
-                <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-                  Trusted by
-                </p>
+                <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Trusted by</p>
                 <div className="mt-3 flex flex-wrap gap-4 items-center">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div
-                      key={i}
-                      className="h-6 w-16 bg-zinc-800/50 rounded-md flex items-center justify-center"
-                    >
-                      <div className="h-3 w-10 bg-zinc-700/50 rounded"></div>
+                  {/* Client avatars with actual images */}
+                  {clients.map((client, i) => (
+                    <div key={i} className="relative group">
+                      <div className="h-12 w-12 rounded-full bg-gradient-to-br from-green-400 to-green-600 p-[2px] transition-all duration-300 group-hover:scale-105">
+                        <div className="h-full w-full rounded-full bg-zinc-900 p-1 backdrop-blur-sm">
+                          <div className="flex h-full w-full items-center justify-center rounded-full bg-zinc-800 overflow-hidden">
+                            <Image
+                              src={client.image || "/placeholder.svg"}
+                              alt={client.name}
+                              className="h-full w-full object-cover rounded-full"
+                              height={48}
+                              width={48}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="bg-zinc-800 text-zinc-200 text-xs px-2 py-1 rounded whitespace-nowrap">
+                          {client.name}
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -262,7 +288,7 @@ export default function EnhancedHeroSection() {
                 <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group">
                   <div className="flex items-end justify-between">
                     <p className="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform duration-300">
-                      98%
+                      100%
                     </p>
                     <span className="text-green-500/50 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       ★★★★★
@@ -351,30 +377,10 @@ export default function EnhancedHeroSection() {
               </div>
             </div>
           </div>
-
-          {/* Scroll indicator */}
-          <div className="absolute left-1/2 bottom-8 transform -translate-x-1/2 flex flex-col items-center cursor-pointer transition-opacity duration-300 hover:opacity-80 mt">
-            <button
-              onClick={scrollToContent}
-              aria-label="Scroll to explore more content"
-              className="flex flex-col items-center  focus:ring-offset-zinc-900 rounded-full p-2"
-            >
-              <p className="text-xs text-zinc-500 mb-1">Scroll to explore</p>
-              <div className="animate-bounce">
-                <ChevronDown className="h-4 w-4 text-green-400" />
-              </div>
-            </button>
-          </div>
         </div>
       </div>
 
-      {/* Accessibility skip link */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-green-500 text-black px-4 py-2 rounded-md text-sm font-medium z-50"
-      >
-        Skip to main content
-      </a>
+     
     </div>
   );
 }

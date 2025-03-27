@@ -53,17 +53,9 @@ const ProfessionalButton: React.FC<ProfessionalButtonProps> = ({
 }
 
 export default function AvailableSpots() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading] = useState(false)
 
-  const handleConsultation = () => {
-    setIsLoading(true)
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
-      alert("Thank you! We'll contact you shortly to schedule your consultation.")
-    }, 1500)
-  }
-
+  
   return (
     <div className="mt-16 sm:mt-20 md:mt-32">
       {/* Add keyframes for the floating animation */}
@@ -145,10 +137,13 @@ export default function AvailableSpots() {
               <ProfessionalButton
                 className="w-full px-6 py-3 text-sm font-medium"
                 loading={isLoading}
-                onClick={handleConsultation}
+                onClick={() => {
+                  window.open("https://calendly.com/sami-gabol13/45min", "_blank", "noopener,noreferrer");
+                }}
               >
                 Schedule a Consultation
               </ProfessionalButton>
+
             </div>
           </div>
         </div>
