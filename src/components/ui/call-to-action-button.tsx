@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence, useAnimation } from "framer-motion"
 import { MessageSquare, X, Linkedin, Phone } from "lucide-react"
-import Link from "next/link"
 
 // Add this custom hook inside the component before the other hooks
 const useVerySmallScreen = () => {
@@ -34,9 +33,13 @@ export function SocialFab() {
 
     useEffect(() => {
         // Check if user has previously interacted with the button
-        const hasSeenButton = localStorage.getItem("hasSeenContactButton")
-        if (hasSeenButton === "true") {
-            setHasOpened(true)
+        try {
+            const hasSeenButton = localStorage.getItem("hasSeenContactButton")
+            if (hasSeenButton === "true") {
+                setHasOpened(true)
+            }
+        } catch (error) {
+            console.error("Failed to read from localStorage:", error)
         }
     }, [])
 
@@ -75,7 +78,8 @@ export function SocialFab() {
             try {
                 localStorage.setItem("hasSeenContactButton", "true")
             } catch (error) {
-                console.error("Failed to save user interaction:", error)}
+                console.error("Failed to save user interaction:", error)
+            }
         }
 
         setIsOpen(!isOpen)
@@ -92,20 +96,26 @@ export function SocialFab() {
         {
             name: "LinkedIn",
             icon: <Linkedin className="w-5 h-5" />,
-            href: "https://linkedin.com/in/yourprofile",
+            href: "https://pk.linkedin.com/in/muhammad-sami-gabol",
             ariaLabel: "Visit my LinkedIn profile",
         },
         {
             name: "WhatsApp",
             icon: <Phone className="w-5 h-5" />,
-            href: "https://wa.me/yourphonenumber",
+            href: "https://wa.me/923701247494", // Correct format
             ariaLabel: "Contact me on WhatsApp",
         },
     ]
 
+
+    const handleLinkClick = (url: string): void => {
+        console.log("Opening URL:", url)
+        window.open(url, "_blank", "noopener,noreferrer")
+    }
+
     return (
         <motion.div
-            className="fixed bottom-3 sm:bottom-4 md:bottom-6 right-3 sm:right-4 md:right-6 z-50"
+            className="fixed bottom-3 sm:bottom-4 md:bottom-6 right-3 sm:right-4 md:right-6 z-[100]" // Increased z-index
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{
@@ -204,7 +214,7 @@ export function SocialFab() {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        className="absolute bottom-12 sm:bottom-14 md:bottom-16 right-0 flex flex-col gap-1.5 sm:gap-2 md:gap-3 items-end"
+                        className="absolute bottom-12 sm:bottom-14 md:bottom-16 right-0 flex flex-col gap-1.5 sm:gap-2 md:gap-3 items-end z-[101]" // Increased z-index
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -223,18 +233,13 @@ export function SocialFab() {
                                     damping: 25,
                                 }}
                                 whileHover={{ x: isMobileDevice() ? -3 : -5 }}
+                                className="z-[102]" // Increased z-index
                             >
-                                <Link
-                                    href={link.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                {/* Use button instead of anchor for more reliable click handling */}
+                                <button
+                                    onClick={() => handleLinkClick(link.href)}
                                     aria-label={link.ariaLabel}
-                                    className="flex items-center gap-1.5 sm:gap-2 md:gap-3 px-2 sm:px-3 md:px-5 py-1.5 sm:py-2 md:py-3 rounded-full bg-black border border-[#00FF95] shadow-[0_0_10px_rgba(0,255,149,0.3)] hover:shadow-[0_0_15px_rgba(0,255,149,0.5)] transition-all duration-300"
-                                    onClick={() => {
-                                        if (navigator.vibrate) {
-                                            navigator.vibrate(30)
-                                        }
-                                    }}
+                                    className="flex items-center gap-1.5 sm:gap-2 md:gap-3 px-2 sm:px-3 md:px-5 py-1.5 sm:py-2 md:py-3 rounded-full bg-black border border-[#00FF95] shadow-[0_0_10px_rgba(0,255,149,0.3)] hover:shadow-[0_0_15px_rgba(0,255,149,0.5)] transition-all duration-300 cursor-pointer pointer-events-auto"
                                 >
                                     <motion.div
                                         whileHover={{ rotate: [0, -10, 10, -10, 0] }}
@@ -251,20 +256,20 @@ export function SocialFab() {
                                     >
                                         {link.name}
                                     </motion.span>
-                                </Link>
+                                </button>
                             </motion.div>
                         ))}
                     </motion.div>
                 )}
             </AnimatePresence>
 
-            {/* Click outside handler */}
+            {/* Click outside handler - moved to lower z-index */}
             {isOpen && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-40 bg-black/20"
+                    className="fixed inset-0 z-[90] bg-black/20" // Lower z-index than the buttons
                     onClick={() => setIsOpen(false)}
                 />
             )}
