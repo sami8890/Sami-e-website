@@ -74,8 +74,6 @@ interface ServiceCardProps {
   index: number;
 }
 
-
-
 const GradientBorder = ({ children }: { children: React.ReactNode }) => (
   <div className="relative rounded-2xl p-[1px] overflow-hidden">
     <div className="absolute inset-0 rounded-2xl bg-green-500/20" />
@@ -230,7 +228,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ type, index }) => {
               </CardContent>
               <CardFooter className="p-0 pt-8">
                 <Link
-                  href="#"
+                  href="https://calendly.com/sami-gabol13/portfolio-website-discussion"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group mt-4 flex items-center gap-2 rounded-lg bg-[#1A1A1A] px-8 py-3 text-green-400 transition-all duration-300 hover:bg-green-500 hover:text-black"
                 >
                   <span className="text-base font-medium">
@@ -239,6 +239,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ type, index }) => {
                   <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </CardFooter>
+
             </div>
           </Card>
         </GradientBorder>
@@ -337,9 +338,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ type, index }) => {
 
   return null;
 };
-
-
-
 
 // Main component
 export default function ServicesShowcase() {
@@ -539,9 +537,7 @@ export default function ServicesShowcase() {
 
             <SanityCmsExplainer />
 
-            
-                      <AvailableSpost />
-
+            <AvailableSpost />
           </TabsContent>
 
           <TabsContent value="pricing">
