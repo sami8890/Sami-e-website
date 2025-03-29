@@ -27,7 +27,7 @@ const projects: Project[] = [
     id: 1,
     name: "A agency Website",
     metric: "80% growth in leads",
-    imageUrl: "/projects/kyle.png",
+    imageUrl: "/projects/kyke-nianga.png",
     category: "Portfolio",
     description: "A new startup agency website that showcases the company's services, portfolio ",
     technologies: ["Next.js", "PostgreSQL", "Prisma", "Stripe"],

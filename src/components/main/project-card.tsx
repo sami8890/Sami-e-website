@@ -103,7 +103,7 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
 
           {/* Image Overlay Effects */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-b from-transparent via-zinc-900/20 to-zinc-900 pointer-events-none"
+            className="absolute  bg-gradient-to-b from-transparent via-zinc-900/20 to-zinc-900 pointer-events-none"
             animate={{
               opacity: isHovered ? 0.8 : 0.6,
             }}

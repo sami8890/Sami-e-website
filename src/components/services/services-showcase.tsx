@@ -239,7 +239,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ type, index }) => {
                   <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </CardFooter>
-
             </div>
           </Card>
         </GradientBorder>
