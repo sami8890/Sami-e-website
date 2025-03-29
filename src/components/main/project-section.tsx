@@ -36,18 +36,17 @@ const projects: Project[] = [
     status: "live",
   },
   {
-    id: 4,
-    name: "E-comerce",
-    metric: "Full Stack E-comerce Website",
-    imageUrl: "/furniro.png",
-    category: "Ecormerce",
+    id: 2,
+    name: "Drone",
+    metric: "A complete E-comerce drone website",
+    imageUrl: "/drone1.png",
+    category: "E-commerce",
     description:
-      "E-commerce platform that connects buyers and sellers, providing a seamless shopping experience for users.",
-    technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Sanity"],
-    liveUrl: "https://figma-hackaton.vercel.app/",
+      "Content creation platform that streamlines the workflow for content creators, saving time and improving productivity.",
+    technologies: ["React", "Node.js", "MongoDB", "AWS"],
+    liveUrl: "/https://drone-website-theta.vercel.app/",
     githubUrl: "#",
-    duration: "2 months",
-    status: "live",
+    status: "development",
   },
   {
     id: 3,
@@ -63,18 +62,20 @@ const projects: Project[] = [
     status: "live",
   },
   {
-    id: 2,
-    name: "Drone",
-    metric: "A complete E-comerce drone website",
-    imageUrl: "/drone1.png",
-    category: "E-commerce",
+    id: 4,
+    name: "E-comerce",
+    metric: "Full Stack E-comerce Website",
+    imageUrl: "/projects/fruniro.png",
+    category: "Ecormerce",
     description:
-      "Content creation platform that streamlines the workflow for content creators, saving time and improving productivity.",
-    technologies: ["React", "Node.js", "MongoDB", "AWS"],
-    liveUrl: "https://example.com/drone",
+      "E-commerce platform that connects buyers and sellers, providing a seamless shopping experience for users.",
+    technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Sanity"],
+    liveUrl: "https://figma-hackaton.vercel.app/",
     githubUrl: "#",
-    status: "development",
+    duration: "2 months",
+    status: "live",
   },
+
 ]
 
 export default function ProjectsSection() {
