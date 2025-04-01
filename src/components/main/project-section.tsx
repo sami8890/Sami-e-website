@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useMemo, useCallback, useRef, useEffect } from "react"
-import { motion, useInView, useAnimation, useMotionValue, useTransform } from "framer-motion"
+import { motion, useInView, useAnimation, useMotionValue, } from "framer-motion"
 import { ProjectCard } from "@/components/main/project-card"
 import { ProjectFilter } from "@/components/main/project-filter"
 import ProjectModal from "@/components/main/project-modal"
@@ -96,7 +96,7 @@ export default function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [showAllProjects, setShowAllProjects] = useState(false)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHoveringHeading, setIsHoveringHeading] = useState(false)
 
   const sectionRef = useRef<HTMLDivElement>(null)
