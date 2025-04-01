@@ -5,7 +5,7 @@ import { motion, useInView, useAnimation, useMotionValue, useTransform } from "f
 import { ProjectCard } from "@/components/main/project-card"
 import { ProjectFilter } from "@/components/main/project-filter"
 import ProjectModal from "@/components/main/project-modal"
-import { ChevronDown, ChevronUp, Star, Info } from "lucide-react"
+import { ChevronDown, ChevronUp, Info, Sparkles } from "lucide-react"
 
 interface Project {
   id: number
@@ -28,7 +28,7 @@ const projects: Project[] = [
     name: "A agency Website",
     metric: "80% growth in leads",
     imageUrl: "/projects/kyke-nianga.png",
-    category: "Portfolio",
+    category: "Landing-Page",
     description: "A new startup agency website that showcases the company's services, portfolio ",
     technologies: ["Next.js", "PostgreSQL", "Prisma", "Stripe"],
     liveUrl: "www.contntr.com",
@@ -57,7 +57,7 @@ const projects: Project[] = [
     description:
       "Educational platform connecting students with resources and career opportunities, facilitating growth in the education sector.",
     technologies: ["Next.js", "PostgreSQL", "Prisma", "Stripe"],
-    liveUrl: "health-website-w.vercel.app/",
+    liveUrl: "/health-website-w.vercel.app/",
     githubUrl: "#",
     status: "live",
   },
@@ -75,7 +75,20 @@ const projects: Project[] = [
     duration: "2 months",
     status: "live",
   },
-
+  {
+    id: 5,
+    name: "Portfolio Website",
+    metric: "Portfolio Website ",
+    imageUrl: "/projects/heinkei.png",
+    category: "Portfolio",
+    description:
+      "E-commerce platform that connects buyers and sellers, providing a seamless shopping experience for users.",
+    technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Sanity"],
+    liveUrl: "https://heinkekauntez.vercel.app/",
+    githubUrl: "#",
+    duration: "4 Days",
+    status: "live",
+  },
 ]
 
 export default function ProjectsSection() {
@@ -100,9 +113,7 @@ export default function ProjectsSection() {
 
   // Parallax effect values
   const y = useMotionValue(0)
-  const rotateX = useTransform(y, [-100, 100], [5, -5])
-  const rotateY = useTransform(y, [-100, 100], [-5, 5])
-
+ 
   // Handle mouse movement for interactive effects
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -231,11 +242,7 @@ export default function ProjectsSection() {
     },
   }
 
-  // Calculate glow position based on mouse
-  const glowX = useTransform(useMotionValue(mousePosition.x), [0, 1], ["-50%", "50%"])
-
-  const glowY = useTransform(useMotionValue(mousePosition.y), [0, 1], ["-50%", "50%"])
-
+  
   return (
     <section
       ref={sectionRef}
@@ -244,7 +251,6 @@ export default function ProjectsSection() {
     >
       <div className="container px-4 mx-auto">
         {/* Premium Award-Worthy Heading */}
-
         <div
           ref={headingRef}
           className="relative mb-16"
@@ -252,21 +258,26 @@ export default function ProjectsSection() {
           onMouseLeave={() => setIsHoveringHeading(false)}
         >
           <motion.div initial={{ opacity: 0, y: 30 }} animate={headingControls} className="relative z-10">
-            <motion.h2
-              ref={headingTextRef}
-              style={{ rotateX, rotateY }}
-              className="text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-emerald-300 to-white text-center"
-            >
-              Featured Projects
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-green-400/70 text-center mt-4 max-w-2xl mx-auto"
-            >
-              Explore my portfolio of innovative digital solutions crafted with precision and creativity.
-            </motion.p>
+            {/* Section badge */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs font-medium text-green-400 mb-6">
+              <Sparkles className="h-3 w-3" />
+              <span>Featured Projects</span>
+            </div>
+
+            <h2 ref={headingTextRef} className="text-4xl font-bold tracking-tight sm:text-5xl mb-4 text-center">
+              My{" "}
+              <span className="text-green-400 relative inline-block">
+                Projects
+                <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 100 15" preserveAspectRatio="none">
+                  <path d="M0,5 Q50,15 100,5" stroke="rgba(34, 197, 94, 0.3)" strokeWidth="2" fill="none" />
+                </svg>
+              </span>
+            </h2>
+
+            <p className="text-zinc-400 max-w-lg mx-auto text-center">
+              Check out some of my recent work. Each project is carefully crafted with attention to detail, performance,
+              and user experience.
+            </p>
           </motion.div>
 
           {/* Animated underline */}
@@ -278,27 +289,8 @@ export default function ProjectsSection() {
           />
 
           {/* Glow effect */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={glowControls}
-            style={{
-              x: glowX,
-              y: glowY,
-              left: "50%",
-              top: "50%",
-            }}
-            className="absolute w-64 h-64 rounded-full bg-emerald-500/20 blur-3xl pointer-events-none"
-          />
-
-          {/* Star decoration */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            className="absolute -top-6 -right-2 md:top-0 md:right-1/4 text-emerald-400"
-          >
-            <Star className="w-6 h-6 fill-emerald-400" />
-          </motion.div>
+         
+         
         </div>
 
         <motion.div

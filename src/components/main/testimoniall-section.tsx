@@ -46,7 +46,7 @@ const TestimonialSection = () => {
         "I love working with Sami, he is a great developer. He does very precise work and his delivery time is always super fast!",
       category: "development",
       rating: 5,
-      project: "E-commerce Website",
+      project: "Portfolio",
     },
     {
       id: 2,
@@ -55,10 +55,10 @@ const TestimonialSection = () => {
       country: "US",
       avatar: "/testimonials/man1.png",
       content:
-        "It was a pleasure working with Sami. I really loved the job he did for me, not only for the artistic ingenuity he displayed but also for the communication and friendliness he established. He delivered outstanding work. It was a great experience I won't forget, and I will hire him again in the near future. Thank you very much, Sami, and cheers.",
+        "It was a pleasure working with Sami. I really loved the job he did for me, and the design was so beautiful. He delivered outstanding work. It was a great experience I won't forget, and I will hire him again in the near future. Thank you very much, Sami, and cheers.",
       category: "design",
       rating: 5,
-      project: "Brand Redesign",
+      project: "Upadte the design of my website",
     },
     {
       id: 3,
@@ -70,7 +70,7 @@ const TestimonialSection = () => {
         "Sami was one of the best developers I've had the pleasure of working with. He completed the project even earlier than expected and exactly as I wanted it! I'll definitely be working with him again and would recommend him to anyone in need of a professional developer for their website.",
       category: "development",
       rating: 5,
-      project: "SaaS Dashboard",
+      project: "Portfolio",
     },
     {
       id: 4,
@@ -82,7 +82,7 @@ const TestimonialSection = () => {
         "This is the first time I've worked with Sami, and he continues to be a very kind and pleasant person. He has done an amazing job on my web development project. I would highly recommend hiring him for any front-end related work. Thank you again!",
       category: "development",
       rating: 5,
-      project: "Payment System Fix",
+      project: "Fix errors in his website ",
     },
     {
       id: 5,
@@ -115,10 +115,10 @@ const TestimonialSection = () => {
       country: "RU",
       avatar: "/testimonials/man6.png",
       content:
-        "We hired Sami to optimize our Shopify store that was loading slowly and hurting sales. The performance improvements were dramatic.",
+        "We hired Sami to optimize our React application. The results were outstanding, and he delivered on time and within budget. I highly recommend Sami for any React optimization project.",
       category: "development",
       rating: 5,
-      project: "Shopify Optimization",
+      project: "React website Optimization",
     },
     {
       id: 8,
@@ -130,7 +130,7 @@ const TestimonialSection = () => {
         "Sami is a very talented developer and puts a lot of energy into the project. I am very satisfied with our collaboration, a real blessing to know Sami.",
       category: "development",
       rating: 4,
-      project: "Accessibility Audit",
+      project: "landing-page",
     },
   ];
 

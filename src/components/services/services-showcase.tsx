@@ -368,7 +368,7 @@ export default function ServicesShowcase() {
   const pricingTiers = [
     {
       title: "Basic Portfolio",
-      price: "$499",
+      price: "$150",
       description:
         "Perfect for individuals looking to establish an online presence",
       features: [
@@ -377,12 +377,14 @@ export default function ServicesShowcase() {
         "Basic SEO optimization",
         "Contact form",
         "15 Days of support",
+        "100% mobile-friendly",
+
       ],
       contentManagement: false,
     },
     {
       title: "Premium Landing Page",
-      price: "$1099",
+      price: "$450",
       description: "Ideal for businesses focused on conversions and growth",
       features: [
         "High-converting design",

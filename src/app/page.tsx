@@ -14,8 +14,8 @@ export default function Page() {
     <main className="min-h-screen ">
       <SocialFab/> 
       <EnhancedHeroSection />
-      <ProjectsSection />
       <Newsection/>
+      <ProjectsSection />
       <ServicesShowcase/>
       <AboutMe />
       <WhyChooseUs/>

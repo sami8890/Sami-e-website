@@ -9,9 +9,9 @@ interface ProjectFilterProps {
   onSearch: (term: string) => void
 }
 
-export function ProjectFilter({ onFilterChange, onSearch }: ProjectFilterProps) {
+export function ProjectFilter({ onFilterChange }: ProjectFilterProps) {
   const [activeCategory, setActiveCategory] = useState("All")
-  const categories = ["All", "Portfolio", "Web App", "E-commerce"]
+  const categories = ["All", "Portfolio", "Landing-Page", "E-commerce"]
 
   const handleCategoryClick = useCallback(
     (category: string) => {
@@ -37,12 +37,7 @@ export function ProjectFilter({ onFilterChange, onSearch }: ProjectFilterProps) 
           </motion.button>
         ))}
       </div>
-      <input
-        type="text"
-        placeholder="Search projects..."
-        className="w-full md:w-80 px-6 py-3 rounded-full bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00C18F]"
-        onChange={(e) => onSearch(e.target.value)}
-      />
+    
     </div>
   )
 }
