@@ -1,34 +1,14 @@
-"use client";
+"use client"
 
-import type React from "react";
-import { useState, useEffect } from "react";
-import {
-  ArrowRight,
-  Code,
-  Layers,
-  Rocket,
-  ImageIcon,
-  ChevronDown,
-} from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badege";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  PricingTier,
-  PricingComparisonTable,
-  SanityCmsFeatures,
-} from "./pricing-componet";
-import { SanityCmsExplainer } from "./sanity-cms-explainer";
-import { Button } from "@/components/ui/button";
-import AvailableSpost from "./availablle-spot-componnet";
+import type React from "react"
+import { useState, useEffect } from "react"
+import { ArrowRight, Code, Layers, Rocket, ImageIcon } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsContent, } from "@/components/ui/tabs"
+import AvailableSpost from "./availablle-spot-componnet"
 
 // Add this keyframe animation to the top of the file
 // Add this right after the imports
@@ -66,12 +46,12 @@ const floatAnimation = `
     background-position: 200% 0;
   }
 }
-`;
+`
 
 interface ServiceCardProps {
-  type: "portfolio" | "landing";
-  className?: string;
-  index: number;
+  type: "portfolio" | "landing"
+  className?: string
+  index: number
 }
 
 const GradientBorder = ({ children }: { children: React.ReactNode }) => (
@@ -80,12 +60,12 @@ const GradientBorder = ({ children }: { children: React.ReactNode }) => (
     <div className="absolute inset-[1px] rounded-2xl bg-[#121212] pointer-events-none" />
     {children}
   </div>
-);
+)
 
 interface FeatureType {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
+  title: string
+  description: string
+  icon: React.ReactNode
 }
 
 const FeatureList = ({ features }: { features: FeatureType[] }) => {
@@ -105,8 +85,8 @@ const FeatureList = ({ features }: { features: FeatureType[] }) => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ type, index }) => {
   const features = {
@@ -154,35 +134,31 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ type, index }) => {
         icon: <Code className="h-4 w-4 text-green-400" />,
       },
     ],
-  };
+  }
 
-  const [isHovered, setIsHovered] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, index * 300); // Increased delay between cards
+      setIsVisible(true)
+    }, index * 300) // Increased delay between cards
 
-    return () => clearTimeout(timer);
-  }, [index]);
+    return () => clearTimeout(timer)
+  }, [index])
 
   if (type === "portfolio") {
     return (
       <div
-        className={`transition-all duration-1000 transform ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
-        }`}
+        className={`transition-all duration-1000 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
+          }`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         <GradientBorder>
           <Card
-            className={`border-0 bg-[#121212] p-4 sm:p-6 md:p-8 transition-transform duration-300 ${
-              isHovered
-                ? "transform  shadow-lg shadow-black/40"
-                : "shadow-md shadow-black/20"
-            }`}
+            className={`border-0 bg-[#121212] p-4 sm:p-6 md:p-8 transition-transform duration-300 ${isHovered ? "transform  shadow-lg shadow-black/40" : "shadow-md shadow-black/20"
+              }`}
           >
             <div className="relative">
               <CardHeader className="p-0 pb-6">
@@ -220,10 +196,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ type, index }) => {
                 </div>
                 <FeatureList features={features.portfolio} />
                 <p className="text-base leading-relaxed text-gray-400">
-                  Create a stunning portfolio website that showcases your work,
-                  skills, and achievements to potential clients and employers.
-                  Stand out from the competition with a professional online
-                  presence.
+                  Create a stunning portfolio website that showcases your work, skills, and achievements to potential
+                  clients and employers. Stand out from the competition with a professional online presence.
                 </p>
               </CardContent>
               <CardFooter className="p-0 pt-8">
@@ -233,9 +207,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ type, index }) => {
                   rel="noopener noreferrer"
                   className="group mt-4 flex items-center gap-2 rounded-lg bg-[#1A1A1A] px-8 py-3 text-green-400 transition-all duration-300 hover:bg-green-500 hover:text-black"
                 >
-                  <span className="text-base font-medium">
-                    Start Your Portfolio
-                  </span>
+                  <span className="text-base font-medium">Start Your Portfolio</span>
                   <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </CardFooter>
@@ -243,25 +215,21 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ type, index }) => {
           </Card>
         </GradientBorder>
       </div>
-    );
+    )
   }
 
   if (type === "landing") {
     return (
       <div
-        className={`transition-all duration-1000 transform ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
-        }`}
+        className={`transition-all duration-1000 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
+          }`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         <GradientBorder>
           <Card
-            className={`border-0 bg-[#121212] p-4 sm:p-6 md:p-8 transition-transform duration-300 ${
-              isHovered
-                ? "transform scale-[1.01] shadow-lg shadow-black/40"
-                : "shadow-md shadow-black/20"
-            }`}
+            className={`border-0 bg-[#121212] p-4 sm:p-6 md:p-8 transition-transform duration-300 ${isHovered ? "transform scale-[1.01] shadow-lg shadow-black/40" : "shadow-md shadow-black/20"
+              }`}
           >
             <div className="relative">
               <CardHeader className="space-y-6 p-0">
@@ -311,9 +279,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ type, index }) => {
                   <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <p className="text-base leading-relaxed text-gray-400">
-                  Get unique user interfaces, engaging content, mobile-friendly
-                  design, and eye-catching animations—all crafted to elevate
-                  your digital presence and drive conversions.
+                  Get unique user interfaces, engaging content, mobile-friendly design, and eye-catching animations—all
+                  crafted to elevate your digital presence and drive conversions.
                 </p>
                 <FeatureList features={features.landing} />
               </CardContent>
@@ -322,9 +289,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ type, index }) => {
                   href="#"
                   className="group mt-4 flex items-center gap-2 rounded-lg bg-[#1A1A1A] px-8 py-3 text-green-400 transition-all duration-300 hover:bg-green-500 hover:text-black"
                 >
-                  <span className="text-base font-medium">
-                    Boost Your Conversions
-                  </span>
+                  <span className="text-base font-medium">Boost Your Conversions</span>
                   <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </CardFooter>
@@ -332,101 +297,98 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ type, index }) => {
           </Card>
         </GradientBorder>
       </div>
-    );
+    )
   }
 
-  return null;
-};
+  return null
+}
 
 // Main component
 export default function ServicesShowcase() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-  const [, setActiveTab] = useState("services");
-  const [showComparison, setShowComparison] = useState(false);
+  const [isVisible, setIsVisible] = useState(false)
+  const [scrollY, setScrollY] = useState(0)
+  const [, setActiveTab] = useState("services")
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 100);
+      setIsVisible(true)
+    }, 100)
 
-    return () => clearTimeout(timer);
-  }, []);
+    return () => clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
+      setScrollY(window.scrollY)
+    }
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll)
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
 
   // Update the pricingTiers array in the ServicesShowcase component to include the contentManagement property
-  const pricingTiers = [
-    {
-      title: "Basic Portfolio",
-      price: "$150",
-      description:
-        "Perfect for individuals looking to establish an online presence",
-      features: [
-        "Responsive design",
-        "Up to 5 pages",
-        "Basic SEO optimization",
-        "Contact form",
-        "15 Days of support",
-        "100% mobile-friendly",
-
-      ],
-      contentManagement: false,
-    },
-    {
-      title: "Premium Landing Page",
-      price: "$450",
-      description: "Ideal for businesses focused on conversions and growth",
-      features: [
-        "High-converting design",
-        "A/B testing setup",
-        "Advanced analytics",
-        "Lead capture forms",
-        "1 months of support",
-        "Performance optimization",
-        "Sanity CMS integration",
-      ],
-      isPopular: true,
-      contentManagement: true,
-    },
-    {
-      title: "Enterprise Solution",
-      price: "Custom",
-      description: "Comprehensive digital presence for established businesses",
-      features: [
-        "Custom design & development",
-        "Multiple page types",
-        "Advanced SEO strategy",
-        "Integration with existing systems",
-        "3 months of priority support",
-        "Regular performance reports",
-        "Advanced Sanity CMS integration",
-      ],
-      contentManagement: true,
-    },
-  ];
+  // const pricingTiers = [
+  //   {
+  //     title: "Basic Portfolio",
+  //     price: "$150",
+  //     description: "Perfect for individuals looking to establish an online presence",
+  //     features: [
+  //       "Responsive design",
+  //       "Up to 5 pages",
+  //       "Basic SEO optimization",
+  //       "Contact form",
+  //       "15 Days of support",
+  //       "100% mobile-friendly",
+  //     ],
+  //     contentManagement: false,
+  //   },
+  //   {
+  //     title: "Premium Landing Page",
+  //     price: "$450",
+  //     description: "Ideal for businesses focused on conversions and growth",
+  //     features: [
+  //       "High-converting design",
+  //       "A/B testing setup",
+  //       "Advanced analytics",
+  //       "Lead capture forms",
+  //       "1 months of support",
+  //       "Performance optimization",
+  //       "Sanity CMS integration",
+  //     ],
+  //     isPopular: true,
+  //     contentManagement: true,
+  //   },
+  //   {
+  //     title: "Enterprise Solution",
+  //     price: "Custom",
+  //     description: "Comprehensive digital presence for established businesses",
+  //     features: [
+  //       "Custom design & development",
+  //       "Multiple page types",
+  //       "Advanced SEO strategy",
+  //       "Integration with existing systems",
+  //       "3 months of priority support",
+  //       "Regular performance reports",
+  //       "Advanced Sanity CMS integration",
+  //     ],
+  //     contentManagement: true,
+  //   },
+  // ]
 
   // Add this style tag to the component
   // Add this right before the return statement
   useEffect(() => {
     // Add the animation styles
-    const styleElement = document.createElement("style");
-    styleElement.textContent = floatAnimation;
-    document.head.appendChild(styleElement);
+    const styleElement = document.createElement("style")
+    styleElement.textContent = floatAnimation
+    document.head.appendChild(styleElement)
 
     return () => {
-      document.head.removeChild(styleElement);
-    };
-  }, []);
+      document.head.removeChild(styleElement)
+    }
+  }, [])
 
   return (
     <section className="force-sticky relative min-h-[200vh] bg-black py-8 sm:py-12 md:py-16 lg:py-24">
@@ -448,9 +410,8 @@ export default function ServicesShowcase() {
 
       <div className="container relative mx-auto px-4 sm:px-6">
         <div
-          className={`mb-20 text-center transition-all duration-700 transform ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+          className={`mb-20 text-center transition-all duration-700 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
         >
           <Badge
             variant="outline"
@@ -466,32 +427,12 @@ export default function ServicesShowcase() {
           </h2>
           <p className="mx-auto max-w-2xl text-base sm:text-lg text-gray-400">
             From <span className="text-white font-medium">portfolios</span> to{" "}
-            <span className="text-white font-medium">landing pages</span> that
-            drive results.
+            <span className="text-white font-medium">landing pages</span> that drive results.
           </p>
         </div>
 
-        <Tabs
-          defaultValue="services"
-          className="w-full"
-          onValueChange={setActiveTab}
-        >
-          <div className="flex justify-center mb-12">
-            <TabsList className="grid w-full max-w-md grid-cols-2 bg-[#1A1A1A]">
-              <TabsTrigger
-                value="services"
-                className="data-[state=active]:bg-green-500 data-[state=active]:text-black"
-              >
-                Services
-              </TabsTrigger>
-              <TabsTrigger
-                value="pricing"
-                className="data-[state=active]:bg-green-500 data-[state=active]:text-black"
-              >
-                Pricing
-              </TabsTrigger>
-            </TabsList>
-          </div>
+        <Tabs defaultValue="services" className="w-full" onValueChange={setActiveTab}>
+          {/* Removed the TabsList completely */}
 
           <TabsContent value="services" className="mt-0">
             <div className="mx-auto max-w-6xl lg:grid lg:grid-cols-[1fr,470px] gap-6 sm:gap-8 md:gap-10 lg:gap-14 justify-center">
@@ -536,11 +477,12 @@ export default function ServicesShowcase() {
                             </div> */}
             </div>
 
-            <SanityCmsExplainer />
+            {/* <SanityCmsExplainer /> */}
 
             <AvailableSpost />
           </TabsContent>
 
+          {/* Pricing tab content temporarily removed
           <TabsContent value="pricing">
             <div className="mx-auto max-w-6xl">
               <div className="mb-8 text-center">
@@ -567,7 +509,6 @@ export default function ServicesShowcase() {
                 </div>
               </div>
 
-              {/* Pricing cards - simplified and mobile-optimized */}
               <div
                 className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-500 ${
                   showComparison
@@ -588,7 +529,6 @@ export default function ServicesShowcase() {
                 ))}
               </div>
 
-              {/* Comparison table */}
               <div
                 className={`transition-all duration-500 ${
                   showComparison
@@ -599,10 +539,8 @@ export default function ServicesShowcase() {
                 <PricingComparisonTable plans={pricingTiers} />
               </div>
 
-              {/* Add the new Sanity CMS Features component */}
               <SanityCmsFeatures />
 
-              {/* Add a simple CTA section */}
               <div className="mt-12 text-center">
                 <h3 className="text-xl font-bold text-white mb-4">
                   Ready to get started?
@@ -617,8 +555,9 @@ export default function ServicesShowcase() {
               </div>
             </div>
           </TabsContent>
+          */}
         </Tabs>
       </div>
     </section>
-  );
+  )
 }

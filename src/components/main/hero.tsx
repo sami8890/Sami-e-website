@@ -8,7 +8,7 @@ import {
   Layout,
   Zap,
   Sparkles,
-  Calendar
+  Calendar,
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -31,20 +31,20 @@ export default function EnhancedHeroSection() {
   const clients = [
     {
       name: "Kyle",
-      image: "/testimonials/kyle.png" 
+      image: "/testimonial/kyle.png",
     },
     {
-      name: "Client 2",
-      image: "/testimonials/man2.png" 
+      name: "Muhammad Ibrahim ",
+      image: "/testimonial/ibrahim.png",
+    },
+    {
+      name: "Ahmed Hassan ",
+      image: "/testimonial/ahmed.png",
     },
     {
       name: "Charles Benford",
-      image: "/testimonials/man3.png"
+      image: "/testimonial/akira.png",
     },
-    {
-      name: "Henry Mouzon",
-      image: "/testimonials/man1.png"
-    }
   ];
 
   useEffect(() => {
@@ -70,9 +70,7 @@ export default function EnhancedHeroSection() {
       clearInterval(typingInterval);
       clearInterval(tabInterval);
     };
-  }
-  , []);
-
+  }, []);
 
   return (
     <div
@@ -107,8 +105,17 @@ export default function EnhancedHeroSection() {
                 Need A{" "}
                 <span className="text-green-400 relative inline-block">
                   Website
-                  <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 100 15" preserveAspectRatio="none">
-                    <path d="M0,5 Q50,15 100,5" stroke="rgba(34, 197, 94, 0.3)" strokeWidth="2" fill="none" />
+                  <svg
+                    className="absolute -bottom-1 left-0 w-full"
+                    viewBox="0 0 100 15"
+                    preserveAspectRatio="none"
+                  >
+                    <path
+                      d="M0,5 Q50,15 100,5"
+                      stroke="rgba(34, 197, 94, 0.3)"
+                      strokeWidth="2"
+                      fill="none"
+                    />
                   </svg>
                 </span>{" "}
                 That
@@ -116,12 +123,20 @@ export default function EnhancedHeroSection() {
                 Drives{" "}
                 <span className="text-green-400 relative inline-block">
                   Results?
-                  <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 100 15" preserveAspectRatio="none">
-                    <path d="M0,5 Q50,15 100,5" stroke="rgba(34, 197, 94, 0.3)" strokeWidth="2" fill="none" />
+                  <svg
+                    className="absolute -bottom-1 left-0 w-full"
+                    viewBox="0 0 100 15"
+                    preserveAspectRatio="none"
+                  >
+                    <path
+                      d="M0,5 Q50,15 100,5"
+                      stroke="rgba(34, 197, 94, 0.3)"
+                      strokeWidth="2"
+                      fill="none"
+                    />
                   </svg>
                 </span>
               </h1>
-
 
               {/* Service tabs */}
               <div className="mt-6 flex space-x-1 bg-zinc-900/50 p-1 rounded-lg w-fit">
@@ -196,14 +211,14 @@ export default function EnhancedHeroSection() {
               </div>
 
               {/* Subheading */}
-              <div
+              {/* <div
                 className={`mt-4 transition-all duration-1000 delay-100 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
               >
                 <p className="text-base text-zinc-300 leading-relaxed">
                   Let&apos;s create a website that boosts your business and converts
                   visitors into customers!
                 </p>
-              </div>
+              </div> */}
 
               {/* Typed text */}
               <div
@@ -251,31 +266,42 @@ export default function EnhancedHeroSection() {
               <div
                 className={`mt-12 transition-all duration-1000 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
               >
-                <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Trusted by</p>
-                <div className="mt-3 flex flex-wrap gap-4 items-center">
-                  {/* Client avatars with actual images */}
-                  {clients.map((client, i) => (
-                    <div key={i} className="relative group">
-                      <div className="h-12 w-12 rounded-full bg-gradient-to-br from-green-400 to-green-600 p-[2px] transition-all duration-300 group-hover:scale-105">
-                        <div className="h-full w-full rounded-full bg-zinc-900 p-1 backdrop-blur-sm">
-                          <div className="flex h-full w-full items-center justify-center rounded-full bg-zinc-800 overflow-hidden">
-                            <Image
-                              src={client.image || "/placeholder.svg"}
-                              alt={client.name}
-                              className="h-full w-full object-cover rounded-full"
-                              height={48}
-                              width={48}
-                            />
+                <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 backdrop-blur-sm">
+                  <p className="text-sm font-medium uppercase tracking-wider text-green-400 flex items-center gap-2 mb-4">
+                    <Star className="h-4 w-4 fill-green-400 text-green-400" />
+                    Trusted by Top-Tier Creators
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-6 items-center justify-center md:justify-start">
+                    {/* Client avatars with actual images */}
+                    {clients.map((client, i) => (
+                      <div key={i} className="relative group">
+                        <div className="h-16 w-16 rounded-full bg-gradient-to-br from-green-400 to-green-600 p-[2px] transition-all duration-300 group-hover:scale-110 shadow-lg shadow-green-900/20">
+                          <div className="h-full w-full rounded-full bg-zinc-900 p-1 backdrop-blur-sm">
+                            <div className="flex h-full w-full items-center justify-center rounded-full bg-zinc-800 overflow-hidden">
+                              <Image
+                                src={client.image || "/placeholder.svg"}
+                                alt={client.name}
+                                className="h-full w-full object-cover rounded-full"
+                                height={64}
+                                width={64}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="bg-zinc-800 text-zinc-200 text-xs px-3 py-1.5 rounded-full whitespace-nowrap font-medium border border-zinc-700">
+                            {client.name}
                           </div>
                         </div>
                       </div>
-                      <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="bg-zinc-800 text-zinc-200 text-xs px-2 py-1 rounded whitespace-nowrap">
-                          {client.name}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                  <div className="mt-6 pt-3 border-t border-zinc-800/50">
+                    <p className="text-xs text-zinc-400 text-center md:text-left">
+                      Join our growing list of satisfied clients who&apos;ve
+                      seen real business growth
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -354,9 +380,10 @@ export default function EnhancedHeroSection() {
                     </div>
                     <div>
                       <p className="italic text-zinc-300 text-xs leading-relaxed">
-                        &quot;Working with Muhammad Sami was an excellent experience.
-                        He delivered our website ahead of schedule and our
-                        online sales have increased by 40% since launch!&quot;
+                        &quot;Working with Muhammad Sami was an excellent
+                        experience. He delivered our website ahead of schedule
+                        and our online sales have increased by 40% since
+                        launch!&quot;
                       </p>
                       <p className="mt-2 text-xs font-medium text-green-400">
                         — CEO, Contntr.com
@@ -379,8 +406,6 @@ export default function EnhancedHeroSection() {
           </div>
         </div>
       </div>
-
-     
     </div>
   );
 }

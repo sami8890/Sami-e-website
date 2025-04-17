@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState, useCallback } from "react"
-import { Badge } from "@/components/ui/badege"
+import { Badge } from "@/components/ui/badge"
 import { Play, Pause, Maximize2, Volume2, VolumeX } from "lucide-react"
 import { motion } from "framer-motion"
 
@@ -168,7 +168,7 @@ export default function VideoComponent({
   const enterFullscreen = useCallback(() => {
     if (videoRef.current) {
       if (videoRef.current.requestFullscreen) {
-        videoRef.current.requestFullscreen().catch(() => {})
+        videoRef.current.requestFullscreen().catch(() => { })
 
         // Trigger haptic feedback if available
         if (navigator.vibrate) {
@@ -285,9 +285,8 @@ export default function VideoComponent({
       >
         <Badge
           variant="outline"
-          className={`rounded-full border-[#00D285] bg-black/50 backdrop-blur-sm ${
-            smallControls ? "px-2 py-0.5 text-[10px]" : "px-4 py-1 text-xs"
-          } font-medium text-[#00D285]`}
+          className={`rounded-full border-[#00D285] bg-black/50 backdrop-blur-sm ${smallControls ? "px-2 py-0.5 text-[10px]" : "px-4 py-1 text-xs"
+            } font-medium text-[#00D285]`}
         >
           {label}
         </Badge>

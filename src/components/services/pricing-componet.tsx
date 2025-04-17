@@ -30,11 +30,13 @@ export const PricingTier = ({
 
   return (
     <div
-      className={`relative rounded-xl overflow-hidden ${isPopular ? "border-2 border-green-500" : "border border-zinc-800"
-        } transition-all duration-300 ${isHovered
+      className={`relative rounded-xl overflow-hidden ${
+        isPopular ? "border-2 border-green-500" : "border border-zinc-800"
+      } transition-all duration-300 ${
+        isHovered
           ? "transform scale-[1.02] shadow-lg shadow-black/40"
           : "shadow-md shadow-black/20"
-        }`}
+      }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -102,10 +104,11 @@ export const PricingTier = ({
         )}
 
         <Button
-          className={`w-full ${isPopular
+          className={`w-full ${
+            isPopular
               ? "bg-green-500 hover:bg-green-600 text-black"
               : "bg-zinc-800 hover:bg-zinc-700 text-white"
-            } transition-all duration-300 ${isHovered ? "transform scale-[1.02]" : ""}`}
+          } transition-all duration-300 ${isHovered ? "transform scale-[1.02]" : ""}`}
         >
           Get Started
         </Button>
@@ -209,10 +212,11 @@ export const PricingComparisonTable = ({ plans }: { plans: Plan[] }) => {
           {plans.map((plan, index) => (
             <div key={index} className="text-center">
               <Button
-                className={`${plan.isPopular
+                className={`${
+                  plan.isPopular
                     ? "bg-green-500 hover:bg-green-600 text-black"
                     : "bg-zinc-800 hover:bg-zinc-700 text-white"
-                  }`}
+                }`}
               >
                 Choose {plan.title}
               </Button>
@@ -299,10 +303,11 @@ export const PricingComparisonTable = ({ plans }: { plans: Plan[] }) => {
             </div>
 
             <Button
-              className={`w-full ${plan.isPopular
+              className={`w-full ${
+                plan.isPopular
                   ? "bg-green-500 hover:bg-green-600 text-black"
                   : "bg-zinc-800 hover:bg-zinc-700 text-white"
-                }`}
+              }`}
             >
               Choose {plan.title}
             </Button>
@@ -315,8 +320,6 @@ export const PricingComparisonTable = ({ plans }: { plans: Plan[] }) => {
 
 export const SanityCmsFeatures = () => {
   return (
-    <div className="mt-12 bg-[#121212] rounded-xl border border-green-500/20 overflow-hidden">
-   
-    </div>
+    <div className="mt-12 bg-[#121212] rounded-xl border border-green-500/20 overflow-hidden"></div>
   );
 };
