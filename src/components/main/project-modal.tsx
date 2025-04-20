@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
-import { X, ExternalLink, Github, Clock, Eye, ZoomIn, ZoomOut } from "lucide-react"
+import { X, ExternalLink, Github, Clock, Eye,  ZoomOut } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 interface Project {
