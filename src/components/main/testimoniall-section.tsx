@@ -49,13 +49,13 @@ const TestimonialSection = () => {
       rating: 5,
       project: "Contntr Website",
       source: "linkedin",
-      videoUrl: "#kyle-video", // Replace with actual video URL when available
+      videoUrl: "#kyle-video", 
     },
     {
       id: 4,
       name: "Dominik",
       role: "Creative Director",
-      avatar: "/testimonials/girl1.png",
+      avatar: "/testimonial/girl.png",
       content:
         "I love working with Sami, he is a great developer. He does very precise work and his delivery time is always super fast!",
       shortContent:
@@ -70,7 +70,7 @@ const TestimonialSection = () => {
       name: "Henry Mouzon",
       username: "@henrymouzon",
       role: "Business Owner",
-      avatar: "/testimonials/man1.png",
+      avatar: "/testimonial/man.png",
       content:
         "It was a pleasure working with Sami. I really loved the job he did for me, and the design was so beautiful. He delivered outstanding work. It was a great experience I won't forget, and I will hire him again in the near future. Thank you very much, Sami, and cheers.",
       shortContent:

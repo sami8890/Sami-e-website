@@ -8,7 +8,7 @@ import {
   Layout,
   Zap,
   Sparkles,
-  Eye,
+ Eye,
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -375,10 +375,7 @@ export default function EnhancedHeroSection() {
                     </div>
                     <div>
                       <p className="italic text-zinc-300 text-xs leading-relaxed">
-                        &quot;Working with Muhammad Sami was an excellent
-                        experience. He delivered our website ahead of schedule
-                        and our online sales have increased by 40% since
-                        launch!&quot;
+                        &quot;  Sami absolutely crushed it with my website in less than a week. He took the time to really understand what I wanted and brought it to life in a way that felt personal and unique.If you need a web developer who cares about the details, I highly recommend Sami.&quot;
                       </p>
                       <p className="mt-2 text-xs font-medium text-green-400">
                         — CEO, Contntr.com
