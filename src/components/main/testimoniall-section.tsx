@@ -478,6 +478,8 @@ const TestimonialSection = () => {
           All testimonials are from <span className="font-medium text-zinc-400">verified clients</span> who have worked
           with us on real projects.
         </p>
+        <span className="font-medium text-zinc-200">You can check in my linkdein profile to see the reviews</span>
+
       </motion.div>
     </div>
   )
