@@ -175,7 +175,7 @@ export function ProcessSection() {
             className={`${anton.className} text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal uppercase mb-4 sm:mb-6 text-white`}
           >
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-green-400 to-green-600">
-              Process / How I Work
+              Our 3‑Step  / Website Process
             </span>
           </h2>
           <p className="text-base sm:text-lg text-zinc-300 max-w-3xl mx-auto px-2">

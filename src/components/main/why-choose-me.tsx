@@ -1,16 +1,9 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Anton } from "next/font/google";
-import {
-  CheckCircle,
-  Clock,
-  Shield,
-  Award,
-  HeadphonesIcon,
-} from "lucide-react";
-import Link from "next/link";
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import { Anton } from "next/font/google"
+import { CheckCircle, Clock, Shield, Award, HeadphonesIcon, Calendar } from "lucide-react"
 
 // Use the same font as in the Hero component
 const anton = Anton({
@@ -18,22 +11,38 @@ const anton = Anton({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-anton",
-});
+})
 
 export default function WhyChooseUs() {
-  const [hovered, setHovered] = useState<null | number>(null);
+  const [hovered, setHovered] = useState<null | number>(null)
+  const [showCalendly, setShowCalendly] = useState(false)
 
   const stats = [
     { value: "20+", label: "Projects Completed" },
     { value: "100%", label: "Client Satisfaction" },
     { value: "24/7", label: "Support Available" },
-  ];
+  ]
+
+  // Close Calendly modal when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (showCalendly && !target.closest(".calendly-modal-content") && !target.closest(".schedule-button")) {
+        setShowCalendly(false)
+      }
+    }
+
+    if (showCalendly) {
+      document.addEventListener("mousedown", handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [showCalendly])
 
   return (
-    <section
-      className="bg-black text-white py-24 px-4 relative overflow-hidden"
-      id="why-choose-us"
-    >
+    <section className="bg-black text-white py-24 px-4 relative overflow-hidden" id="why-choose-us">
       {/* Background elements */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-90"></div>
@@ -62,11 +71,8 @@ export default function WhyChooseUs() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2
-            className={`${anton.className} text-5xl md:text-6xl font-normal uppercase`}
-          >
-            <span className="text-emerald-400">WHY</span>{" "}
-            <span className="text-white">CHOOSE US</span>
+          <h2 className={`${anton.className} text-5xl md:text-6xl font-normal uppercase`}>
+            <span className="text-emerald-400">WHY</span> <span className="text-white">CHOOSE US</span>
           </h2>
 
           {/* Stats row */}
@@ -80,12 +86,8 @@ export default function WhyChooseUs() {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 className="text-center"
               >
-                <p className="text-3xl md:text-4xl font-bold text-emerald-400 mb-1">
-                  {stat.value}
-                </p>
-                <p className="text-gray-400 text-sm uppercase tracking-wider">
-                  {stat.label}
-                </p>
+                <p className="text-3xl md:text-4xl font-bold text-emerald-400 mb-1">{stat.value}</p>
+                <p className="text-gray-400 text-sm uppercase tracking-wider">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -119,16 +121,11 @@ export default function WhyChooseUs() {
                 1 MONTH FREE SUPPORT
               </h3>
               <p className="text-xl text-gray-300 text-center md:text-left">
-                After project completion, we provide a full month of dedicated
-                support at no additional cost. Our team will be there to address
-                any issues, make adjustments, and ensure your website performs
-                flawlessly.
+                After project completion, we provide a full month of dedicated support at no additional cost.
               </p>
             </div>
             <div className="md:w-1/2 bg-black/50 p-6 rounded-xl border border-gray-800">
-              <h4 className="text-xl font-semibold text-white mb-4">
-                What&apos;s included:
-              </h4>
+              <h4 className="text-xl font-semibold text-white mb-4">What&apos;s included:</h4>
               <ul className="space-y-3">
                 {[
                   "Bug fixes and troubleshooting",
@@ -145,10 +142,7 @@ export default function WhyChooseUs() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: 0.6 + index * 0.1 }}
                   >
-                    <CheckCircle
-                      size={20}
-                      className="text-emerald-400 mr-3 flex-shrink-0 mt-1"
-                    />
+                    <CheckCircle size={20} className="text-emerald-400 mr-3 flex-shrink-0 mt-1" />
                     <span className="text-gray-300">{item}</span>
                   </motion.li>
                 ))}
@@ -173,20 +167,17 @@ export default function WhyChooseUs() {
             {
               icon: <Award size={32} />,
               title: "QUALITY WORK",
-              description:
-                "Our websites are built with clean code and modern design principles.",
+              description: "Our websites are built with clean code and modern design principles.",
             },
             {
               icon: <Shield size={32} />,
               title: "SECURE & RELIABLE",
-              description:
-                "We implement robust security measures to protect your website.",
+              description: "We implement robust security measures to protect your website.",
             },
             {
               icon: <Clock size={32} />,
               title: "ALWAYS ON TIME",
-              description:
-                "We respect deadlines and deliver as promised, every time.",
+              description: "We respect deadlines and deliver as promised, every time.",
             },
           ].map((item, index) => (
             <motion.div
@@ -208,14 +199,13 @@ export default function WhyChooseUs() {
                   {item.icon}
                 </span>
               </div>
-              <h4 className="text-lg font-bold text-white mb-2">
-                {item.title}
-              </h4>
+              <h4 className="text-lg font-bold text-white mb-2">{item.title}</h4>
               <p className="text-gray-400">{item.description}</p>
             </motion.div>
           ))}
         </div>
 
+        {/* Calendly Button - Replacing GET STARTED NOW */}
         <motion.div
           className="mt-16 text-center"
           initial={{ opacity: 0, y: 20 }}
@@ -223,14 +213,61 @@ export default function WhyChooseUs() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <Link
-            href="#contact"
-            className="inline-flex items-center px-8 py-4 bg-emerald-500 rounded-full text-black font-bold text-lg transition-all duration-300 hover:bg-emerald-400 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+          <button
+            onClick={() => setShowCalendly(true)}
+            className="schedule-button group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-400 rounded-full text-black font-bold text-lg transition-all duration-300 hover:from-emerald-400 hover:to-green-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 overflow-hidden shadow-lg shadow-emerald-500/20"
           >
-            GET STARTED NOW
-          </Link>
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-emerald-600 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></span>
+            <span className="relative flex items-center">
+              <Calendar className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+              Schedule a Free Consultation
+            </span>
+          </button>
         </motion.div>
       </div>
+
+      {/* Calendly Modal */}
+      {showCalendly && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-all duration-300">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+            className="calendly-modal-content w-full max-w-4xl h-[80vh] bg-white rounded-2xl overflow-hidden shadow-2xl relative"
+          >
+            <button
+              onClick={() => setShowCalendly(false)}
+              className="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
+              aria-label="Close calendar"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-gray-700"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            <iframe
+              src="https://calendly.com/samigabol12/45min?hide_gdpr_banner=1&background_color=121212&text_color=ffffff&primary_color=10b981"
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              title="Schedule a meeting"
+              className="calendly-inline-widget"
+            ></iframe>
+          </motion.div>
+        </div>
+      )}
     </section>
-  );
+  )
 }

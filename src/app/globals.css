@@ -202,9 +202,7 @@ html {
 /* Improved selection styling */
 ::selection {
     background-color: #00FF7F;
-    /* Neon Green */
     color: #000000;
-    /* Black text for better readability */
   }
 
 

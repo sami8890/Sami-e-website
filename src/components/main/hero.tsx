@@ -8,7 +8,7 @@ import {
   Layout,
   Zap,
   Sparkles,
-  Calendar,
+  Eye,
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -102,8 +102,8 @@ export default function EnhancedHeroSection() {
               <h1
                 className={`mt-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl leading-[1.1] transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
               >
-                Need A{" "}
-                <span className="text-green-400 relative inline-block">
+                We Build
+                <span className="text-green-400 relative inline-block ml-6 ">
                   Website
                   <svg
                     className="absolute -bottom-1 left-0 w-full"
@@ -236,17 +236,12 @@ export default function EnhancedHeroSection() {
               <div
                 className={`mt-8 flex flex-col gap-4 sm:flex-row transition-all duration-1000 delay-200 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
               >
-                <Link
-                  href="https://calendly.com/sami-gabol13/45min"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-green-400 rounded-full opacity-0 group-hover:opacity-20 transition duration-200"></div>
-                  <Button className="relative bg-green-500 px-6 py-2 text-sm font-medium hover:bg-green-600 overflow-hidden shadow-lg shadow-green-900/20 group-hover:shadow-green-900/40 transition-all duration-300">
-                    <Calendar className="relative z-10 mr-2 h-4 w-4" />
-                    <span className="relative z-10">
-                      Schedule a 45-Min Call
+                <Link href="#testimonial">
+                  <div className="absolute  bg-gradient-to-r from-green-600 to-green-400 rounded-md "></div>
+                  <Button className="relative  bg-green-500 px-6 py-6 text-sm font-medium  overflow-hidden  shadow-green-900/20 group-hover:shadow-green-900/40 transition-all duration-300">
+                    <Eye className="relative z-10 mr-2 h-2 w-2" />
+                    <span className="relative z-10 font-bold">
+                      See Live Demos
                     </span>
                     <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
                   </Button>

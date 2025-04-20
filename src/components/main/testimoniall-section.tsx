@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import Link from "next/link"
+import { motion } from "framer-motion"
 
 const TestimonialSection = () => {
   // 1. Reorder testimonials to put Muhammad Ibrahim first
@@ -9,14 +9,13 @@ const TestimonialSection = () => {
     {
       id: 1,
       name: "Muhammad Ibrahim",
-
       role: "Top 5% in Pakistan for Personal Branding",
       avatar: "/testimonial/ibrahim.png",
       content:
-        "When I think of getting a Website or Portfolio, I think of Muhammad Sami Gobal.He's the real deal. Clean designs, smooth flow, he gets it just right. Whether it's business, blogging, or personal branding, he's got you. His work is fast, creative, and always on point. Explains things simply, even if you’re not tech-savvy. SEO-friendly sites that actually get traffic and conversions. Super friendly to work with, no stress at all. I’ve seen him level up brands like it’s magic. If you want results, trust me, go with Sami. I 100000000000000% recommend Muhammad Sami",
+        "When I think of getting a Website or Portfolio, I think of Muhammad Sami Gobal.He's the real deal. Clean designs, smooth flow, he gets it just right. Whether it's business, blogging, or personal branding, he's got you. His work is fast, creative, and always on point. Explains things simply, even if you're not tech-savvy. SEO-friendly sites that actually get traffic and conversions. Super friendly to work with, no stress at all. I've seen him level up brands like it's magic. If you want results, trust me, go with Sami. I 100000000000000% recommend Muhammad Sami",
       shortContent:
         "When I think of getting a Website or Portfolio, I think of Muhammad Sami Gobal. He's the real deal. Clean designs, smooth flow, he gets it just right. Whether it's business, blogging, or personal branding, he's got you...",
-      category: "design",
+      category: "WEBsite-development",
       rating: 5,
       project: "LinkedIn Profile Optimization",
       source: "linkedin",
@@ -26,7 +25,7 @@ const TestimonialSection = () => {
       id: 2,
       name: "Ahmed Hassan",
       role: "CEO of Contexmedia ",
-      avatar: "/testimonial/ibrahim.png",
+      avatar: "/testimonial/ahmed.png",
       content:
         "I am thrilled with the website Muhammad Sami Gabol created for me! From start to finish, his professionalism, creativity, and attention to detail were outstanding. He took the time to understand my vision and transformed it into a stunning, fully functional website that exceeded all my expectations. I highly recommend Muhammad Sami Gabol and would work with him again. Thank you, Sami, for your amazing work.",
       shortContent:
@@ -62,7 +61,7 @@ const TestimonialSection = () => {
       shortContent:
         "I love working with Sami, he is a great developer. He does very precise work and his delivery time is always super fast!",
       category: "development",
-      rating: 5,
+      rating: 4.5,
       project: "Portfolio",
       source: "fiverr",
     },
@@ -90,6 +89,7 @@ const TestimonialSection = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [hoveredId, setHoveredId] = useState<number | null>(null)
   const [expandedIds, setExpandedIds] = useState<number[]>([])
+  const [isVisible, setIsVisible] = useState(false)
 
   const toggleExpand = (id: number) => {
     setExpandedIds((prev) => (prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]))
@@ -114,6 +114,9 @@ const TestimonialSection = () => {
     const timer = setTimeout(() => {
       setIsLoading(false)
     }, 1500)
+
+    // Set visibility for animations
+    setIsVisible(true)
 
     return () => clearTimeout(timer)
   }, [])
@@ -218,32 +221,55 @@ const TestimonialSection = () => {
   return (
     <div id="testimonial" className="bg-black text-white py-16 px-4 md:px-8 relative">
       {/* Header with improved design */}
-      <div className="relative max-w-7xl mx-auto mb-10 text-center" data-aos="fade-up">
+      <motion.div
+        className="relative max-w-7xl mx-auto mb-10 text-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.7 }}
+      >
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs font-medium text-green-400 mb-6">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="inline-flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs font-medium text-green-400 mb-6"
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-green-500"></span>
             <span>What clients say</span>
-          </div>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            Need <span className="text-green-500 font-extrabold">Testimonials</span> That
+          </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-4xl md:text-6xl font-bold mb-6"
+          >
+            <span className="text-green-500 font-extrabold">Proven</span> Success
             <br />
-            Build <span className="text-green-500 font-extrabold">Trust?</span>
-          </h2>
-          <h3 className="text-xl text-zinc-300 mt-4 max-w-2xl mx-auto">
+            <span className="text-green-500 font-extrabold">Stories</span>
+          </motion.h2>
+          <motion.h3
+            initial={{ opacity: 0, y: 10 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-xl text-zinc-300 mt-4 max-w-2xl mx-auto"
+          >
             Hear from clients who have experienced <span className="font-semibold text-white">firsthand</span> the
             quality and dedication we bring to <span className="font-semibold text-green-400">every project</span>.
-          </h3>
+          </motion.h3>
         </div>
-      </div>
+      </motion.div>
 
       <div className="relative max-w-7xl mx-auto mb-10">
         {/* Grid View - always shown */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 relative">
           {isLoading
             ? renderSkeletons()
-            : displayedTestimonials.map((testimonial) => (
-              <div
+            : displayedTestimonials.map((testimonial, index) => (
+              <motion.div
                 key={testimonial.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={`group bg-zinc-900 rounded-xl p-5 border border-zinc-800 shadow-md relative h-auto testimonial-card hover:border-green-500/30 ${hoveredId !== null && hoveredId !== testimonial.id ? "blur-sm opacity-50 scale-98" : ""
                   }`}
                 onMouseEnter={() => setHoveredId(testimonial.id)}
@@ -319,13 +345,18 @@ const TestimonialSection = () => {
                   <span className="font-medium">{testimonial.project}</span>
                   <span className="text-green-500 font-bold">{testimonial.category}</span>
                 </div>
-              </div>
+              </motion.div>
             ))}
         </div>
 
         {/* Show more/less button */}
         {remainingCount > 0 && (
-          <div className="flex justify-center mt-8">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex justify-center mt-8"
+          >
             <button
               onClick={() => setShowAll(!showAll)}
               className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-2 rounded-full text-sm font-medium shadow-lg shadow-green-500/20 transition-all duration-300 flex items-center"
@@ -358,13 +389,18 @@ const TestimonialSection = () => {
                 </>
               )}
             </button>
-          </div>
+          </motion.div>
         )}
 
         {/* Video Testimonials Button - More subtle design */}
-        <div className="flex justify-center mt-10">
-          <a
-            href="#video-testimonials" // Replace with actual video testimonials URL
+        {/* <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="flex justify-center mt-10"
+        >
+          <Link
+            href="/testimonial" // Replace with actual video testimonials URL
             target="_blank"
             rel="noopener noreferrer"
             className="group bg-zinc-900 hover:bg-zinc-800 text-white px-5 py-2 rounded-lg text-sm font-medium border border-zinc-700 hover:border-green-500/30 transition-all duration-300 flex items-center gap-2"
@@ -401,41 +437,9 @@ const TestimonialSection = () => {
               <path d="M5 12h14"></path>
               <path d="m12 5 7 7-7 7"></path>
             </svg>
-          </a>
-        </div>
-      </div>
-
-      {/* Call to action with improved design - smaller version */}
-      <div className="relative max-w-3xl mx-auto mt-16 text-center px-6 py-8 bg-zinc-900 rounded-xl border border-zinc-800 shadow-lg transition-all duration-300">
-        <div className="relative z-10">
-          <h3 className="text-xl md:text-2xl font-bold mb-3">
-            Don&apos;t know where to <span className="text-green-500 font-extrabold">start?</span>
-          </h3>
-          <p className="text-zinc-300 text-sm mb-6 max-w-xl mx-auto">
-            Book a <span className="font-semibold text-white">free consultation call</span> to discuss your project
-            needs and explore how we can help{" "}
-            <span className="font-semibold text-green-400">transform your digital presence</span>.
-          </p>
-          <Link
-            href="https://calendly.com/sami-gabol13/45min"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-green-500 px-6 py-3 rounded-full text-sm font-medium hover:bg-green-600 text-black inline-flex items-center"
-          >
-            <span className="font-bold">Book a Free 45 Minutes Call</span>
-            <svg
-              className="w-4 h-4 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
           </Link>
-        </div>
-      </div>
-
+        </motion.div> */}
+      </div>  
       {/* Animation keyframes */}
       <style jsx>{`
         .testimonial-card {
@@ -464,13 +468,17 @@ const TestimonialSection = () => {
       `}</style>
 
       {/* Small footer note */}
-      <div className="text-center mt-16 text-xs text-zinc-500 max-w-2xl mx-auto">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.5, delay: 0.7 }}
+        className="text-center mt-16 text-xs text-zinc-500 max-w-2xl mx-auto"
+      >
         <p>
           All testimonials are from <span className="font-medium text-zinc-400">verified clients</span> who have worked
           with us on real projects.
         </p>
-      
-      </div>
+      </motion.div>
     </div>
   )
 }

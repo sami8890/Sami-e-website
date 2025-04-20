@@ -1,18 +1,36 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Link from "next/link"
 import { Mail, Phone, Twitter, Linkedin, Heart, ChevronUp, Calendar, ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { motion } from "framer-motion"
 
 export default function MYFooter() {
   const [isVisible, setIsVisible] = useState(false)
   const [year, setYear] = useState(new Date().getFullYear())
+  const [showCalendly, setShowCalendly] = useState(false)
 
   useEffect(() => {
     setIsVisible(true)
     setYear(new Date().getFullYear())
   }, [])
+
+  // Close Calendly modal when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (showCalendly && !target.closest(".calendly-modal-content") && !target.closest(".schedule-button")) {
+        setShowCalendly(false)
+      }
+    }
+
+    if (showCalendly) {
+      document.addEventListener("mousedown", handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [showCalendly])
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -121,33 +139,27 @@ export default function MYFooter() {
                 Have a project in mind? Let&apos;s discuss how I can help you achieve your goals.
               </p>
 
-              {/* Book a Consultation section - kept as requested */}
-              <div className="p-5 rounded-lg border border-zinc-800 bg-zinc-900/30 backdrop-blur group">
+              {/* Calendly Card - Enhanced UI */}
+              <div className="p-5 rounded-lg border border-zinc-800 bg-gradient-to-br from-zinc-900/80 to-zinc-900/30 backdrop-blur group hover:border-green-500/30 transition-all duration-300 shadow-lg shadow-black/50 hover:shadow-green-900/20">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="text-sm font-medium text-white flex items-center">
                     <Calendar className="h-5 w-5 mr-2 text-green-400 group-hover:rotate-12 transition-transform" />
                     Free Strategy Call
                   </h4>
-                  <span className="text-xs text-green-400 bg-green-500/20 px-2 py-1 rounded-full">
-                    45 min
-                  </span>
+                  <span className="text-xs text-green-400 bg-green-500/20 px-2 py-1 rounded-full">45 min</span>
                 </div>
                 <p className="text-xs text-zinc-400 mb-4 leading-relaxed">
-                  Unlock your digital potential. Get personalized insights and a clear roadmap
-                  for your project in a complimentary 45-minute consultation.
+                  Unlock your digital potential. Get personalized insights and a clear roadmap for your project in a
+                  complimentary 45-minute consultation.
                 </p>
-                <Link
-                  href="https://calendly.com/sami-gabol13/45min"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => setShowCalendly(true)}
+                  className="schedule-button w-full bg-gradient-to-r from-green-500 to-green-400 hover:from-green-400 hover:to-green-300 text-xs py-3 h-auto rounded-full text-black font-medium group-hover:scale-[1.02] transition-all duration-300 flex items-center justify-center"
                 >
-                  <Button className="w-full bg-green-500 hover:bg-green-600 text-xs py-2 h-auto group-hover:scale-[1.02] transition-transform">
-                    Schedule Your Free Call
-                    <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
+                  Book Your Free Consultation
+                  <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
-
             </div>
           </div>
 
@@ -169,13 +181,57 @@ export default function MYFooter() {
 
             <div className="mt-6 text-center">
               <p className="text-xs text-zinc-600 flex items-center justify-center gap-1">
-              Let&apos;s Connect <Heart className="h-3 w-3 text-green-500 fill-green-500" /> by Sami-e and helped you bussiness
+                Let&apos;s Connect <Heart className="h-3 w-3 text-green-500 fill-green-500" /> by Sami-e and helped you
+                bussiness
               </p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Calendly Modal */}
+      {showCalendly && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-all duration-300">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+            className="calendly-modal-content w-full max-w-4xl h-[80vh] bg-white rounded-2xl overflow-hidden shadow-2xl relative"
+          >
+            <button
+              onClick={() => setShowCalendly(false)}
+              className="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
+              aria-label="Close calendar"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-gray-700"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            <iframe
+              src="https://calendly.com/samigabol12/45min?hide_gdpr_banner=1&background_color=121212&text_color=ffffff&primary_color=10b981"
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              title="Schedule a meeting"
+              className="calendly-inline-widget"
+            ></iframe>
+          </motion.div>
+        </div>
+      )}
+
     </footer>
   )
 }
-

@@ -14,77 +14,63 @@ const anton = Anton({
   variable: "--font-anton",
 })
 
-// FAQ data with categories
+// FAQ data
 const faqItems = [
   {
     id: 1,
-    category: "technology",
     question: "What Technologies Do You Use?",
     answer: "We use React.js, Next.js, HTML, CSS, and JavaScript to build fast and modern websites.",
   },
   {
     id: 2,
-    category: "pricing",
     question: "How Much Does It Cost to Build a Website?",
     answer: "It depends on what features you need. We give you a custom price after understanding your project.",
   },
   {
     id: 3,
-    category: "process",
     question: "How Long Does It Take to Build a Website?",
     answer: "A simple website takes 1–2 weeks. Bigger or more complex sites may take 3–6 weeks.",
   },
   {
     id: 4,
-    category: "features",
     question: "Will My Website Be Mobile-Friendly?",
     answer: "Yes. We make sure your site looks great on mobile phones, tablets, and desktops.",
   },
   {
     id: 5,
-    category: "features",
     question: "Can I Update the Website Myself?",
     answer: "Yes. We make websites easy to update, and we can guide you on how to do it.",
   },
   {
     id: 6,
-    category: "features",
     question: "Do You Build SEO-Friendly Websites?",
     answer: "Yes. We follow SEO best practices so your site can rank better on Google.",
   },
   {
     id: 7,
-    category: "services",
     question: "Do You Offer Website Redesign Services?",
     answer: "Yes. We can redesign your old website to make it look modern and work better.",
   },
   {
     id: 8,
-    category: "features",
     question: "How Do You Ensure Website Security?",
     answer: "We follow safety standards to protect your website from security issues.",
   },
   {
     id: 9,
-    category: "features",
     question: "How Do You Handle Website Performance?",
     answer: "We use tools and methods that help your site load fast and run smoothly.",
   },
   {
     id: 10,
-    category: "services",
     question: "Do You Provide Ongoing Support?",
     answer: "Yes. We offer support and updates to keep your site running well over time.",
   },
 ]
 
-// Get unique categories
-const categories = ["all", ...new Set(faqItems.map((item) => item.category))]
-
 interface FaqAccordionItemProps {
   item: {
     id: number
-    category: string
     question: string
     answer: string
   }
@@ -131,27 +117,12 @@ const FaqAccordionItem = ({ item, isOpen, toggleItem }: FaqAccordionItemProps) =
 
 export default function FaqSection() {
   const [openItemId, setOpenItemId] = useState<number | null>(null)
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [filteredItems, setFilteredItems] = useState(faqItems)
+  const [visibleItems, setVisibleItems] = useState(6)
   const [showContactPrompt, setShowContactPrompt] = useState(false)
   const sectionRef = useRef(null)
 
   // LinkedIn profile URL
   const linkedInUrl = "https://www.linkedin.com/in/muhammad-sami-gabol/"
-
-  // Filter items based on category
-  useEffect(() => {
-    let results = faqItems
-
-    // Filter by category
-    if (selectedCategory !== "all") {
-      results = results.filter((item) => item.category === selectedCategory)
-    }
-
-    setFilteredItems(results)
-    // Close any open items when changing filters
-    setOpenItemId(null)
-  }, [selectedCategory])
 
   type ToggleItemFunction = (id: number) => void
 
@@ -176,6 +147,14 @@ export default function FaqSection() {
       openCount = 0
     }
   }, [openItemId])
+
+  // Handle showing more FAQs
+  const handleShowMore = () => {
+    setVisibleItems(faqItems.length)
+  }
+
+  // Get the currently visible FAQs
+  const displayedFaqs = faqItems.slice(0, visibleItems)
 
   return (
     <section ref={sectionRef} className="bg-black text-white py-24 px-4 relative overflow-hidden" id="faq">
@@ -228,22 +207,6 @@ export default function FaqSection() {
                 </Link>
               </div>
 
-              {/* Category filters for mobile only */}
-              <div className="flex flex-wrap gap-2 mb-8 lg:hidden">
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition-all duration-300 ${selectedCategory === category
-                        ? "bg-emerald-500 text-white"
-                        : "bg-gray-800 text-gray-300 hover:bg-gray-700"
-                      }`}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-
               {/* Contact card */}
               <div className="hidden lg:block mt-8 p-6 border border-gray-800 rounded-xl bg-gray-900 bg-opacity-50">
                 <h3 className="text-xl font-medium text-white mb-4">Get In Touch</h3>
@@ -272,56 +235,34 @@ export default function FaqSection() {
 
           {/* Right Column - FAQ Accordion */}
           <div className="lg:col-span-8">
-            {/* Category filters for desktop */}
-            <div className="hidden lg:flex flex-wrap gap-3 mb-8">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-5 py-3 rounded-full text-sm font-medium capitalize transition-all duration-300 ${selectedCategory === category
-                      ? "bg-emerald-500 text-white"
-                      : "bg-gray-800 text-gray-300 hover:bg-gray-700"
-                    }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-
             {/* Results count */}
             <div className="mb-6 text-gray-400 text-sm">
-              {filteredItems.length === 0 ? (
-                <p>No questions found. Try a different category.</p>
-              ) : (
-                <p>
-                  Showing {filteredItems.length} {filteredItems.length === 1 ? "question" : "questions"}{" "}
-                  {selectedCategory !== "all" ? `in ${selectedCategory}` : ""}
-                </p>
-              )}
+              <p>
+                Showing {displayedFaqs.length} {displayedFaqs.length === 1 ? "question" : "questions"}
+                {displayedFaqs.length < faqItems.length ? ` of ${faqItems.length}` : ""}
+              </p>
             </div>
 
             <div className="space-y-2">
-              {filteredItems.map((item) => (
+              {displayedFaqs.map((item) => (
                 <FaqAccordionItem key={item.id} item={item} isOpen={openItemId === item.id} toggleItem={toggleItem} />
               ))}
-
-              {filteredItems.length === 0 && (
-                <div className="text-center py-12 bg-gray-900 bg-opacity-50 rounded-lg border border-gray-800">
-                  <p className="text-gray-400 text-lg">No questions found with your current filters.</p>
-                  <button
-                    onClick={() => {
-                      setSelectedCategory("all")
-                    }}
-                    className="mt-4 px-4 py-2 bg-gray-800 rounded-md text-gray-300 hover:bg-gray-700 transition-colors"
-                  >
-                    Reset filters
-                  </button>
-                </div>
-              )}
             </div>
 
-            {/* Pagination for large number of results */}
-            {filteredItems.length > 5 && openItemId === null && (
+            {/* See More button */}
+            {visibleItems < faqItems.length && (
+              <div className="mt-8 text-center">
+                <button
+                  onClick={handleShowMore}
+                  className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full text-white font-medium transition duration-300 hover:from-emerald-600 hover:to-green-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+                >
+                  See More FAQs
+                </button>
+              </div>
+            )}
+
+            {/* Back to top button */}
+            {displayedFaqs.length > 6 && openItemId === null && (
               <div className="mt-8 text-center">
                 <button
                   className="px-6 py-2 border border-emerald-500 text-emerald-400 rounded-full hover:bg-emerald-500 hover:bg-opacity-10 transition-colors"

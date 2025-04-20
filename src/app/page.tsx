@@ -6,7 +6,7 @@ import AboutMe from './about/page'
 import WhyChooseUs from '@/components/main/why-choose-me'
 import EnhancedHeroSection from '@/components/main/hero'
 import ProjectsSection from '@/components/main/project-section'
-import ServicesShowcase from '@/components/services/services-showcase'
+// import ServicesShowcase from '@/components/services/services-showcase'
 // import CalendlyBooking from '@/components/main/calendly'
 
 
@@ -14,10 +14,12 @@ export default function Page() {
   return (
     <main className="min-h-screen ">
       <SocialFab/> 
+      <section id='hero'>
       <EnhancedHeroSection />
+      </section>
       <Newsection/>
       <ProjectsSection />
-      <ServicesShowcase/>
+      {/* <ServicesShowcase/> */}
       <WhyChooseUs/>
       <AboutMe />
       <ProcessSection/> 
