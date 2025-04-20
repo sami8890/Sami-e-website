@@ -18,7 +18,7 @@ export default function WhyChooseUs() {
   const [showCalendly, setShowCalendly] = useState(false)
 
   const stats = [
-    { value: "20+", label: "Projects Completed" },
+    { value: "10+", label: "Projects Completed" },
     { value: "100%", label: "Client Satisfaction" },
     { value: "24/7", label: "Support Available" },
   ]
@@ -118,10 +118,10 @@ export default function WhyChooseUs() {
               <h3
                 className={`${anton.className} text-3xl md:text-4xl font-normal text-emerald-400 mb-4 text-center md:text-left`}
               >
-                1 MONTH FREE SUPPORT
+                Free Support for 15 Days After Launch
               </h3>
               <p className="text-xl text-gray-300 text-center md:text-left">
-                After project completion, we provide a full month of dedicated support at no additional cost.
+                After project completion, we provide a 15 Days of dedicated support at no additional cost.
               </p>
             </div>
             <div className="md:w-1/2 bg-black/50 p-6 rounded-xl border border-gray-800">

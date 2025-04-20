@@ -3,7 +3,7 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { ProjectCard } from "@/components/main/project-card";
 import ProjectModal from "@/components/main/project-modal";
-import { Sparkles, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
+import { Sparkles, ChevronDown, ChevronUp, } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Project {
@@ -237,16 +237,7 @@ export default function ProjectsSection() {
             projects
           </p>
 
-          <motion.a
-            whileHover={{ x: 3 }}
-            href="https://github.com/yourusername"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-gray-400 hover:text-[#00E188] transition-colors flex items-center gap-1"
-          >
-            <ExternalLink className="w-3.5 h-3.5" />
-            <span>View all on GitHub</span>
-          </motion.a>
+
         </motion.div>
 
         {/* Loading State */}

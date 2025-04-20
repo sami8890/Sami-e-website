@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect, useCallback } from "react"
-import { Check, ArrowRight, Lightbulb, Layout, Code, TestTube, Rocket, Clock, ArrowLeft } from "lucide-react"
+import { Check, ArrowRight, Lightbulb, Layout, Code, TestTube, Rocket, ArrowLeft } from "lucide-react"
 import { useInView } from "react-intersection-observer"
 import { Anton } from "next/font/google"
 import type { JSX } from "react"
@@ -58,7 +58,6 @@ export function ProcessSection() {
     title: string
     description: string
     points: string[]
-    duration: string
   }
 
   const handleStepChange = (index: number): void => {
@@ -81,7 +80,6 @@ export function ProcessSection() {
       description:
         "We start by understanding your vision, goals, and requirements. Through in-depth consultation, we map out a strategic roadmap tailored to your specific needs.",
       points: ["Project scope definition", "Competitive analysis", "Tech stack selection", "Timeline planning"],
-      duration: "1-2 weeks",
     },
     {
       icon: <Layout className="w-10 h-10" />,
@@ -89,7 +87,6 @@ export function ProcessSection() {
       description:
         "Your ideas take visual form as we craft intuitive user experiences and engaging interfaces that align perfectly with your brand identity.",
       points: ["Wireframing", "UI/UX design", "Interactive prototypes", "Design system creation"],
-      duration: "2-3 weeks",
     },
     {
       icon: <Code className="w-10 h-10" />,
@@ -102,7 +99,6 @@ export function ProcessSection() {
         "Responsive implementation",
         "Performance optimization",
       ],
-      duration: "3-6 weeks",
     },
     {
       icon: <TestTube className="w-10 h-10" />,
@@ -110,7 +106,6 @@ export function ProcessSection() {
       description:
         "Rigorous testing across devices and platforms ensures your website functions flawlessly, with continuous refinement based on feedback.",
       points: ["Cross-browser testing", "Mobile responsiveness", "Performance audits", "User feedback integration"],
-      duration: "1-2 weeks",
     },
     {
       icon: <Rocket className="w-10 h-10" />,
@@ -118,7 +113,6 @@ export function ProcessSection() {
       description:
         "We handle deployment with precision, followed by ongoing support to ensure your website continues to evolve and perform at its best.",
       points: ["Deployment preparation", "SEO optimization", "Analytics setup", "Maintenance planning"],
-      duration: "1 week + ongoing",
     },
   ]
 
@@ -175,7 +169,7 @@ export function ProcessSection() {
             className={`${anton.className} text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal uppercase mb-4 sm:mb-6 text-white`}
           >
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-green-400 to-green-600">
-              Our 3‑Step  / Website Process
+              Our 4‑Step  / Website Process
             </span>
           </h2>
           <p className="text-base sm:text-lg text-zinc-300 max-w-3xl mx-auto px-2">
@@ -255,9 +249,7 @@ export function ProcessSection() {
                     <span className={`font-medium ${activeStep === index ? "text-green-400" : "text-zinc-300"}`}>
                       {step.title.split(" ")[0]}
                     </span>
-                    <span className="text-xs text-zinc-500 flex items-center gap-1 mt-0.5">
-                      <Clock className="w-3 h-3" /> {step.duration}
-                    </span>
+
                   </div>
                 </motion.div>
               ))}
@@ -285,10 +277,7 @@ export function ProcessSection() {
                   <div>
                     <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{steps[activeStep].title}</h3>
                     <div className="flex items-center gap-1.5 mt-1 text-zinc-400 text-sm">
-                      <Clock className="w-4 h-4 text-green-500" />
-                      <span>
-                        Estimated time: <span className="text-green-400">{steps[activeStep].duration}</span>
-                      </span>
+                      
                     </div>
                   </div>
                 </div>

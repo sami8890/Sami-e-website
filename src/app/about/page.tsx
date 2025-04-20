@@ -462,9 +462,9 @@ const AboutMe = () => {
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
                 <p className="text-gray-300 leading-relaxed">
-                  With 4 years of dedicated experience in web development,
-                  I&apos;ve mastered the art of transforming complex ideas into
-                  elegant digital solutions. 
+                  I create websites that are both beautiful and easy to use. My
+                  goal is to make sure every website I build leaves a great
+                  impression and works perfectly for its users.
                 </p>
               </motion.div>
 
@@ -475,10 +475,15 @@ const AboutMe = () => {
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
                 <p className="text-gray-300 leading-relaxed">
-                  I believe that great design is not just about aesthetics, but
-                  about solving real problems. By combining technical expertise
-                  with creative thinking
+                 I believe design isn&apos;t just about looking good – it&apos;s about
+                  solving problems and making things easier. I work to
+                  understand your needs and turn your ideas into something
+                  special online.
                 </p>
+                <br />
+                <ul>
+                  <li>If you need a new website or want to improve an existing one, I&apos;m here to help. Let&apos;s work together to create something that truly represents your brand and helps you grow.</li>
+                </ul>
               </motion.div>
             </div>
           </div>

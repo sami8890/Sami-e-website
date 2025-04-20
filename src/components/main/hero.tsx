@@ -323,7 +323,7 @@ export default function EnhancedHeroSection() {
                 <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group">
                   <div className="flex items-end justify-between">
                     <p className="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform duration-300">
-                      20+
+                      10+
                     </p>
                     <span className="text-green-500/50 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       🚀

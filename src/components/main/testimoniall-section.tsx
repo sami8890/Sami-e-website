@@ -51,39 +51,10 @@ const TestimonialSection = () => {
       source: "linkedin",
       videoUrl: "#kyle-video", 
     },
-    {
-      id: 4,
-      name: "Dominik",
-      role: "Creative Director",
-      avatar: "/testimonial/girl.png",
-      content:
-        "I love working with Sami, he is a great developer. He does very precise work and his delivery time is always super fast!",
-      shortContent:
-        "I love working with Sami, he is a great developer. He does very precise work and his delivery time is always super fast!",
-      category: "development",
-      rating: 4.5,
-      project: "Portfolio",
-      source: "fiverr",
-    },
-    {
-      id: 5,
-      name: "Henry Mouzon",
-      username: "@henrymouzon",
-      role: "Business Owner",
-      avatar: "/testimonial/man.png",
-      content:
-        "It was a pleasure working with Sami. I really loved the job he did for me, and the design was so beautiful. He delivered outstanding work. It was a great experience I won't forget, and I will hire him again in the near future. Thank you very much, Sami, and cheers.",
-      shortContent:
-        "It was a pleasure working with Sami. I really loved the job he did for me, and the design was so beautiful. He delivered outstanding work. It was a great experience I won't forget...",
-      category: "design",
-      rating: 5,
-      project: "Upadte the design of my website",
-      source: "fiverr",
-    },
+
   ]
 
-  // 2. Remove carousel view functionality
-  // Remove the state for carouselView
+ 
   const [showAll, setShowAll] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -477,6 +448,9 @@ const TestimonialSection = () => {
         <p>
           All testimonials are from <span className="font-medium text-zinc-400">verified clients</span> who have worked
           with us on real projects.
+
+          
+          <span className="font-medium text-zinc-200 block mt-3">You can check in my linkdein profile to see the reviews</span>
         </p>
       </motion.div>
     </div>

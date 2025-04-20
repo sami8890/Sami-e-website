@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Mail, Phone, Twitter, Linkedin, Heart, ChevronUp, Calendar, ChevronRight } from "lucide-react"
+import { Mail, Phone, Linkedin, Heart, ChevronUp, Calendar, ChevronRight } from "lucide-react"
 import { motion } from "framer-motion"
 
 export default function MYFooter() {
@@ -40,8 +40,7 @@ export default function MYFooter() {
   }
 
   const socialLinks = [
-    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://pk.linkedin.com/in/muhammad-sami-gabol", label: "LinkedIn" },
   ]
 
   return (
