@@ -107,7 +107,6 @@ export function SocialFab() {
         },
     ]
 
-
     const handleLinkClick = (url: string): void => {
         console.log("Opening URL:", url)
         window.open(url, "_blank", "noopener,noreferrer")
@@ -128,7 +127,7 @@ export function SocialFab() {
             {/* Main Button */}
             <motion.button
                 onClick={toggleOpen}
-                className="relative flex items-center justify-center w-auto h-10 sm:h-12 md:h-14 px-3 sm:px-4 md:px-5 rounded-full bg-black border-2 border-[#00FF95] shadow-[0_0_15px_rgba(0,255,149,0.5)]"
+                className="relative flex items-center justify-center w-auto h-8 sm:h-10 md:h-12 px-2 sm:px-3 md:px-4 rounded-full bg-black border-2 border-[#00FF95] shadow-[0_0_15px_rgba(0,255,149,0.5)]"
                 whileHover={{
                     scale: 1.05,
                     boxShadow: "0 0 20px rgba(0, 255, 149, 0.7)",
@@ -163,14 +162,14 @@ export function SocialFab() {
                             className="text-[#00FF95]"
                         >
                             {isOpen ? (
-                                <X className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                                <X className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
                             ) : (
-                                <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                                <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
                             )}
                         </motion.div>
 
                         <motion.span
-                            className={`text-[#00FF95] text-xs sm:text-sm md:text-base font-medium ${isVerySmallScreen ? "hidden sm:inline" : ""}`}
+                            className={`text-[#00FF95] text-xs sm:text-xs md:text-sm font-medium ${isVerySmallScreen ? "hidden sm:inline" : ""}`}
                             initial={{ opacity: 0, width: 0 }}
                             animate={{ opacity: 1, width: "auto" }}
                             exit={{ opacity: 0, width: 0 }}
@@ -214,7 +213,7 @@ export function SocialFab() {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        className="absolute bottom-12 sm:bottom-14 md:bottom-16 right-0 flex flex-col gap-1.5 sm:gap-2 md:gap-3 items-end z-[101]" // Increased z-index
+                        className="absolute bottom-10 sm:bottom-12 md:bottom-14 right-0 flex flex-col gap-1 sm:gap-1.5 md:gap-2 items-end z-[101]"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -239,7 +238,7 @@ export function SocialFab() {
                                 <button
                                     onClick={() => handleLinkClick(link.href)}
                                     aria-label={link.ariaLabel}
-                                    className="flex items-center gap-1.5 sm:gap-2 md:gap-3 px-2 sm:px-3 md:px-5 py-1.5 sm:py-2 md:py-3 rounded-full bg-black border border-[#00FF95] shadow-[0_0_10px_rgba(0,255,149,0.3)] hover:shadow-[0_0_15px_rgba(0,255,149,0.5)] transition-all duration-300 cursor-pointer pointer-events-auto"
+                                    className="flex items-center gap-1 sm:gap-1.5 md:gap-2 px-1.5 sm:px-2 md:px-3 py-1 sm:py-1.5 md:py-2 rounded-full bg-black border border-[#00FF95] shadow-[0_0_10px_rgba(0,255,149,0.3)] hover:shadow-[0_0_15px_rgba(0,255,149,0.5)] transition-all duration-300 cursor-pointer pointer-events-auto"
                                 >
                                     <motion.div
                                         whileHover={{ rotate: [0, -10, 10, -10, 0] }}
@@ -249,7 +248,7 @@ export function SocialFab() {
                                         {link.icon}
                                     </motion.div>
                                     <motion.span
-                                        className={`text-xs sm:text-sm font-medium text-[#00FF95] ${isVerySmallScreen ? "hidden sm:inline" : ""}`}
+                                        className={`text-xs sm:text-xs font-medium text-[#00FF95] ${isVerySmallScreen ? "hidden sm:inline" : ""}`}
                                         initial={{ opacity: 0, width: 0 }}
                                         animate={{ opacity: 1, width: "auto" }}
                                         transition={{ delay: 0.1 + index * 0.07 }}
@@ -276,4 +275,3 @@ export function SocialFab() {
         </motion.div>
     )
 }
-

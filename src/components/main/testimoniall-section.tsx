@@ -247,30 +247,38 @@ const TestimonialSection = () => {
             <span className="text-green-500 font-extrabold">Stories</span>
           </motion.h2>
 
-          <motion.h3
-            initial={{ opacity: 0, y: 10 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-xl text-zinc-300 mt-4 max-w-2xl mx-auto"
-          >
-            Real client experiences that showcase the quality and care in every project.
-            <span className="block text-sm text-zinc-400 mt-2">Click on any testimonial to see the results</span>
-          </motion.h3>
+          {/* Restructured subheading section */}
+          <div className="space-y-3">
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="text-xl text-zinc-300 max-w-2xl mx-auto"
+            >
+              Hear what our clients say about
+              <span className="font-semibold text-white"> our work</span> — the
+              quality and care we put into
+              <span className="font-semibold text-green-400"> every project</span>.
+            </motion.p>
 
-          <motion.h3
-            initial={{ opacity: 0, y: 10 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-xl text-zinc-300 mt-4 max-w-2xl mx-auto"
-          >
-            Hear what our clients say about
-            <span className="font-semibold text-white">our work</span> — the
-            quality and care we put into
-            <span className="font-semibold text-green-400">every project</span>.
-          </motion.h3>
-          <span className="text-white pt-7">
-            All Testimonials are real and verified you can check in my linkedIn
-          </span>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="text-sm text-zinc-400"
+            >
+              Click any testimonial to see the result
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="text-sm text-zinc-400 mt-1"
+            >
+              All testimonials are real and verified on LinkedIn
+            </motion.p>
+          </div>
         </div>
       </motion.div>
 
@@ -280,106 +288,104 @@ const TestimonialSection = () => {
           {isLoading
             ? renderSkeletons()
             : displayedTestimonials.map((testimonial, index) => (
-                <motion.div
-                  key={testimonial.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className={`group bg-zinc-900 rounded-xl p-5 border border-zinc-800 shadow-md relative h-auto testimonial-card hover:border-green-500/30 ${
-                    hoveredId !== null && hoveredId !== testimonial.id
-                      ? "blur-sm opacity-50 scale-98"
-                      : ""
+              <motion.div
+                key={testimonial.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className={`group bg-zinc-900 rounded-xl p-5 border border-zinc-800 shadow-md relative h-auto testimonial-card hover:border-green-500/30 ${hoveredId !== null && hoveredId !== testimonial.id
+                    ? "blur-sm opacity-50 scale-98"
+                    : ""
                   }`}
-                  onMouseEnter={() => setHoveredId(testimonial.id)}
-                  onMouseLeave={() => setHoveredId(null)}
-                  style={{
-                    transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-                    willChange: "transform, opacity, filter",
-                  }}
-                >
-                  {/* Source watermark - LinkedIn or Fiverr */}
-                  <div
-                    className={`absolute top-3 right-3 text-xs font-bold ${
-                      testimonial.source === "linkedin"
-                        ? "text-blue-500 opacity-70"
-                        : "text-green-500 opacity-50"
+                onMouseEnter={() => setHoveredId(testimonial.id)}
+                onMouseLeave={() => setHoveredId(null)}
+                style={{
+                  transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+                  willChange: "transform, opacity, filter",
+                }}
+              >
+                {/* Source watermark - LinkedIn or Fiverr */}
+                <div
+                  className={`absolute top-3 right-3 text-xs font-bold ${testimonial.source === "linkedin"
+                      ? "text-blue-500 opacity-70"
+                      : "text-green-500 opacity-50"
                     }`}
-                  >
-                    {testimonial.source === "linkedin" ? "linkedin" : "fiverr."}
-                  </div>
+                >
+                  {testimonial.source === "linkedin" ? "linkedin" : "fiverr."}
+                </div>
 
-                  {/* Subtle quote marks */}
-                  <div className="absolute top-3 left-3 text-3xl text-green-500/10 font-serif">
-                    &quot;
-                  </div>
-                  <div className="absolute bottom-3 right-3 text-3xl text-green-500/10 font-serif rotate-180">
-                    &quot;
-                  </div>
+                {/* Subtle quote marks */}
+                <div className="absolute top-3 left-3 text-3xl text-green-500/10 font-serif">
+                  &quot;
+                </div>
+                <div className="absolute bottom-3 right-3 text-3xl text-green-500/10 font-serif rotate-180">
+                  &quot;
+                </div>
 
-                  <div className="flex items-center mb-4">
-                    <div className="w-10 h-10 rounded-full overflow-hidden mr-3 relative bg-zinc-800 flex items-center justify-center border border-zinc-700 group-hover:border-green-500/30 transition-colors duration-300">
-                      {testimonial.avatar ? (
-                        <Image
-                          src={testimonial.avatar || "/placeholder.svg"}
-                          alt={testimonial.name}
-                          fill
-                          className="object-cover"
-                          sizes="40px"
-                        />
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 rounded-full overflow-hidden mr-3 relative bg-zinc-800 flex items-center justify-center border border-zinc-700 group-hover:border-green-500/30 transition-colors duration-300">
+                    {testimonial.avatar ? (
+                      <Image
+                        src={testimonial.avatar || "/placeholder.svg"}
+                        alt={testimonial.name}
+                        fill
+                        className="object-cover"
+                        sizes="40px"
+                      />
+                    ) : (
+                      <span className="text-lg font-bold">
+                        {testimonial.name.charAt(0)}
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <div className="flex items-center">
+                      <h4 className="font-bold text-sm text-white">
+                        {testimonial.name}
+                      </h4>
+                    </div>
+                    <p className="text-zinc-400 text-xs">
+                      {testimonial.role}
+                    </p>
+                  </div>
+                  <div className="ml-auto flex">
+                    {renderStars(testimonial.rating)}
+                  </div>
+                </div>
+
+                <div className="mb-4">
+                  <div className="text-zinc-300 text-sm leading-relaxed">
+                    {expandedIds.includes(testimonial.id)
+                      ? highlightKeywords(testimonial.content)
+                      : highlightKeywords(testimonial.shortContent)}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleExpand(testimonial.id);
+                      }}
+                      className="text-green-400 hover:text-green-300 text-xs font-medium mt-1 flex items-center"
+                    >
+                      {expandedIds.includes(testimonial.id) ? (
+                        <>
+                          Read less <span className="ml-1">↑</span>
+                        </>
                       ) : (
-                        <span className="text-lg font-bold">
-                          {testimonial.name.charAt(0)}
-                        </span>
+                        <>
+                          Read more <span className="ml-1">↓</span>
+                        </>
                       )}
-                    </div>
-                    <div>
-                      <div className="flex items-center">
-                        <h4 className="font-bold text-sm text-white">
-                          {testimonial.name}
-                        </h4>
-                      </div>
-                      <p className="text-zinc-400 text-xs">
-                        {testimonial.role}
-                      </p>
-                    </div>
-                    <div className="ml-auto flex">
-                      {renderStars(testimonial.rating)}
-                    </div>
+                    </button>
                   </div>
+                </div>
 
-                  <div className="mb-4">
-                    <div className="text-zinc-300 text-sm leading-relaxed">
-                      {expandedIds.includes(testimonial.id)
-                        ? highlightKeywords(testimonial.content)
-                        : highlightKeywords(testimonial.shortContent)}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleExpand(testimonial.id);
-                        }}
-                        className="text-green-400 hover:text-green-300 text-xs font-medium mt-1 flex items-center"
-                      >
-                        {expandedIds.includes(testimonial.id) ? (
-                          <>
-                            Read less <span className="ml-1">↑</span>
-                          </>
-                        ) : (
-                          <>
-                            Read more <span className="ml-1">↓</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="text-xs text-zinc-500 pt-2 mt-2 border-t border-zinc-800 flex justify-between items-center">
-                    <span className="font-medium">{testimonial.project}</span>
-                    <span className="text-green-500 font-bold">
-                      {testimonial.category}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
+                <div className="text-xs text-zinc-500 pt-2 mt-2 border-t border-zinc-800 flex justify-between items-center">
+                  <span className="font-medium">{testimonial.project}</span>
+                  <span className="text-green-500 font-bold">
+                    {testimonial.category}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
         </div>
 
         {/* Show more/less button */}
