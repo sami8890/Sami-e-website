@@ -1,9 +1,15 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Anton } from "next/font/google"
-import { CheckCircle, Clock, Shield, Award, HeadphonesIcon, Calendar } from "lucide-react"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Anton } from "next/font/google";
+import {
+  CheckCircle,
+  Shield,
+  Award,
+  HeadphonesIcon,
+  Calendar,
+} from "lucide-react";
 
 // Use the same font as in the Hero component
 const anton = Anton({
@@ -11,59 +17,41 @@ const anton = Anton({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-anton",
-})
+});
 
 export default function WhyChooseUs() {
-  const [hovered, setHovered] = useState<null | number>(null)
-  const [showCalendly, setShowCalendly] = useState(false)
+  const [hovered, setHovered] = useState<null | number>(null);
+  const [showCalendly, setShowCalendly] = useState(false);
 
   const stats = [
-    { value: "10+", label: "Projects Completed" },
-    { value: "100%", label: "Client Satisfaction" },
-    { value: "24/7", label: "Support Available" },
-  ]
-
-  // Close Calendly modal when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      if (showCalendly && !target.closest(".calendly-modal-content") && !target.closest(".schedule-button")) {
-        setShowCalendly(false)
-      }
-    }
-
-    if (showCalendly) {
-      document.addEventListener("mousedown", handleClickOutside)
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [showCalendly])
+    { value: "15+", label: "Projects Delivered" },
+    { value: "4.9/5", label: "Client Rating" },
+    { value: "Fast", label: "Response Time" },
+  ];
 
   return (
-    <section className="bg-black text-white py-24 px-4 relative overflow-hidden" id="why-choose-us">
-      {/* Background elements */}
+    <section
+      className="bg-zinc-950 text-white py-20 px-4 relative overflow-hidden"
+      id="why-choose-us"
+    >
+      {/* Simplified background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute inset-0 bg-black opacity-90"></div>
+        <div className="absolute inset-0 bg-zinc-950 opacity-90"></div>
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-10"
           style={{
             backgroundImage: `
-              radial-gradient(circle, rgba(16, 185, 129, 0.1) 1px, transparent 1px),
-              linear-gradient(to right, #1a1a1a 1px, transparent 1px),
-              linear-gradient(to bottom, #1a1a1a 1px, transparent 1px)
+              radial-gradient(circle, rgba(34, 197, 94, 0.1) 1px, transparent 1px)
             `,
-            backgroundSize: "50px 50px, 50px 50px, 50px 50px",
+            backgroundSize: "50px 50px",
           }}
         ></div>
 
-        {/* Decorative elements */}
-        <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-emerald-500 opacity-5 blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-80 h-80 rounded-full bg-emerald-500 opacity-5 blur-3xl"></div>
+        {/* Subtle decorative element */}
+        <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-green-400 opacity-5 blur-3xl"></div>
       </div>
 
-      <div className="container mx-auto max-w-6xl relative z-10">
+      <div className="container mx-auto max-w-5xl relative z-10">
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -71,9 +59,16 @@ export default function WhyChooseUs() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className={`${anton.className} text-5xl md:text-6xl font-normal uppercase`}>
-            <span className="text-emerald-400">WHY</span> <span className="text-white">CHOOSE US</span>
+          <h2
+            className={`${anton.className} text-4xl md:text-5xl font-normal uppercase mb-3`}
+          >
+            <span className="text-green-400">WHY</span>{" "}
+            <span className="text-white">CHOOSE US</span>
           </h2>
+          <p className="text-zinc-400 max-w-2xl mx-auto">
+            We deliver beautiful, functional websites that help your business
+            grow
+          </p>
 
           {/* Stats row */}
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
@@ -86,46 +81,41 @@ export default function WhyChooseUs() {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 className="text-center"
               >
-                <p className="text-3xl md:text-4xl font-bold text-emerald-400 mb-1">{stat.value}</p>
-                <p className="text-gray-400 text-sm uppercase tracking-wider">{stat.label}</p>
+                <p className="text-3xl md:text-4xl font-bold text-green-400 mb-1">
+                  {stat.value}
+                </p>
+                <p className="text-zinc-400 text-sm uppercase tracking-wider">
+                  {stat.label}
+                </p>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
-        {/* Main feature - 1 Month Support */}
+        {/* Main feature - Simplified */}
         <motion.div
-          className="mb-16 bg-gradient-to-r from-emerald-900/30 to-black border border-emerald-500/30 rounded-2xl p-8 md:p-12 relative overflow-hidden"
+          className="mb-12 bg-zinc-900 border border-zinc-800 rounded-xl p-8 relative overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          {/* Decorative element */}
-          <div className="absolute -right-20 -bottom-20 w-64 h-64 rounded-full bg-emerald-500 opacity-10 blur-3xl"></div>
-
-          <div className="flex flex-col md:flex-row items-center relative z-10">
-            <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
-              <motion.div
-                className="w-24 h-24 rounded-full bg-emerald-500 flex items-center justify-center mx-auto md:mx-0 mb-6"
-                initial={{ scale: 1 }}
-                whileInView={{ scale: [1, 1.1, 1] }}
-                viewport={{ once: true }}
-                transition={{ duration: 1, times: [0, 0.5, 1], repeat: 0 }}
-              >
-                <HeadphonesIcon size={48} className="text-black" />
-              </motion.div>
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="md:w-1/2">
+              <div className="w-16 h-16 rounded-full bg-green-400 flex items-center justify-center mx-auto md:mx-0 mb-6">
+                <HeadphonesIcon size={32} className="text-black" />
+              </div>
               <h3
-                className={`${anton.className} text-3xl md:text-4xl font-normal text-emerald-400 mb-4 text-center md:text-left`}
+                className={`${anton.className} text-2xl md:text-3xl font-normal text-green-400 mb-4 text-center md:text-left`}
               >
                 Free Support for 15 Days After Launch
               </h3>
-              <p className="text-xl text-gray-300 text-center md:text-left">
-                After project completion, we provide a 15 Days of dedicated support at no additional cost.
+              <p className="text-zinc-300 text-center md:text-left">
+                After project completion, we provide 15 days of dedicated
+                support at no additional cost.
               </p>
             </div>
-            <div className="md:w-1/2 bg-black/50 p-6 rounded-xl border border-gray-800">
-              <h4 className="text-xl font-semibold text-white mb-4">What&apos;s included:</h4>
+            <div className="md:w-1/2">
               <ul className="space-y-3">
                 {[
                   "Bug fixes and troubleshooting",
@@ -140,10 +130,13 @@ export default function WhyChooseUs() {
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: 0.6 + index * 0.1 }}
+                    transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
                   >
-                    <CheckCircle size={20} className="text-emerald-400 mr-3 flex-shrink-0 mt-1" />
-                    <span className="text-gray-300">{item}</span>
+                    <CheckCircle
+                      size={18}
+                      className="text-green-400 mr-3 flex-shrink-0 mt-0.5"
+                    />
+                    <span className="text-zinc-300">{item}</span>
                   </motion.li>
                 ))}
               </ul>
@@ -151,38 +144,29 @@ export default function WhyChooseUs() {
           </div>
         </motion.div>
 
-        {/* Other reasons */}
-        <motion.h3
-          className={`${anton.className} text-2xl md:text-3xl font-normal text-white mb-8 text-center`}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          MORE REASONS TO WORK WITH US
-        </motion.h3>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Other reasons - Simplified */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {[
             {
-              icon: <Award size={32} />,
-              title: "QUALITY WORK",
-              description: "Our websites are built with clean code and modern design principles.",
+              icon: <Award size={28} />,
+              title: "Quality Work",
+              description:
+                "Clean code and modern design principles for every project.",
             },
             {
-              icon: <Shield size={32} />,
-              title: "SECURE & RELIABLE",
-              description: "We implement robust security measures to protect your website.",
+              icon: <Shield size={28} />,
+              title: "Secure & Reliable",
+              description: "Robust security measures to protect your website.",
             },
             {
-              icon: <Clock size={32} />,
-              title: "ALWAYS ON TIME",
-              description: "We respect deadlines and deliver as promised, every time.",
+              icon: <Calendar size={28} />,
+              title: "Responsive Support",
+              description: "Quick replies during business hours within 24 hours.",
             },
           ].map((item, index) => (
             <motion.div
               key={index}
-              className="bg-gray-900/30 border border-gray-800 p-6 rounded-xl text-center"
+              className="bg-zinc-900 border border-zinc-800 p-6 rounded-lg text-center"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -191,23 +175,25 @@ export default function WhyChooseUs() {
               onMouseLeave={() => setHovered(null)}
             >
               <div
-                className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300 ${hovered === index ? "bg-emerald-500" : "bg-gray-800"}`}
+                className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300 ${hovered === index ? "bg-green-400" : "bg-zinc-800"}`}
               >
                 <span
-                  className={`transition-colors duration-300 ${hovered === index ? "text-black" : "text-emerald-400"}`}
+                  className={`transition-colors duration-300 ${hovered === index ? "text-black" : "text-green-400"}`}
                 >
                   {item.icon}
                 </span>
               </div>
-              <h4 className="text-lg font-bold text-white mb-2">{item.title}</h4>
-              <p className="text-gray-400">{item.description}</p>
+              <h4 className="text-lg font-medium text-white mb-2">
+                {item.title}
+              </h4>
+              <p className="text-zinc-400 text-sm">{item.description}</p>
             </motion.div>
           ))}
         </div>
 
-        {/* Calendly Button - Replacing GET STARTED NOW */}
+        {/* Simplified CTA */}
         <motion.div
-          className="mt-16 text-center"
+          className="text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -215,30 +201,26 @@ export default function WhyChooseUs() {
         >
           <button
             onClick={() => setShowCalendly(true)}
-            className="schedule-button group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-400 rounded-full text-black font-bold text-lg transition-all duration-300 hover:from-emerald-400 hover:to-green-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 overflow-hidden shadow-lg shadow-emerald-500/20"
+            className="schedule-button inline-flex items-center justify-center px-6 py-3 bg-green-400 rounded-lg text-black font-medium text-base transition-all duration-300 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
           >
-            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-emerald-600 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></span>
-            <span className="relative flex items-center">
-              <Calendar className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
-              Schedule a Free Consultation
-            </span>
+            <Calendar className="mr-2 h-5 w-5" />
+            Schedule a Free Consultation
           </button>
         </motion.div>
       </div>
 
-      {/* Calendly Modal */}
+      {/* Calendly Modal - Simplified */}
       {showCalendly && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-all duration-300">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.3 }}
-            className="calendly-modal-content w-full max-w-4xl h-[80vh] bg-white rounded-2xl overflow-hidden shadow-2xl relative"
+            className="calendly-modal-content w-full max-w-4xl h-[80vh] bg-white rounded-xl overflow-hidden shadow-xl relative"
           >
             <button
               onClick={() => setShowCalendly(false)}
-              className="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
+              className="absolute top-4 right-4 z-10 bg-white/90 rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
               aria-label="Close calendar"
             >
               <svg
@@ -269,5 +251,5 @@ export default function WhyChooseUs() {
         </div>
       )}
     </section>
-  )
+  );
 }

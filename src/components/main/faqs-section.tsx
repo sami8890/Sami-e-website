@@ -221,13 +221,7 @@ export default function FaqSection() {
                     className="inline-flex w-full justify-center px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full text-white font-medium transition duration-300 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
                   >
                     Connect on LinkedIn
-                  </Link>
-                  <Link
-                    href="#contact"
-                    className="inline-flex w-full justify-center px-5 py-2.5 border border-emerald-500 rounded-full text-emerald-400 font-medium transition duration-300 hover:bg-emerald-500 hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
-                  >
-                    Send a Message
-                  </Link>
+                  </Link>     
                 </div>
               </div>
             </div>

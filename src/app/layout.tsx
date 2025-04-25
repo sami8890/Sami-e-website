@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/layout/navbar";
-import { LoadingWrapper } from "./loading";
 import MYFooter from "@/components/layout/footer";
 
 const geistSans = Geist({
@@ -17,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Website developer ",
-  description: "I am a website developer with a passion for creating beautiful and functional websites.",
+  description: "I help contnet creators and small business owners to convert their audience into customers.",
 };
 
 export default function RootLayout({
@@ -30,11 +29,9 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >    
-         <LoadingWrapper>
             <Navigation />
             {children}
             <MYFooter />
-          </LoadingWrapper>
         </body>
     </html>
   );

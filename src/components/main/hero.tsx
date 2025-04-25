@@ -8,7 +8,7 @@ import {
   Layout,
   Zap,
   Sparkles,
- Eye,
+  Eye,
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -122,7 +122,7 @@ export default function EnhancedHeroSection() {
                 <br />
                 Drives{" "}
                 <span className="text-green-400 relative inline-block">
-                  Results?
+                  Results
                   <svg
                     className="absolute -bottom-1 left-0 w-full"
                     viewBox="0 0 100 15"
@@ -145,11 +145,10 @@ export default function EnhancedHeroSection() {
                   return (
                     <button
                       key={index}
-                      className={`relative px-3 py-1.5 text-xs font-medium rounded-md flex items-center gap-1.5 transition-all duration-300 ${
-                        activeTab === index
+                      className={`relative px-3 py-1.5 text-xs font-medium rounded-md flex items-center gap-1.5 transition-all duration-300 ${activeTab === index
                           ? "text-black bg-green-400"
                           : "text-zinc-400 hover:text-zinc-200"
-                      }`}
+                        }`}
                       onClick={() => setActiveTab(index)}
                       aria-selected={activeTab === index}
                       role="tab"
@@ -210,16 +209,6 @@ export default function EnhancedHeroSection() {
                 </div>
               </div>
 
-              {/* Subheading */}
-              {/* <div
-                className={`mt-4 transition-all duration-1000 delay-100 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
-              >
-                <p className="text-base text-zinc-300 leading-relaxed">
-                  Let&apos;s create a website that boosts your business and converts
-                  visitors into customers!
-                </p>
-              </div> */}
-
               {/* Typed text */}
               <div
                 className={`mt-4 transition-all duration-1000 delay-100 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
@@ -237,8 +226,8 @@ export default function EnhancedHeroSection() {
                 className={`mt-8 flex flex-col gap-4 sm:flex-row transition-all duration-1000 delay-200 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
               >
                 <Link href="#testimonial">
-                  <div className="absolute  bg-gradient-to-r from-green-600 to-green-400 rounded-md "></div>
-                  <Button className="relative  bg-green-500 px-6 py-6 text-sm font-medium  overflow-hidden  shadow-green-900/20 group-hover:shadow-green-900/40 transition-all duration-300">
+                  <div className="absolute bg-gradient-to-r from-green-600 to-green-400 rounded-md"></div>
+                  <Button className="relative bg-green-500 px-6 py-6 text-sm font-medium overflow-hidden shadow-green-900/20 group-hover:shadow-green-900/40 transition-all duration-300">
                     <Eye className="relative z-10 mr-2 h-2 w-2" />
                     <span className="relative z-10 font-bold">
                       See Live Demos
@@ -266,7 +255,7 @@ export default function EnhancedHeroSection() {
                     <Star className="h-4 w-4 fill-green-400 text-green-400" />
                     Trusted by Top-Tier Creators
                   </p>
-                  <div className="mt-3 flex flex-wrap gap-6 items-center justify-center md:justify-start">
+                  <div className="mt-3 flex flex-wrap gap-4 items-center justify-center md:justify-start">
                     {/* Client avatars with actual images */}
                     {clients.map((client, i) => (
                       <div key={i} className="relative group">
@@ -305,58 +294,46 @@ export default function EnhancedHeroSection() {
               className={`transition-all duration-1000 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
             >
               <div className="grid grid-cols-2 gap-4 max-w-lg">
-                {/* Stats boxes with hover effects - client-friendly metrics */}
+                {/* Updated Stats boxes with your specified metrics */}
                 <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group">
                   <div className="flex items-end justify-between">
                     <p className="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform duration-300">
-                      100%
-                    </p>
-                    <span className="text-green-500/50 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      ★★★★★
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs text-zinc-400">
-                    Client Satisfaction
-                  </p>
-                </div>
-
-                <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group">
-                  <div className="flex items-end justify-between">
-                    <p className="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform duration-300">
-                      10+
+                      15+
                     </p>
                     <span className="text-green-500/50 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       🚀
                     </span>
                   </div>
                   <p className="mt-1 text-xs text-zinc-400">
-                    Websites Delivered
+                    Projects Delivered
                   </p>
                 </div>
 
                 <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group">
                   <div className="flex items-end justify-between">
                     <p className="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform duration-300">
-                      40%
+                      4.9/5
                     </p>
                     <span className="text-green-500/50 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      📈
+                      ★★★★★
                     </span>
                   </div>
-                  <p className="mt-1 text-xs text-zinc-400">More Visitors</p>
+                  <p className="mt-1 text-xs text-zinc-400">
+                    Client Rating
+                  </p>
                 </div>
 
-                <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group">
+                <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group col-span-2">
                   <div className="flex items-end justify-between">
                     <p className="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform duration-300">
-                      24/7
+                      Fast
                     </p>
                     <span className="text-green-500/50 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       ⏰
                     </span>
                   </div>
                   <p className="mt-1 text-xs text-zinc-400">
-                    Support Available
+                    Response Time
                   </p>
                 </div>
 
@@ -375,7 +352,7 @@ export default function EnhancedHeroSection() {
                     </div>
                     <div>
                       <p className="italic text-zinc-300 text-xs leading-relaxed">
-                        &quot;  Sami absolutely crushed it with my website in less than a week. He took the time to really understand what I wanted and brought it to life in a way that felt personal and unique.If you need a web developer who cares about the details, I highly recommend Sami.&quot;
+                        &quot;Sami absolutely crushed it with my website in less than a week. He took the time to really understand what I wanted and brought it to life in a way that felt personal and unique. If you need a web developer who cares about the details, I highly recommend Sami.&quot;
                       </p>
                       <p className="mt-2 text-xs font-medium text-green-400">
                         — CEO, Contntr.com
