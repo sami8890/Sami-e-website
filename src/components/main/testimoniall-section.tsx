@@ -51,20 +51,7 @@ const TestimonialSection = () => {
       source: "linkedin",
       videoUrl: "#kyle-video",
     },
-    {
-      id: 4,
-      name: "Dominik",
-      role: "Creative Director",
-      avatar: "/testimonial/girl.png",
-      content:
-        "I love working with Sami, he is a great developer. He does very precise work and his delivery time is always super fast!",
-      shortContent:
-        "I love working with Sami, he is a great developer. He does very precise work and his delivery time is always super fast!",
-      category: "development",
-      rating: 4.5,
-      project: "Portfolio",
-      source: "fiverr",
-    },
+
     {
       id: 5,
       name: "Henry Mouzon",
@@ -82,8 +69,6 @@ const TestimonialSection = () => {
     },
   ];
 
-  // 2. Remove carousel view functionality
-  // Remove the state for carouselView
   const [showAll, setShowAll] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -261,9 +246,6 @@ const TestimonialSection = () => {
             <br />
             <span className="text-green-500 font-extrabold">Stories</span>
           </motion.h2>
-          <p className="font-medium text-slate-400">
-            Click the testimonial to see the Result
-          </p>
 
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
@@ -271,11 +253,24 @@ const TestimonialSection = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="text-xl text-zinc-300 mt-4 max-w-2xl mx-auto"
           >
-            Hear from clients who have experienced{" "}
-            <span className="font-semibold text-white">firsthand</span> the
-            quality and dedication we bring to{" "}
+            Real client experiences that showcase the quality and care in every project.
+            <span className="block text-sm text-zinc-400 mt-2">Click on any testimonial to see the results</span>
+          </motion.h3>
+
+          <motion.h3
+            initial={{ opacity: 0, y: 10 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-xl text-zinc-300 mt-4 max-w-2xl mx-auto"
+          >
+            Hear what our clients say about
+            <span className="font-semibold text-white">our work</span> — the
+            quality and care we put into
             <span className="font-semibold text-green-400">every project</span>.
           </motion.h3>
+          <span className="text-white pt-7">
+            All Testimonials are real and verified you can check in my linkedIn
+          </span>
         </div>
       </motion.div>
 
