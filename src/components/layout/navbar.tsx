@@ -75,7 +75,7 @@ export function Navigation() {
       }
 
       if ("requestIdleCallback" in window) {
-        ; (window).requestIdleCallback(detectSections)
+        window.requestIdleCallback(detectSections)
       } else {
         detectSections()
       }
@@ -123,12 +123,6 @@ export function Navigation() {
 
   const navItems = [
     {
-      name: "Home",
-      href: "/",
-      icon: Home,
-      exactMatch: true,
-    },
-    {
       name: "Works",
       href: "#work",
       icon: Briefcase,
@@ -150,21 +144,24 @@ export function Navigation() {
     },
   ]
 
-  const isActive = (href: string, exactMatch = false) => {
-    if (exactMatch) return pathname === href
+  const isActive = (href: string) => {
     if (href.startsWith("#")) {
       const sectionId = href.substring(1)
       return activeSection === sectionId
     }
-    return pathname.startsWith(href)
+    return false
   }
 
   const scrollToSection = (href: string) => {
     if (href.startsWith("#")) {
-      const element = document.getElementById(href.substring(1))
+      const sectionId = href.substring(1)
+      const element = document.getElementById(sectionId)
       if (element) {
         // Close mobile menu first to prevent layout shifts
         setIsMobileMenuOpen(false)
+
+        // Set active section immediately on click
+        setActiveSection(sectionId)
 
         // Small delay to ensure the menu is closed before scrolling
         setTimeout(() => {
@@ -181,9 +178,30 @@ export function Navigation() {
 
         return true
       }
+    } else if (href === "/") {
+      // Handle home link click
+      setActiveSection("")
+      setIsMobileMenuOpen(false)
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      })
+      return true
     }
     return false
   }
+
+  useEffect(() => {
+    // Reset active section when at top of page
+    const handleTopScroll = () => {
+      if (window.scrollY < 100 && pathname === "/") {
+        setActiveSection("")
+      }
+    }
+
+    window.addEventListener("scroll", handleTopScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleTopScroll)
+  }, [pathname])
 
   return (
     <header
@@ -200,9 +218,26 @@ export function Navigation() {
 
           {/* Desktop Navigation - Hide when hamburger is visible */}
           <div className={`${isHamburgerVisible ? "hidden" : "hidden md:flex"} items-center space-x-6`}>
+            {/* Home link (always non-active) */}
+            <div className="relative">
+              <Link
+                href="/"
+                className="flex items-center gap-2 text-sm font-medium transition-all duration-300 text-gray-300 hover:text-white relative py-1"
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  })
+                }}
+              >
+                <Home className="w-4 h-4 text-gray-500" />
+                Home
+              </Link>
+            </div>
+
             {navItems.map((item) => {
               const ActiveIcon = item.icon
-              const active = isActive(item.href, item.exactMatch)
+              const active = isActive(item.href)
 
               return (
                 <div key={item.href} className="relative">
@@ -270,9 +305,27 @@ export function Navigation() {
           aria-label="Mobile navigation"
         >
           <div className="px-4 pt-2 pb-6 space-y-3">
+            {/* Home link (always non-active) */}
+            <div>
+              <Link
+                href="/"
+                className="flex items-center gap-3 p-3 rounded-lg transition-all duration-300 text-gray-300 hover:bg-zinc-800"
+                onClick={() => {
+                  setIsMobileMenuOpen(false)
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  })
+                }}
+              >
+                <Home className="w-5 h-5 text-gray-500" />
+                Home
+              </Link>
+            </div>
+
             {navItems.map((item) => {
               const ActiveIcon = item.icon
-              const active = isActive(item.href, item.exactMatch)
+              const active = isActive(item.href)
 
               return (
                 <div key={item.href}>
@@ -322,4 +375,3 @@ export function Navigation() {
     </header>
   )
 }
-

@@ -1,45 +1,54 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
-import { X, ExternalLink, Github, Clock } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Project } from "./Project";
+import { useState, useEffect } from "react"
+import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import Image from "next/image"
+import { X, ExternalLink, Github } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import type { Project } from "./Project"
 
 interface ProjectModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  project: Project | null;
+  isOpen: boolean
+  onClose: () => void
+  project: Project | null
 }
 
-export default function ProjectModal({
-  isOpen,
-  onClose,
-  project,
-}: ProjectModalProps) {
-  const [loading, setLoading] = useState(true);
-  const [imageError, setImageError] = useState(false);
+export default function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
+  const [loading, setLoading] = useState(true)
+  const [imageError, setImageError] = useState(false)
+
+  // Preload images when component mounts
+  useEffect(() => {
+    if (isOpen && project?.imageUrl) {
+      const img = new window.Image()
+      img.src = project.imageUrl
+      img.onload = () => {
+        setLoading(false)
+      }
+      img.onerror = () => {
+        setLoading(false)
+        setImageError(true)
+      }
+    }
+  }, [isOpen, project])
 
   // Reset loading state when project changes
   useEffect(() => {
     if (project) {
-      setLoading(true);
-      setImageError(false);
+      setLoading(true)
+      setImageError(false)
     }
-  }, [project]);
+  }, [project])
 
-  if (!project) return null;
+  if (!project) return null
 
   // Function to ensure URL has proper format for external links
   const formatExternalUrl = (url: string) => {
-    if (!url) return "#";
-    return url.startsWith("http://") || url.startsWith("https://")
-      ? url
-      : `https://${url}`;
-  };
+    if (!url) return "#"
+    return url.startsWith("http://") || url.startsWith("https://") ? url : `https://${url}`
+  }
 
   return (
     <AnimatePresence>
@@ -82,11 +91,10 @@ export default function ProjectModal({
                 {project.status && (
                   <div className="absolute top-4 left-4 z-30">
                     <Badge
-                      className={`px-3 py-1 text-xs font-medium uppercase tracking-wider ${
-                        project.status === "live"
-                          ? "bg-[#00E188]/20 text-[#00E188] border-[#00E188]/50"
-                          : "bg-amber-500/20 text-amber-400 border-amber-500/50"
-                      }`}
+                      className={`px-3 py-1 text-xs font-medium uppercase tracking-wider ${project.status === "live"
+                        ? "bg-[#00E188]/20 text-[#00E188] border-[#00E188]/50"
+                        : "bg-amber-500/20 text-amber-400 border-amber-500/50"
+                        }`}
                     >
                       {project.status}
                     </Badge>
@@ -94,19 +102,17 @@ export default function ProjectModal({
                 )}
 
                 {!imageError ? (
-                  <div className="relative w-full h-full">
+                  <div className="relative w-full h-full flex items-center justify-center p-4">
                     <Image
-                      src={
-                        project.imageUrl ||
-                        "/placeholder.svg?height=600&width=800"
-                      }
+                      src={project.imageUrl || "/placeholder.svg?height=600&width=800"}
                       alt={project.name}
-                      fill
-                      className="object-contain"
+                      width={800}
+                      height={600}
+                      className="max-w-full max-h-full object-contain rounded-md"
                       onLoadingComplete={() => setLoading(false)}
                       onError={() => {
-                        setLoading(false);
-                        setImageError(true);
+                        setLoading(false)
+                        setImageError(true)
                       }}
                       sizes="(max-width: 1024px) 100vw, 45vw"
                       priority
@@ -121,67 +127,15 @@ export default function ProjectModal({
 
               {/* Content Section */}
               <div className="p-6 md:p-8 w-full lg:w-[55%] overflow-y-auto bg-black text-white">
-                {/* Project Title and Category */}
-                <div className="mb-6">
-                  <h2 className="text-2xl md:text-3xl font-bold text-[#00E188] mb-2">
-                    {project.name}
-                  </h2>
-                  <div className="flex flex-wrap items-center gap-2 text-gray-400">
-                    <span className="text-sm uppercase tracking-wider">
-                      {project.category}
-                    </span>
-                    {project.duration && (
-                      <>
-                        <span className="text-gray-600">•</span>
-                        <span className="flex items-center gap-1 text-sm">
-                          <Clock className="h-3.5 w-3.5" />
-                          {project.duration}
-                        </span>
-                      </>
-                    )}
-                  </div>
-                </div>
+                {/* Project Title */}
+                <h2 className="text-2xl md:text-3xl font-bold text-[#00E188] mb-2">{project.name}</h2>
 
-                {/* Project Metric */}
-                <div className="mb-6 p-4 bg-gray-900/50 border border-gray-800 rounded-lg">
-                  <h3 className="text-xl font-bold text-[#f4fffb] mb-1">
-                    {project.metric}
-                  </h3>
-                  <p className="text-gray-400 text-sm">
-                    {project.technologies.length > 0
-                      ? `Built with ${project.technologies.length} technologies`
-                      : "Delivering exceptional results"}
-                  </p>
-                </div>
+                {/* Category */}
+                <div className="text-sm uppercase tracking-wider text-gray-400 mb-6">{project.category}</div>
 
-                {/* Project Description */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-bold mb-3">Overview</h3>
-                  <p className="text-gray-300 leading-relaxed mb-4">
-                    {project.description}
-                  </p>
-                </div>
-
-                {/* Technologies */}
-                {project.technologies.length > 0 && (
-                  <div className="mb-6">
-                    <h3 className="text-lg font-bold mb-3">Technologies</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech, index) => (
-                        <Badge
-                          key={index}
-                          className="bg-gray-800 hover:bg-gray-700 text-gray-300 border-gray-700"
-                        >
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Action Buttons */}
-                <div className="flex flex-wrap gap-3 mt-8">
-                  {project.liveUrl && (
+                {/* Visit Website Button */}
+                {project.liveUrl && (
+                  <div className="mb-8">
                     <Button
                       asChild
                       className="bg-[#00E188] hover:bg-[#00c077] text-black font-medium transition-colors"
@@ -196,9 +150,42 @@ export default function ProjectModal({
                         <span>Visit Website</span>
                       </a>
                     </Button>
-                  )}
+                  </div>
+                )}
 
-                  {project.githubUrl && project.githubUrl !== "#" && (
+                {/* Project Metric */}
+                <div className="mb-6 p-4 bg-gray-900/50 border border-gray-800 rounded-lg">
+                  <h3 className="text-xl font-bold text-[#f4fffb] mb-1">{project.metric}</h3>
+                  <p className="text-gray-400 text-sm">
+                    {project.technologies.length > 0
+                      ? `Built with ${project.technologies.length} technologies`
+                      : "Delivering exceptional results"}
+                  </p>
+                </div>
+
+                {/* Project Description */}
+                <div className="mb-6">
+                  <h3 className="text-lg font-bold mb-3">Overview</h3>
+                  <p className="text-gray-300 leading-relaxed mb-4">{project.description}</p>
+                </div>
+
+                {/* Technologies */}
+                {project.technologies.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-lg font-bold mb-3">Technologies</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.map((tech, index) => (
+                        <Badge key={index} className="bg-gray-800 hover:bg-gray-700 text-gray-300 border-gray-700">
+                          {tech}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Github Link */}
+                {project.githubUrl && project.githubUrl !== "#" && (
+                  <div className="mt-8">
                     <Button
                       asChild
                       variant="outline"
@@ -214,8 +201,8 @@ export default function ProjectModal({
                         View Code
                       </a>
                     </Button>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </motion.div>
           </DialogContent>
@@ -233,5 +220,5 @@ export default function ProjectModal({
         </Dialog>
       )}
     </AnimatePresence>
-  );
+  )
 }

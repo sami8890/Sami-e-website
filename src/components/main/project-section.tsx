@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
-import { ProjectCard } from "@/components/main/project-card";
+import  {ProjectCard} from "@/components/main/project-card";
 import ProjectModal from "@/components/main/project-modal";
 import { Sparkles, ChevronDown, ChevronUp, } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -44,27 +44,25 @@ const projects: Project[] = [
     liveUrl: "www.contexmedia.com/",
     githubUrl: "#",
   },
-
   {
     id: 3,
     name: "Portfolio Website",
     metric: "Personal portfolio showcasing projects and skills",
     imageUrl: "/project/5.png",
     category: "Portfolio",
-    description: "A personal portfolio website of an top level craetor of linkedIn ",
+    description: "A personal portfolio website of a top-level creator on LinkedIn.",
     technologies: ["React", "Next.js", "Tailwind CSS", "GSAP", "Framer Motion"],
     liveUrl: "https://ibtrahim.vercel.app/",
     githubUrl: "#",
     duration: "4 Days",
   },
-
   {
     id: 4,
-    name: "E-commerce Website ",
+    name: "E-commerce Website",
     metric: "Hobby project to learn Next.js and Tailwind CSS (NOT REAL)",
     imageUrl: "/project/2.png",
     category: "E-commerce",
-    description: "A fully functional e-commerce platform for buying and selling furniture.",
+    description: "A fully functional e-commerce platform for buying and selling furniture (not a real project).",
     technologies: ["React", "Next.js", "Tailwind CSS", "GSAP", "Framer Motion", "Stripe"],
     liveUrl: "https://figma-hackaton.vercel.app/",
     githubUrl: "#",
@@ -75,14 +73,12 @@ const projects: Project[] = [
     metric: "Hobby project (NOT REAL)",
     imageUrl: "/project/1.png",
     category: "Healthcare",
-    description: "A demo website for a healthcare provider, designed to showcase services and appointments.",
+    description: "A demo website for a healthcare provider, designed to showcase services and appointments (not a real project).",
     technologies: ["Next.js", "Tailwind CSS", "GSAP", "Framer Motion", "React"],
     liveUrl: "/health-website-w.vercel.app/",
     githubUrl: "#",
   },
- 
 ];
-
 
 export default function ProjectsSection() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
