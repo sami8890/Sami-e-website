@@ -337,39 +337,7 @@ export default function EnhancedHeroSection() {
                   </p>
                 </div>
 
-                {/* Enhanced testimonial */}
-                <div className="col-span-2 mt-4 rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300">
-                  <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 mt-1">
-                      <div className="flex">
-                        {[1, 2, 3, 4, 5].map((i) => (
-                          <Star
-                            key={i}
-                            className="h-3 w-3 fill-green-400 text-green-400"
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <p className="italic text-zinc-300 text-xs leading-relaxed">
-                        &quot;Sami absolutely crushed it with my website in less than a week. He took the time to really understand what I wanted and brought it to life in a way that felt personal and unique. If you need a web developer who cares about the details, I highly recommend Sami.&quot;
-                      </p>
-                      <p className="mt-2 text-xs font-medium text-green-400">
-                        — CEO, Contntr.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mt-3 pt-3 border-t border-zinc-800 flex justify-between items-center">
-                    <p className="text-xs text-zinc-500">Verified Client</p>
-                    <Link
-                      href="#testimonial"
-                      className="text-green-400 text-xs flex items-center gap-1 hover:text-green-300"
-                    >
-                      <span>View more testimonials</span>
-                      <ExternalLink className="h-3 w-3" />
-                    </Link>
-                  </div>
-                </div>
+               
               </div>
             </div>
           </div>

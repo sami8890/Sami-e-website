@@ -267,7 +267,7 @@ const TestimonialSection = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="text-sm text-zinc-400"
             >
-              Click any testimonial to see the result
+              Hover any testimonial to see the result ( it got blured)
             </motion.p>
 
             <motion.p
