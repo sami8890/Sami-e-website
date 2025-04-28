@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -16,7 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Website developer ",
-  description: "I help contnet creators and small business owners to convert their audience into customers.",
+  description:
+    "I help contnet creators and small business owners to convert their audience into customers.",
 };
 
 export default function RootLayout({
@@ -26,13 +28,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >    
-            <Navigation />
-            {children}
-            <MYFooter />
-        </body>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <Navigation />
+        {children}
+        <Analytics />
+        <MYFooter />
+      </body>
     </html>
   );
 }

@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Star,
-  ExternalLink,
   Layout,
   Zap,
   Sparkles,

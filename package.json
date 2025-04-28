@@ -28,6 +28,7 @@
     "@stripe/stripe-js": "^5.6.0",
     "@studio-freight/lenis": "^1.0.42",
     "@types/swiper": "^5.4.3",
+    "@vercel/analytics": "^1.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.5.1",
