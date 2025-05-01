@@ -73,7 +73,7 @@ export default function EnhancedHeroSection() {
 
   return (
     <div
-      className="relative w-full min-h-screen overflow-hidden bg-zinc-950 text-white font-sans pt-16"
+      className="relative w-full min-h-screen overflow-hidden bg-[#121212] text-white font-sans pt-16"
       ref={heroRef}
     >
       {/* Background elements */}
@@ -89,14 +89,7 @@ export default function EnhancedHeroSection() {
             <div
               className={`transition-all duration-1000 max-w-2xl ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
             >
-              {/* Agency badge */}
-              <div
-                className={`inline-flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs font-medium text-green-400 transition-all duration-700 ${isVisible ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"}`}
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-green-500"></span>
-                <span>Web Design Expert</span>
-              </div>
-
+             
               {/* Main heading */}
               <h1
                 className={`mt-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl leading-[1.1] transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
@@ -145,8 +138,8 @@ export default function EnhancedHeroSection() {
                     <button
                       key={index}
                       className={`relative px-3 py-1.5 text-xs font-medium rounded-md flex items-center gap-1.5 transition-all duration-300 ${activeTab === index
-                          ? "text-black bg-green-400"
-                          : "text-zinc-400 hover:text-zinc-200"
+                        ? "text-black bg-green-400"
+                        : "text-zinc-400 hover:text-zinc-200"
                         }`}
                       onClick={() => setActiveTab(index)}
                       aria-selected={activeTab === index}
@@ -220,31 +213,30 @@ export default function EnhancedHeroSection() {
                 </div>
               </div>
 
-              {/* CTA buttons */}
+              {/* CTA buttons - with proper alignment */}
               <div
-                className={`mt-8 flex flex-col gap-4 sm:flex-row transition-all duration-1000 delay-200 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+                className={`mt-8 flex flex-col sm:flex-row sm:items-start gap-4 transition-all duration-1000 delay-200 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
               >
+                {/* Primary button */}
                 <Link href="#testimonial">
-                  <div className="absolute bg-gradient-to-r from-green-600 to-green-400 rounded-md"></div>
-                  <Button className="relative bg-green-500 px-6 py-6 text-sm font-medium overflow-hidden shadow-green-900/20 group-hover:shadow-green-900/40 transition-all duration-300">
-                    <Eye className="relative z-10 mr-2 h-2 w-2" />
-                    <span className="relative z-10 font-bold">
-                      See Live Demos
-                    </span>
-                    <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
+                  <Button
+                    className="px-8 py-2.5 bg-green-500 hover:bg-green-400 text-sm font-semibold text-white rounded-md shadow-md transition-all duration-300 flex items-center"
+                  >
+                    <Eye className="mr-2 h-4 w-4" />
+                    <span>See Live Demos</span>
                   </Button>
                 </Link>
 
+                {/* Secondary button */}
                 <Link href="#work">
                   <Button
                     variant="outline"
-                    className="border-zinc-800 bg-zinc-900/50 px-6 py-2 text-sm font-medium backdrop-blur hover:bg-zinc-800 hover:text-white"
+                    className="px-8 py-2.5 border border-zinc-700 hover:border-green-500 bg-zinc-900/50 hover:bg-zinc-800 text-sm font-medium text-zinc-200 hover:text-white rounded-md transition-all duration-300"
                   >
                     <span>View My Work</span>
                   </Button>
                 </Link>
               </div>
-
               {/* Trusted by */}
               <div
                 className={`mt-12 transition-all duration-1000 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
@@ -336,7 +328,7 @@ export default function EnhancedHeroSection() {
                   </p>
                 </div>
 
-               
+
               </div>
             </div>
           </div>

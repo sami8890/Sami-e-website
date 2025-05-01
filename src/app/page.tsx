@@ -1,5 +1,5 @@
 import FAQSection from '@/components/main/faqs-section'
-import { ProcessSection } from '@/components/main/how-i-work'
+// import { ProcessSection } from '@/components/main/how-i-work'
 import Newsection from '@/components/main/testimoniall-section'
 import { SocialFab } from '@/components/ui/call-to-action-button'
 import AboutMe from './about/page'
@@ -20,9 +20,9 @@ export default function Page() {
       <Newsection/>
       <ProjectsSection />
       {/* <ServicesShowcase/> */}
+      {/* <ProcessSection/>  */}
       <WhyChooseUs/>
       <AboutMe />
-      <ProcessSection/> 
       <FAQSection/>
       {/* <CalendlyBooking/> */}
     </main> 

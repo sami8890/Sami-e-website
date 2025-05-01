@@ -72,7 +72,6 @@ const TestimonialSection = () => {
   const [showAll, setShowAll] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [expandedIds, setExpandedIds] = useState<number[]>([]);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -108,7 +107,7 @@ const TestimonialSection = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Function to highlight keywords in testimonial content
+  // Function to highlight keywords in testimonial content with improved styling
   const highlightKeywords = (content: string) => {
     // Keywords to highlight
     const keywords = [
@@ -152,12 +151,12 @@ const TestimonialSection = () => {
 
     let highlightedContent = content;
 
-    // Replace keywords with highlighted versions
+    // Replace keywords with highlighted versions using elegant subtle highlighting
     keywords.forEach((keyword) => {
       const regex = new RegExp(`(${keyword})`, "gi");
       highlightedContent = highlightedContent.replace(
         regex,
-        '<span class="font-semibold text-green-400">$1</span>'
+        '<span class="font-medium text-green-300 border-b border-green-300/30 px-0.5">$1</span>'
       );
     });
 
@@ -176,7 +175,8 @@ const TestimonialSection = () => {
       .map((_, index) => (
         <svg
           key={index}
-          className={`w-4 h-4 ${index < rating ? "text-green-400" : "text-zinc-600"}`}
+          className={`w-4 h-4 ${index < rating ? "text-green-400" : "text-zinc-600"
+            }`}
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
@@ -216,69 +216,59 @@ const TestimonialSection = () => {
       id="testimonial"
       className="bg-black text-white py-16 px-4 md:px-8 relative"
     >
-      {/* Header with improved design */}
+      {/* Improved Header with refined design */}
       <motion.div
-        className="relative max-w-7xl mx-auto mb-10 text-center"
+        className="relative max-w-5xl mx-auto mb-12 text-center"
         initial={{ opacity: 0, y: 20 }}
         animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.7 }}
       >
-        <div className="space-y-4">
+        <div className="space-y-3">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={
               isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }
             }
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs font-medium text-green-400 mb-6"
+            className="inline-flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs font-medium text-green-400"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-green-500"></span>
-            <span>What clients say</span>
+            <span>Client Testimonials</span>
           </motion.div>
+
           <motion.h2
             initial={{ opacity: 0, y: 10 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-4xl md:text-6xl font-bold mb-6"
+            className="text-3xl md:text-5xl font-bold"
           >
-            <span className="text-green-500 font-extrabold">Proven</span>{" "}
-            Success
-            <br />
-            <span className="text-green-500 font-extrabold">Stories</span>
+            What <span className="text-green-500">Clients</span> Say
           </motion.h2>
 
-          {/* Restructured subheading section */}
-          <div className="space-y-3">
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-xl text-zinc-300 max-w-2xl mx-auto"
-            >
-              Hear what our clients say about
-              <span className="font-semibold text-white"> our work</span> — the
-              quality and care we put into
-              <span className="font-semibold text-green-400"> every project</span>.
-            </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-zinc-400 text-sm md:text-base max-w-2xl mx-auto"
+          >
+            Real feedback from satisfied clients who have experienced the quality of my work
+          </motion.p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="text-sm text-zinc-400"
-            >
-              Hover any testimonial to see the result ( it got blured)
-            </motion.p>
-
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="text-sm text-zinc-400 mt-1"
-            >
-              All testimonials are real and verified on LinkedIn
-            </motion.p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex justify-center space-x-4 text-xs text-zinc-400 pt-2"
+          >
+            <span className="flex items-center">
+              <span className="h-1 w-1 rounded-full bg-green-500 mr-2"></span>
+              Hover to view full reviews
+            </span>
+            <span className="flex items-center">
+              <span className="h-1 w-1 rounded-full bg-green-500 mr-2"></span>
+              Verified testimonials
+            </span>
+          </motion.div>
         </div>
       </motion.div>
 
@@ -293,12 +283,15 @@ const TestimonialSection = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`group bg-zinc-900 rounded-xl p-5 border border-zinc-800 shadow-md relative h-auto testimonial-card hover:border-green-500/30 ${hoveredId !== null && hoveredId !== testimonial.id
-                    ? "blur-sm opacity-50 scale-98"
-                    : ""
-                  }`}
-                onMouseEnter={() => setHoveredId(testimonial.id)}
-                onMouseLeave={() => setHoveredId(null)}
+                className={`group bg-zinc-900 rounded-xl p-5 border border-zinc-800 shadow-md relative h-auto testimonial-card transition-all duration-300
+                    hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/5 hover:-translate-y-1
+                    before:content-['"'] before:absolute before:top-2 before:left-3 before:text-3xl before:font-serif 
+                    before:text-green-500/10 before:opacity-70 before:transition-opacity before:duration-300
+                    after:content-['"'] after:absolute after:bottom-3 after:right-3 after:text-3xl after:font-serif 
+                    after:text-green-500/10 after:opacity-70 after:rotate-180 after:transition-opacity after:duration-300
+                    hover:before:opacity-100 hover:after:opacity-100
+                  `}
+
                 style={{
                   transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
                   willChange: "transform, opacity, filter",
@@ -314,16 +307,10 @@ const TestimonialSection = () => {
                   {testimonial.source === "linkedin" ? "linkedin" : "fiverr."}
                 </div>
 
-                {/* Subtle quote marks */}
-                <div className="absolute top-3 left-3 text-3xl text-green-500/10 font-serif">
-                  &quot;
-                </div>
-                <div className="absolute bottom-3 right-3 text-3xl text-green-500/10 font-serif rotate-180">
-                  &quot;
-                </div>
-
                 <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 rounded-full overflow-hidden mr-3 relative bg-zinc-800 flex items-center justify-center border border-zinc-700 group-hover:border-green-500/30 transition-colors duration-300">
+                  <div
+                    className="w-10 h-10 rounded-full overflow-hidden mr-3 relative bg-zinc-800 flex items-center justify-center border border-zinc-700 group-hover:border-green-500/30 transition-colors duration-300 group-hover:scale-105"
+                  >
                     {testimonial.avatar ? (
                       <Image
                         src={testimonial.avatar || "/placeholder.svg"}
@@ -338,6 +325,7 @@ const TestimonialSection = () => {
                       </span>
                     )}
                   </div>
+
                   <div>
                     <div className="flex items-center">
                       <h4 className="font-bold text-sm text-white">
@@ -354,7 +342,7 @@ const TestimonialSection = () => {
                 </div>
 
                 <div className="mb-4">
-                  <div className="text-zinc-300 text-sm leading-relaxed">
+                  <div className="text-zinc-100 text-sm leading-relaxed font-normal tracking-wide">
                     {expandedIds.includes(testimonial.id)
                       ? highlightKeywords(testimonial.content)
                       : highlightKeywords(testimonial.shortContent)}
@@ -363,7 +351,7 @@ const TestimonialSection = () => {
                         e.stopPropagation();
                         toggleExpand(testimonial.id);
                       }}
-                      className="text-green-400 hover:text-green-300 text-xs font-medium mt-1 flex items-center"
+                      className="text-green-400 hover:text-green-300 text-xs font-medium mt-3 flex items-center bg-green-500/5 px-2 py-1 rounded-md transition-all hover:bg-green-500/10"
                     >
                       {expandedIds.includes(testimonial.id) ? (
                         <>
@@ -378,9 +366,9 @@ const TestimonialSection = () => {
                   </div>
                 </div>
 
-                <div className="text-xs text-zinc-500 pt-2 mt-2 border-t border-zinc-800 flex justify-between items-center">
+                <div className="text-xs text-zinc-400 pt-2 mt-3 border-t border-zinc-800 flex justify-between items-center">
                   <span className="font-medium">{testimonial.project}</span>
-                  <span className="text-green-500 font-bold">
+                  <span className="text-green-400 font-medium bg-green-500/5 px-2 py-0.5 rounded-full text-xs">
                     {testimonial.category}
                   </span>
                 </div>
@@ -442,83 +430,7 @@ const TestimonialSection = () => {
             </button>
           </motion.div>
         )}
-
-        {/* Video Testimonials Button - More subtle design */}
-        {/* <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex justify-center mt-10"
-        >
-          <Link
-            href="/testimonial" // Replace with actual video testimonials URL
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group bg-zinc-900 hover:bg-zinc-800 text-white px-5 py-2 rounded-lg text-sm font-medium border border-zinc-700 hover:border-green-500/30 transition-all duration-300 flex items-center gap-2"
-          >
-            <div className="bg-green-500/20 rounded-full p-1 group-hover:bg-green-500/30 transition-colors">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-green-400"
-              >
-                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-              </svg>
-            </div>
-            <span>Watch Video Testimonials</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-green-400 group-hover:translate-x-1 transition-transform"
-            >
-              <path d="M5 12h14"></path>
-              <path d="m12 5 7 7-7 7"></path>
-            </svg>
-          </Link>
-        </motion.div> */}
       </div>
-      {/* Animation keyframes */}
-      <style jsx>{`
-        .testimonial-card {
-          height: fit-content;
-          transition: all 0.3s ease-in-out;
-        }
-
-        .testimonial-card:hover {
-          transform: translateY(-5px);
-        }
-
-        @keyframes fadeUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        [data-aos="fade-up"] {
-          animation: fadeUp 0.8s ease-out forwards;
-        }
-      `}</style>
-
-      
     </div>
   );
 };
