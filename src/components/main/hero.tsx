@@ -2,13 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Star,
-  Layout,
-  Zap,
-  Sparkles,
-  Eye,
-} from "lucide-react";
+import { Star, Layout, Zap, Sparkles, Eye } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -89,7 +83,6 @@ export default function EnhancedHeroSection() {
             <div
               className={`transition-all duration-1000 max-w-2xl ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
             >
-             
               {/* Main heading */}
               <h1
                 className={`mt-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl leading-[1.1] transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
@@ -137,10 +130,11 @@ export default function EnhancedHeroSection() {
                   return (
                     <button
                       key={index}
-                      className={`relative px-3 py-1.5 text-xs font-medium rounded-md flex items-center gap-1.5 transition-all duration-300 ${activeTab === index
-                        ? "text-black bg-green-400"
-                        : "text-zinc-400 hover:text-zinc-200"
-                        }`}
+                      className={`relative px-3 py-1.5 text-xs font-medium rounded-md flex items-center gap-1.5 transition-all duration-300 ${
+                        activeTab === index
+                          ? "text-black bg-green-400"
+                          : "text-zinc-400 hover:text-zinc-200"
+                      }`}
                       onClick={() => setActiveTab(index)}
                       aria-selected={activeTab === index}
                       role="tab"
@@ -212,16 +206,13 @@ export default function EnhancedHeroSection() {
                   </p>
                 </div>
               </div>
-
               {/* CTA buttons - with proper alignment */}
               <div
                 className={`mt-8 flex flex-col sm:flex-row sm:items-start gap-4 transition-all duration-1000 delay-200 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
               >
                 {/* Primary button */}
                 <Link href="#testimonial">
-                  <Button
-                    className="px-8 py-2.5 bg-green-500 hover:bg-green-400 text-sm font-semibold text-white rounded-md shadow-md transition-all duration-300 flex items-center"
-                  >
+                  <Button className="px-8 py-2.5 bg-green-500 hover:bg-green-400 text-sm font-semibold text-white rounded-md shadow-md transition-all duration-300 flex items-center">
                     <Eye className="mr-2 h-4 w-4" />
                     <span>See Live Demos</span>
                   </Button>
@@ -309,9 +300,7 @@ export default function EnhancedHeroSection() {
                       ★★★★★
                     </span>
                   </div>
-                  <p className="mt-1 text-xs text-zinc-400">
-                    Client Rating
-                  </p>
+                  <p className="mt-1 text-xs text-zinc-400">Client Rating</p>
                 </div>
 
                 <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group col-span-2">
@@ -323,12 +312,8 @@ export default function EnhancedHeroSection() {
                       ⏰
                     </span>
                   </div>
-                  <p className="mt-1 text-xs text-zinc-400">
-                    Response Time
-                  </p>
+                  <p className="mt-1 text-xs text-zinc-400">Response Time</p>
                 </div>
-
-
               </div>
             </div>
           </div>
