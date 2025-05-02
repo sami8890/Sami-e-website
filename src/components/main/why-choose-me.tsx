@@ -24,7 +24,7 @@ export default function WhyChooseUs() {
   const [showCalendly, setShowCalendly] = useState(false);
 
   const stats = [
-    { value: "15+", label: "Projects Delivered" },
+    { value: "5+", label: "Projects Delivered" },
     { value: "4.9/5", label: "Client Rating" },
     { value: "Fast", label: "Response Time" },
   ];

@@ -78,11 +78,11 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
               transition={{ duration: 0.3 }}
               className="flex flex-col lg:flex-row w-full h-full overflow-auto"
             >
-              {/* Image Section */}
-              <div className="relative w-full lg:w-[45%] h-72 sm:h-96 lg:h-auto bg-gray-900 flex-shrink-0">
+              {/* Image Section - Modified to show larger image */}
+              <div className="w-full lg:w-3/5 h-72 sm:h-96 lg:h-auto bg-gray-900 flex-shrink-0 relative">
                 {/* Loading Spinner */}
                 {loading && !imageError && (
-                  <div className="absolute inset-0 flex items-center justify-center z-20 bg-gray-900/70 backdrop-blur-sm">
+                  <div className="absolute top-0 left-0 flex items-center justify-center z-20 bg-gray-900/70 backdrop-blur-sm w-full h-full">
                     <div className="h-10 w-10 text-[#00E188] animate-spin border-3 border-current border-t-transparent rounded-full" />
                   </div>
                 )}
@@ -102,31 +102,31 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
                 )}
 
                 {!imageError ? (
-                  <div className="relative w-full h-full flex items-center justify-center p-4">
+                  <div className="w-full h-full">
                     <Image
                       src={project.imageUrl || "/placeholder.svg?height=600&width=800"}
                       alt={project.name}
                       width={800}
                       height={600}
-                      className="max-w-full max-h-full object-contain rounded-md"
+                      className="w-full h-full object-cover"
                       onLoadingComplete={() => setLoading(false)}
                       onError={() => {
                         setLoading(false)
                         setImageError(true)
                       }}
-                      sizes="(max-width: 1024px) 100vw, 45vw"
+                      sizes="(max-width: 1024px) 100vw, 60vw"
                       priority
                     />
                   </div>
                 ) : (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-900 text-gray-600">
+                  <div className="w-full h-full flex items-center justify-center bg-gray-900 text-gray-600">
                     <p className="text-lg font-medium">Image not available</p>
                   </div>
                 )}
               </div>
 
               {/* Content Section */}
-              <div className="p-6 md:p-8 w-full lg:w-[55%] overflow-y-auto bg-black text-white">
+              <div className="p-6 md:p-8 w-full lg:w-2/5 overflow-y-auto bg-black text-white">
                 {/* Project Title */}
                 <h2 className="text-2xl md:text-3xl font-bold text-[#00E188] mb-2">{project.name}</h2>
 

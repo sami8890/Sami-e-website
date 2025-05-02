@@ -1,38 +1,38 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import { ArrowRight, CheckCircle, Calendar } from "lucide-react"
-import { motion } from "framer-motion"
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { ArrowRight, CheckCircle, Calendar } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface ProjectCardProps {
   project: {
-    id: number
-    name: string
-    metric: string
-    imageUrl: string
-    category: string
-    description: string
-    technologies: string[]
-    liveUrl: string
-    githubUrl: string
-    duration?: string
-    status?: "live" | "development"
-  }
-  onClick: () => void
-  index: number
+    id: number;
+    name: string;
+    metric: string;
+    imageUrl: string;
+    category: string;
+    description: string;
+    technologies: string[];
+    liveUrl: string;
+    githubUrl: string;
+    duration?: string;
+    status?: "live" | "development";
+  };
+  onClick: () => void;
+  index: number;
 }
 
 export function ProjectCard({ project, onClick, index }: ProjectCardProps) {
-  const [imageLoaded, setImageLoaded] = useState(false)
-  const [isImageError, setIsImageError] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [isImageError, setIsImageError] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   // Reset image error state when imageUrl changes
   useEffect(() => {
-    setIsImageError(false)
-    setImageLoaded(false)
-  }, [project.imageUrl])
+    setIsImageError(false);
+    setImageLoaded(false);
+  }, [project.imageUrl]);
 
   return (
     <motion.div
@@ -47,8 +47,8 @@ export function ProjectCard({ project, onClick, index }: ProjectCardProps) {
       aria-label={`View details for ${project.name}`}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
-          onClick()
-          e.preventDefault()
+          onClick();
+          e.preventDefault();
         }
       }}
       onMouseEnter={() => setIsHovered(true)}
@@ -76,8 +76,9 @@ export function ProjectCard({ project, onClick, index }: ProjectCardProps) {
             src={project.imageUrl || "/placeholder.svg?height=400&width=600"}
             alt={project.name || "Project image"}
             fill
-            className={`object-cover object-center transition-all duration-700 ${imageLoaded ? "opacity-100" : "opacity-0"
-              } ${isHovered ? "scale-105" : "scale-100"}`}
+            className={`object-cover object-center transition-all duration-700 ${
+              imageLoaded ? "opacity-100" : "opacity-0"
+            } ${isHovered ? "scale-105" : "scale-100"}`}
             priority
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             onLoad={() => setImageLoaded(true)}
@@ -88,8 +89,11 @@ export function ProjectCard({ project, onClick, index }: ProjectCardProps) {
           {/* Status Badge */}
           {project.status && (
             <div
-              className={`absolute top-3 right-3 px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 ${project.status === "live" ? "bg-[#00E188]/20 text-[#00E188]" : "bg-amber-500/20 text-amber-400"
-                }`}
+              className={`absolute top-3 right-3 px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 ${
+                project.status === "live"
+                  ? "bg-[#00E188]/20 text-[#00E188]"
+                  : "bg-amber-500/20 text-amber-400"
+              }`}
             >
               {project.status === "live" ? (
                 <>
@@ -104,15 +108,8 @@ export function ProjectCard({ project, onClick, index }: ProjectCardProps) {
               )}
             </div>
           )}
-
-          {/* Overlay on hover */}
-          <div
-            className={`absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 transition-opacity duration-300 ${isHovered ? "opacity-70" : ""
-              }`}
-          />
         </div>
       </div>
-
       {/* Content Section */}
       <div className="relative p-5 sm:p-6 bg-zinc-900">
         <div className="space-y-4">
@@ -121,7 +118,9 @@ export function ProjectCard({ project, onClick, index }: ProjectCardProps) {
             <h3 className="text-lg sm:text-xl font-bold text-white line-clamp-2 transition-colors duration-300 group-hover:text-[#00E188]">
               {project.name}
             </h3>
-            <p className="text-[#00E188] font-medium text-sm sm:text-base">{project.metric}</p>
+            <p className="text-[#00E188] font-medium text-sm sm:text-base">
+              {project.metric}
+            </p>
           </div>
 
           {/* Technologies */}
@@ -159,7 +158,10 @@ export function ProjectCard({ project, onClick, index }: ProjectCardProps) {
               aria-label={`View details for ${project.name}`}
             >
               Overview
-              <motion.div animate={{ x: isHovered ? 5 : 0 }} transition={{ duration: 0.3 }}>
+              <motion.div
+                animate={{ x: isHovered ? 5 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
                 <ArrowRight className="w-4 h-4" />
               </motion.div>
             </motion.button>
@@ -167,5 +169,5 @@ export function ProjectCard({ project, onClick, index }: ProjectCardProps) {
         </div>
       </div>
     </motion.div>
-  )
+  );
 }

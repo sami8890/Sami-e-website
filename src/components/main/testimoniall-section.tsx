@@ -175,8 +175,9 @@ const TestimonialSection = () => {
       .map((_, index) => (
         <svg
           key={index}
-          className={`w-4 h-4 ${index < rating ? "text-green-400" : "text-zinc-600"
-            }`}
+          className={`w-4 h-4 ${
+            index < rating ? "text-green-400" : "text-zinc-600"
+          }`}
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
@@ -251,7 +252,8 @@ const TestimonialSection = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="text-zinc-400 text-sm md:text-base max-w-2xl mx-auto"
           >
-            Real feedback from satisfied clients who have experienced the quality of my work
+            Real feedback from satisfied clients who have experienced the
+            quality of my work
           </motion.p>
 
           <motion.div
@@ -262,7 +264,7 @@ const TestimonialSection = () => {
           >
             <span className="flex items-center">
               <span className="h-1 w-1 rounded-full bg-green-500 mr-2"></span>
-              Hover to view full reviews
+              Click to read to view full reviews
             </span>
             <span className="flex items-center">
               <span className="h-1 w-1 rounded-full bg-green-500 mr-2"></span>
@@ -278,12 +280,12 @@ const TestimonialSection = () => {
           {isLoading
             ? renderSkeletons()
             : displayedTestimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`group bg-zinc-900 rounded-xl p-5 border border-zinc-800 shadow-md relative h-auto testimonial-card transition-all duration-300
+                <motion.div
+                  key={testimonial.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className={`group bg-zinc-900 rounded-xl p-5 border border-zinc-800 shadow-md relative h-auto testimonial-card transition-all duration-300
                     hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/5 hover:-translate-y-1
                     before:content-['"'] before:absolute before:top-2 before:left-3 before:text-3xl before:font-serif 
                     before:text-green-500/10 before:opacity-70 before:transition-opacity before:duration-300
@@ -291,89 +293,87 @@ const TestimonialSection = () => {
                     after:text-green-500/10 after:opacity-70 after:rotate-180 after:transition-opacity after:duration-300
                     hover:before:opacity-100 hover:after:opacity-100
                   `}
-
-                style={{
-                  transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-                  willChange: "transform, opacity, filter",
-                }}
-              >
-                {/* Source watermark - LinkedIn or Fiverr */}
-                <div
-                  className={`absolute top-3 right-3 text-xs font-bold ${testimonial.source === "linkedin"
-                      ? "text-blue-500 opacity-70"
-                      : "text-green-500 opacity-50"
-                    }`}
+                  style={{
+                    transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+                    willChange: "transform, opacity, filter",
+                  }}
                 >
-                  {testimonial.source === "linkedin" ? "linkedin" : "fiverr."}
-                </div>
-
-                <div className="flex items-center mb-4">
+                  {/* Source watermark - LinkedIn or Fiverr */}
                   <div
-                    className="w-10 h-10 rounded-full overflow-hidden mr-3 relative bg-zinc-800 flex items-center justify-center border border-zinc-700 group-hover:border-green-500/30 transition-colors duration-300 group-hover:scale-105"
+                    className={`absolute top-3 right-3 text-xs font-bold ${
+                      testimonial.source === "linkedin"
+                        ? "text-blue-500 opacity-70"
+                        : "text-green-500 opacity-50"
+                    }`}
                   >
-                    {testimonial.avatar ? (
-                      <Image
-                        src={testimonial.avatar || "/placeholder.svg"}
-                        alt={testimonial.name}
-                        fill
-                        className="object-cover"
-                        sizes="40px"
-                      />
-                    ) : (
-                      <span className="text-lg font-bold">
-                        {testimonial.name.charAt(0)}
-                      </span>
-                    )}
+                    {testimonial.source === "linkedin" ? "linkedin" : "fiverr."}
                   </div>
 
-                  <div>
-                    <div className="flex items-center">
-                      <h4 className="font-bold text-sm text-white">
-                        {testimonial.name}
-                      </h4>
-                    </div>
-                    <p className="text-zinc-400 text-xs">
-                      {testimonial.role}
-                    </p>
-                  </div>
-                  <div className="ml-auto flex">
-                    {renderStars(testimonial.rating)}
-                  </div>
-                </div>
-
-                <div className="mb-4">
-                  <div className="text-zinc-100 text-sm leading-relaxed font-normal tracking-wide">
-                    {expandedIds.includes(testimonial.id)
-                      ? highlightKeywords(testimonial.content)
-                      : highlightKeywords(testimonial.shortContent)}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleExpand(testimonial.id);
-                      }}
-                      className="text-green-400 hover:text-green-300 text-xs font-medium mt-3 flex items-center bg-green-500/5 px-2 py-1 rounded-md transition-all hover:bg-green-500/10"
-                    >
-                      {expandedIds.includes(testimonial.id) ? (
-                        <>
-                          Read less <span className="ml-1">↑</span>
-                        </>
+                  <div className="flex items-center mb-4">
+                    <div className="w-10 h-10 rounded-full overflow-hidden mr-3 relative bg-zinc-800 flex items-center justify-center border border-zinc-700 group-hover:border-green-500/30 transition-colors duration-300 group-hover:scale-105">
+                      {testimonial.avatar ? (
+                        <Image
+                          src={testimonial.avatar || "/placeholder.svg"}
+                          alt={testimonial.name}
+                          fill
+                          className="object-cover"
+                          sizes="40px"
+                        />
                       ) : (
-                        <>
-                          Read more <span className="ml-1">↓</span>
-                        </>
+                        <span className="text-lg font-bold">
+                          {testimonial.name.charAt(0)}
+                        </span>
                       )}
-                    </button>
-                  </div>
-                </div>
+                    </div>
 
-                <div className="text-xs text-zinc-400 pt-2 mt-3 border-t border-zinc-800 flex justify-between items-center">
-                  <span className="font-medium">{testimonial.project}</span>
-                  <span className="text-green-400 font-medium bg-green-500/5 px-2 py-0.5 rounded-full text-xs">
-                    {testimonial.category}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
+                    <div>
+                      <div className="flex items-center">
+                        <h4 className="font-bold text-sm text-white">
+                          {testimonial.name}
+                        </h4>
+                      </div>
+                      <p className="text-zinc-400 text-xs">
+                        {testimonial.role}
+                      </p>
+                    </div>
+                    <div className="ml-auto flex">
+                      {renderStars(testimonial.rating)}
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="text-zinc-100 text-sm leading-relaxed font-normal tracking-wide">
+                      {expandedIds.includes(testimonial.id)
+                        ? highlightKeywords(testimonial.content)
+                        : highlightKeywords(testimonial.shortContent)}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleExpand(testimonial.id);
+                        }}
+                        className="text-green-400 hover:text-green-300 text-xs font-medium mt-3 flex items-center bg-green-500/5 px-2 py-1 rounded-md transition-all hover:bg-green-500/10"
+                      >
+                        {expandedIds.includes(testimonial.id) ? (
+                          <>
+                            Read less <span className="ml-1">↑</span>
+                          </>
+                        ) : (
+                          <>
+                            Read more <span className="ml-1">↓</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="text-xs text-zinc-400 pt-2 mt-3 border-t border-zinc-800 flex justify-between items-center">
+                    <span className="font-medium">{testimonial.project}</span>
+                    <span className="text-green-400 font-medium bg-green-500/5 px-2 py-0.5 rounded-full text-xs">
+                      {testimonial.category}
+                    </span>
+                  </div>
+                </motion.div>
+              ))}
         </div>
 
         {/* Show more/less button */}
