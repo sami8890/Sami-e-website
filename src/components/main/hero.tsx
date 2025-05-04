@@ -63,7 +63,7 @@ export default function EnhancedHeroSection() {
       clearInterval(typingInterval);
       clearInterval(tabInterval);
     };
-  }, );
+  }, []);
 
   return (
     <div
@@ -105,9 +105,9 @@ export default function EnhancedHeroSection() {
                 </span>{" "}
                 That
                 <br />
-                Drives{" "}
+                Grow{" "}
                 <span className="text-green-400 relative inline-block">
-                  Results
+                  Bussiness{" "}
                   <svg
                     className="absolute -bottom-1 left-0 w-full"
                     viewBox="0 0 100 15"
@@ -153,8 +153,6 @@ export default function EnhancedHeroSection() {
                 })}
               </div>
 
-              
-
               {/* Typed text */}
               <div
                 className={`mt-4 transition-all duration-1000 delay-100 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
@@ -189,44 +187,51 @@ export default function EnhancedHeroSection() {
                 </Link>
               </div>
               {/* Trusted by */}
-              <div
-                className={`mt-12 transition-all duration-1000 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
-              >
+              <div className="mt-12">
                 <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 backdrop-blur-sm">
                   <p className="text-sm font-medium uppercase tracking-wider text-green-400 flex items-center gap-2 mb-4">
                     <Star className="h-4 w-4 fill-green-400 text-green-400" />
-                    Trusted by Top-Tier Creators
+                    Trusted by Top Creators
                   </p>
-                  <div className="mt-3 flex flex-wrap gap-4 items-center justify-center md:justify-start">
-                    {/* Client avatars with actual images */}
-                    {clients.map((client, i) => (
+                  <div className="mt-3 flex flex-wrap gap-5 items-center justify-center md:justify-start">
+                    {/* Client avatars - kept but simplified */}
+                    {clients.slice(0, 3).map((client, i) => (
                       <div key={i} className="relative group">
-                        <div className="h-16 w-16 rounded-full bg-gradient-to-br from-green-400 to-green-600 p-[2px] transition-all duration-300 group-hover:scale-110 shadow-lg shadow-green-900/20">
-                          <div className="h-full w-full rounded-full bg-zinc-900 p-1 backdrop-blur-sm">
+                        <div className="h-14 w-14 rounded-full bg-gradient-to-br from-green-400 to-green-600 p-[2px] shadow-lg shadow-green-900/20">
+                          <div className="h-full w-full rounded-full bg-zinc-900 p-1">
                             <div className="flex h-full w-full items-center justify-center rounded-full bg-zinc-800 overflow-hidden">
                               <Image
                                 src={client.image || "/placeholder.svg"}
                                 alt={client.name}
                                 className="h-full w-full object-cover rounded-full"
-                                height={64}
-                                width={64}
+                                height={56}
+                                width={56}
                               />
                             </div>
                           </div>
                         </div>
-                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="bg-zinc-800 text-zinc-200 text-xs px-3 py-1.5 rounded-full whitespace-nowrap font-medium border border-zinc-700">
+                        <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="bg-zinc-800 text-zinc-200 text-xs px-2 py-1 rounded-full whitespace-nowrap">
                             {client.name}
                           </div>
                         </div>
                       </div>
                     ))}
-                  </div>
-                  <div className="mt-6 pt-3 border-t border-zinc-800/50">
-                    <p className="text-xs text-zinc-400 text-center md:text-left">
-                      Join our growing list of satisfied clients who&apos;ve
-                      seen real business growth
-                    </p>
+
+                    {/* Rating - more meaningful metric */}
+                    <div className="flex flex-col items-center md:items-start">
+                      <div className="flex">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className="h-4 w-4 fill-green-400 text-green-400"
+                          />
+                        ))}
+                      </div>
+                      <p className="mt-1 text-xs text-zinc-300">
+                        100% Client Satisfaction
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>

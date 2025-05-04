@@ -182,7 +182,7 @@ export default function ProjectsSection() {
               className="text-4xl font-bold tracking-tight sm:text-5xl mb-4 text-gray-900"
             >
               My
-              <span className="text-green-600 relative inline-block font-bold ml-4">
+              <span className="text-green-700 relative inline-block font-bold ml-4">
                 Projects
                 <motion.svg
                   initial={{ pathLength: 0 }}

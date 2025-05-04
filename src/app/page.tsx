@@ -7,6 +7,7 @@ import WhyChooseUs from '@/components/main/why-choose-me'
 import EnhancedHeroSection from '@/components/main/hero'
 import ProjectsSection from '@/components/main/project-section'
 import SuccessStories from '@/components/main/succes-stories'
+import TechStackMarquee from '@/components/main/marquee'
 // import ServicesShowcase from '@/components/services/services-showcase'
 // import CalendlyBooking from '@/components/main/calendly'
 
@@ -20,6 +21,7 @@ export default function Page() {
       </section>
       <Newsection/>
       <SuccessStories/>
+      <TechStackMarquee/>
       <ProjectsSection />
       {/* <ServicesShowcase/> */}
       {/* <ProcessSection/>  */}

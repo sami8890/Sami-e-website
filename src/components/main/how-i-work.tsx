@@ -71,7 +71,7 @@ export function ProcessSection() {
 
   const prevStep = useCallback(() => {
     setActiveStep((prev) => (prev === 0 ? steps.length - 1 : prev - 1))
-  }, )
+  }, [])
 
   const steps: Step[] = [
     {
