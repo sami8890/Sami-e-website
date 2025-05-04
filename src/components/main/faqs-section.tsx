@@ -181,7 +181,7 @@ export default function FaqSection() {
                 <span className="text-white block">QUESTIONS</span>
               </h2>
               <p className="text-gray-300 text-lg mb-4">
-                Can't find the answer you're looking for? Feel free to connect with me directly.
+                Can &apos;t find the answer you&apos;re looking for? Feel free to connect with me directly.
               </p>
 
               {/* LinkedIn Link */}
@@ -265,9 +265,9 @@ export default function FaqSection() {
             {showContactPrompt && (
               <div className="mt-12 p-6 bg-gray-900 rounded-xl border border-emerald-500 border-opacity-30 shadow-lg">
                 <div>
-                  <h3 className="text-lg font-medium text-white mb-2">Can't find what you're looking for?</h3>
+                  <h3 className="text-lg font-medium text-white mb-2">Can&apos;t find what you&apos;re looking for?</h3>
                   <p className="text-gray-300 mb-4">
-                    I'm here to help! Connect with me directly and I'll answer all your questions.
+                    I&apos;m here to help! Connect with me directly and I&apos;ll answer all your questions.
                   </p>
                   <Link
                     href={linkedInUrl}
