@@ -6,7 +6,7 @@ import AboutMe from './about/page'
 import WhyChooseUs from '@/components/main/why-choose-me'
 import EnhancedHeroSection from '@/components/main/hero'
 import ProjectsSection from '@/components/main/project-section'
-// import SuccessStories from '@/components/main/succes-stories'
+import SuccessStories from '@/components/main/succes-stories'
 // import ServicesShowcase from '@/components/services/services-showcase'
 // import CalendlyBooking from '@/components/main/calendly'
 
@@ -19,10 +19,10 @@ export default function Page() {
       <EnhancedHeroSection />
       </section>
       <Newsection/>
+      <SuccessStories/>
       <ProjectsSection />
       {/* <ServicesShowcase/> */}
       {/* <ProcessSection/>  */}
-      {/* <SuccessStories/> */}
       <WhyChooseUs/>
       <AboutMe />
       <FAQSection/>

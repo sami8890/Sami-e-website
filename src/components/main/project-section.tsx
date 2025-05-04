@@ -21,57 +21,6 @@ interface Project {
   status?: "live" | "development";
 }
 
-// We need to extend the ProjectCard component to add our custom hover animation
-// First, let's create an enhanced version of ProjectCard - you'll need to modify your project-card.tsx file
-// Here's what you should add to the component:
-
-/*
-// Add this to your project-card.tsx file - this is demonstration code for reference
-// You'll need to modify your actual component accordingly
-
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-
-export function ProjectCard({ project, onClick, index }) {
-  const [isHovered, setIsHovered] = useState(false);
-  
-  // Your existing ProjectCard code...
-  
-  // Modify your overview button like this:
-  const overviewButton = (
-    <motion.button
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={onClick}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow-md"
-    >
-      <span className="relative overflow-hidden inline-block">
-        {isHovered ? (
-          <motion.span
-            initial={{ rotateY: 0 }}
-            animate={{ rotateY: 360 }}
-            transition={{ duration: 0.6 }}
-            className="inline-block"
-          >
-            Overview
-          </motion.span>
-        ) : (
-          "Overview"
-        )}
-      </span>
-    </motion.button>
-  );
-  
-  // Then include this button in your card's JSX wherever appropriate
-  
-  return (
-    // Your existing card JSX with the overviewButton included
-  );
-}
-*/
-
 const projects: Project[] = [
   {
     id: 1,
@@ -158,7 +107,6 @@ export default function ProjectsSection() {
 
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  // Simulate loading state for better UX
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -166,7 +114,6 @@ export default function ProjectsSection() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Check if section is in view for animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -189,7 +136,7 @@ export default function ProjectsSection() {
   }, []);
 
   const visibleProjects = useMemo(() => {
-    return showAllProjects ? projects : projects.slice(0, 2); // Display 2 projects by default
+    return showAllProjects ? projects : projects.slice(0, 2);
   }, [showAllProjects]);
 
   const handleProjectClick = (project: Project) => {
@@ -207,10 +154,10 @@ export default function ProjectsSection() {
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-[#fefae0] text-gray-800 overflow-hidden"
+      className="py-20 bg-gray-50 text-gray-800 overflow-hidden"
       id="work"
     >
-      <div className="container px-4 mx-auto">
+      <div className="container px-4 mx-auto space-y-10">
         {/* Section Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -221,16 +168,12 @@ export default function ProjectsSection() {
           <div className="relative z-10">
             {/* Section badge */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={
-                isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }
-              }
-              transition={{ duration: 0.5, delay: 0.2 }}
+              initial={{ scale: 0.8 }}
               className="inline-flex items-center gap-2 rounded-full border border-gray-600 bg-green-950 px-4 py-1.5 text-sm font-medium text-white mb-6 shadow-sm"
             >
               <Sparkles className="h-3.5 w-3.5 text-white animate-pulse" />
               <span>Featured Projects</span>
-            </motion.div> 
+            </motion.div>
 
             <motion.h2
               initial={{ opacity: 0 }}
@@ -238,9 +181,9 @@ export default function ProjectsSection() {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="text-4xl font-bold tracking-tight sm:text-5xl mb-4 text-gray-900"
             >
-              My 
+              My
               <span className="text-green-600 relative inline-block font-bold ml-4">
-                  Projects 
+                Projects
                 <motion.svg
                   initial={{ pathLength: 0 }}
                   animate={isInView ? { pathLength: 1 } : { pathLength: 0 }}
@@ -267,9 +210,7 @@ export default function ProjectsSection() {
           {/* Simple underline */}
           <motion.div
             initial={{ scaleX: 0, opacity: 0 }}
-            animate={
-              isInView ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }
-            }
+            animate={isInView ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
             transition={{ duration: 0.7, delay: 0.6 }}
             className="h-0.5 bg-gradient-to-r from-transparent via-green-500 to-transparent w-24 mx-auto mt-5 opacity-70"
           />

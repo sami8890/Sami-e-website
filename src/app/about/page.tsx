@@ -64,8 +64,6 @@ const AboutMe = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-
-            
             </motion.div>
           </div>
 
@@ -89,9 +87,9 @@ const AboutMe = () => {
                 Web Developer & UI Designer
               </p>
               <p className="text-gray-300 mb-4">
-                With 3 years of industry-level experience, I create modern,
+                With 2 years of industry-level experience, I create modern,
                 responsive websites that combine stunning design with smooth
-                functionality. 
+                functionality.
               </p>
               {/* Brief intro - concise and impactful */}
               <p className="text-gray-300 mb-6">
@@ -114,7 +112,7 @@ const AboutMe = () => {
                     <span className="text-gray-200">{skill}</span>
                   </div>
                 ))}
-              </div> 
+              </div>
             </motion.div>
           </div>
         </div>

@@ -63,7 +63,7 @@ export default function EnhancedHeroSection() {
       clearInterval(typingInterval);
       clearInterval(tabInterval);
     };
-  }, []);
+  }, );
 
   return (
     <div
@@ -153,47 +153,7 @@ export default function EnhancedHeroSection() {
                 })}
               </div>
 
-              {/* Client-friendly benefits */}
-              <div className="mt-6 relative h-6 overflow-hidden">
-                <div className="absolute left-0 animate-marquee whitespace-nowrap flex gap-4">
-                  {[
-                    "Mobile-Friendly",
-                    "Fast Loading",
-                    "Easy to Update",
-                    "Search Optimized",
-                    "User-Friendly",
-                    "Brand-Focused",
-                    "Secure",
-                    "Affordable",
-                  ].map((benefit, index) => (
-                    <span
-                      key={index}
-                      className="text-xs px-2 py-1 rounded-full bg-zinc-800/50 text-zinc-400"
-                    >
-                      {benefit}
-                    </span>
-                  ))}
-                </div>
-                <div className="absolute left-0 animate-marquee2 whitespace-nowrap flex gap-4">
-                  {[
-                    "Mobile-Friendly",
-                    "Fast Loading",
-                    "Easy to Update",
-                    "Search Optimized",
-                    "User-Friendly",
-                    "Brand-Focused",
-                    "Secure",
-                    "Affordable",
-                  ].map((benefit, index) => (
-                    <span
-                      key={index}
-                      className="text-xs px-2 py-1 rounded-full bg-zinc-800/50 text-zinc-400"
-                    >
-                      {benefit}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              
 
               {/* Typed text */}
               <div
