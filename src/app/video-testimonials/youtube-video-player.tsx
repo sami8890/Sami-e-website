@@ -1,11 +1,22 @@
+"use client"
+
 import { useState, useRef, useEffect } from "react"
-import { Play, Pause, Volume2, VolumeX } from "lucide-react"
-import { useYouTubeAPI } from "./use-youtube-api"
+import { Play, Pause, Volume2, VolumeX } from 'lucide-react'
 
 interface YouTubePlayerProps {
     videoId: string
     onEnded?: () => void
     onProgress?: (progress: number) => void
+}
+
+// Define the type for the player instance
+interface YouTubePlayerInstance {
+    playVideo: () => void
+    pauseVideo: () => void
+    mute: () => void
+    unMute: () => void
+    getCurrentTime: () => number
+    getDuration: () => number
 }
 
 export const YouTubePlayer = ({ videoId, onEnded, onProgress }: YouTubePlayerProps) => {
@@ -14,50 +25,86 @@ export const YouTubePlayer = ({ videoId, onEnded, onProgress }: YouTubePlayerPro
     const [progress, setProgress] = useState(0)
     const [duration, setDuration] = useState(0)
     const [currentTime, setCurrentTime] = useState(0)
-    const playerRef = useRef<YT.Player | null>(null)
+    const [isHovering, setIsHovering] = useState(false)
+    const [playerReady, setPlayerReady] = useState(false)
+
+    const playerRef = useRef<YouTubePlayerInstance | null>(null) // Updated type here
     const containerRef = useRef<HTMLDivElement>(null)
     const progressInterval = useRef<NodeJS.Timeout | null>(null)
 
     // Initialize YouTube API
-    useYouTubeAPI(() => {
-        if (containerRef.current) {
-            playerRef.current = new window.YT.Player(containerRef.current, {
-                videoId,
-                playerVars: {
-                    controls: 0,
-                    modestbranding: 1,
-                    rel: 0,
-                    showinfo: 0,
-                    fs: 0,
-                },
-                events: {
-                    onReady: (event: YT.PlayerEvent) => {
-                        setDuration(event.target.getDuration())
-                    },
-                    onStateChange: (event: YT.OnStateChangeEvent) => {
-                        if (event.data === YT.PlayerState.PLAYING) {
-                            setIsPlaying(true)
-                            startProgressTracker()
-                        } else if (event.data === YT.PlayerState.PAUSED) {
-                            setIsPlaying(false)
-                            stopProgressTracker()
-                        } else if (event.data === YT.PlayerState.ENDED) {
-                            setIsPlaying(false)
-                            stopProgressTracker()
-                            if (onEnded) onEnded()
-                        }
-                    },
-                },
-            })
+    useEffect(() => {
+        // Load YouTube API if not already loaded
+        if (!window.YT) {
+            // Create script tag
+            const tag = document.createElement("script")
+            tag.src = "https://www.youtube.com/iframe_api"
+
+            // Add script to page
+            const firstScriptTag = document.getElementsByTagName("script")[0]
+            firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag)
+
+            // Setup callback when API is ready
+            window.onYouTubeIframeAPIReady = initializePlayer
+        } else {
+            // API already loaded, initialize player directly
+            initializePlayer()
         }
-    })
+
+        return () => {
+            // Cleanup
+            stopProgressTracker()
+            window.onYouTubeIframeAPIReady = () => { }
+        }
+    }, [videoId])
+
+    // Initialize the player
+    const initializePlayer = () => {
+        if (!containerRef.current || !window.YT || !window.YT.Player) {
+            // If dependencies aren't ready, try again in a moment
+            setTimeout(initializePlayer, 100)
+            return
+        }
+
+        // Create YouTube player
+        playerRef.current = new window.YT.Player(containerRef.current, {
+            videoId,
+            playerVars: {
+                controls: 0,
+                modestbranding: 1,
+                rel: 0,
+                showinfo: 0,
+                fs: 0,
+                enablejsapi: 1,
+            },
+            events: {
+                onReady: (event: { target: { getDuration: () => number } }) => {
+                    setPlayerReady(true)
+                    setDuration(event.target.getDuration())
+                },
+                onStateChange: (event: { data: number }) => {
+                    if (event.data === window.YT.PlayerState.PLAYING) {
+                        setIsPlaying(true)
+                        startProgressTracker()
+                    } else if (event.data === window.YT.PlayerState.PAUSED) {
+                        setIsPlaying(false)
+                        stopProgressTracker()
+                    } else if (event.data === window.YT.PlayerState.ENDED) {
+                        setIsPlaying(false)
+                        stopProgressTracker()
+                        if (onEnded) onEnded()
+                    }
+                },
+            },
+        })
+    }
 
     // Track video progress
     const startProgressTracker = () => {
         if (progressInterval.current) clearInterval(progressInterval.current)
 
         progressInterval.current = setInterval(() => {
-            if (playerRef.current) {
+            if (playerRef.current && typeof playerRef.current.getCurrentTime === 'function') {
                 const currentTime = playerRef.current.getCurrentTime()
                 const duration = playerRef.current.getDuration()
                 const progressValue = (currentTime / duration) * 100
@@ -77,34 +124,35 @@ export const YouTubePlayer = ({ videoId, onEnded, onProgress }: YouTubePlayerPro
         }
     }
 
-    // Clean up interval on unmount
-    useEffect(() => {
-        return () => {
-            stopProgressTracker()
-        }
-    }, [])
-
     // Handle play/pause
     const handlePlayPause = () => {
-        if (!playerRef.current) return
+        if (!playerRef.current || !playerReady) return
 
-        if (isPlaying) {
-            playerRef.current.pauseVideo()
-        } else {
-            playerRef.current.playVideo()
+        try {
+            if (isPlaying) {
+                playerRef.current.pauseVideo()
+            } else {
+                playerRef.current.playVideo()
+            }
+        } catch (error) {
+            console.error("Error controlling video:", error)
         }
     }
 
     // Handle mute/unmute
     const handleMuteToggle = () => {
-        if (!playerRef.current) return
+        if (!playerRef.current || !playerReady) return
 
-        if (isMuted) {
-            playerRef.current.unMute()
-            setIsMuted(false)
-        } else {
-            playerRef.current.mute()
-            setIsMuted(true)
+        try {
+            if (isMuted) {
+                playerRef.current.unMute()
+                setIsMuted(false)
+            } else {
+                playerRef.current.mute()
+                setIsMuted(true)
+            }
+        } catch (error) {
+            console.error("Error toggling mute:", error)
         }
     }
 
@@ -116,12 +164,19 @@ export const YouTubePlayer = ({ videoId, onEnded, onProgress }: YouTubePlayerPro
     }
 
     return (
-        <div className="relative aspect-video w-full h-full">
+        <div
+            className="relative aspect-video w-full h-full"
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+        >
             {/* YouTube Player Container */}
-            <div ref={containerRef} className="absolute inset-0"></div>
+            <div id={`youtube-player-${videoId}`} ref={containerRef} className="absolute inset-0"></div>
 
-            {/* Play/Pause overlay */}
-            <div className="absolute inset-0 z-10 bg-black/30 flex items-center justify-center pointer-events-none">
+            {/* Play/Pause overlay - Now hides when playing and not hovering */}
+            <div
+                className={`absolute inset-0 z-10 bg-black/30 flex items-center justify-center transition-opacity duration-300 ${isPlaying && !isHovering ? "opacity-0" : "opacity-100"
+                    }`}
+            >
                 {/* Play/Pause button */}
                 <button
                     onClick={handlePlayPause}
@@ -134,7 +189,7 @@ export const YouTubePlayer = ({ videoId, onEnded, onProgress }: YouTubePlayerPro
 
             {/* Video controls */}
             <div
-                className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 ${isPlaying ? "opacity-100" : "opacity-0"
+                className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 ${isPlaying && !isHovering ? "opacity-0" : "opacity-100"
                     } pointer-events-auto`}
             >
                 {/* Progress bar */}
@@ -168,4 +223,22 @@ export const YouTubePlayer = ({ videoId, onEnded, onProgress }: YouTubePlayerPro
             </div>
         </div>
     )
+}
+
+// Add YouTube API type definitions
+declare global {
+    interface Window {
+        YT: {
+            Player: (new (element: Element, options: { videoId: string }) => YouTubePlayerInstance)
+            PlayerState: {
+                PLAYING: number
+                PAUSED: number
+                ENDED: number
+                BUFFERING: number
+                CUED: number
+            }
+            ready: (callback: () => void) => void
+        }
+        onYouTubeIframeAPIReady: () => void
+    }
 }

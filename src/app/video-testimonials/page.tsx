@@ -1,9 +1,10 @@
 "use client"
 
-import { useState, useRef, useEffect, useCallback, useMemo } from "react"
+import { useState, useRef, useEffect, useMemo } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, Play, Pause } from "lucide-react"
+import { ArrowLeft } from 'lucide-react'
 import Image from "next/image"
+import { YouTubePlayer } from "./youtube-video-player"
 
 interface VideoTestimonial {
   id: string
@@ -14,10 +15,8 @@ interface VideoTestimonial {
 
 const VideoTestimonialSection = () => {
   const router = useRouter()
-  const [isPlaying, setIsPlaying] = useState(false)
   const containerRef = useRef<HTMLElement>(null)
   const [isVisible, setIsVisible] = useState(false)
-  const iframeRef = useRef<HTMLIFrameElement>(null)
 
   // Visibility detection
   useEffect(() => {
@@ -56,28 +55,17 @@ const VideoTestimonialSection = () => {
     [],
   )
 
-  // Handle play/pause for YouTube iframe
-  const handlePlayPause = useCallback(() => {
-    if (!iframeRef.current || !iframeRef.current.contentWindow) return
+  // Track video progress
+  const handleVideoProgress = (progress: number) => {
+    // You can use this to update UI based on video progress
+    console.log(`Video progress: ${progress.toFixed(2)}%`)
+  }
 
-    if (isPlaying) {
-      // Pause video
-      iframeRef.current.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', "*")
-      setIsPlaying(false)
-    } else {
-      // Play video
-      iframeRef.current.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', "*")
-      setIsPlaying(true)
-    }
-  }, [isPlaying])
-
-  // Pause video when not visible
-  useEffect(() => {
-    if (!isVisible && isPlaying && iframeRef.current?.contentWindow) {
-      iframeRef.current.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', "*")
-      setIsPlaying(false)
-    }
-  }, [isVisible, isPlaying])
+  // Handle video end
+  const handleVideoEnd = () => {
+    console.log("Video ended")
+    // You can implement actions when video ends
+  }
 
   // Functional back button using router
   const handleBack = () => {
@@ -123,28 +111,12 @@ const VideoTestimonialSection = () => {
             {/* Featured video (larger) */}
             <div className="lg:col-span-8 relative">
               <div className="relative aspect-video rounded-xl overflow-hidden bg-zinc-900 border border-zinc-800 shadow-xl hover:shadow-emerald-500/10 transition-shadow duration-300">
-                {/* YouTube iframe with API enabled */}
-                <iframe
-                  ref={iframeRef}
-                  src={`https://www.youtube.com/embed/${testimonials[0].videoId}?enablejsapi=1&origin=${typeof window !== "undefined" ? window.location.origin : ""
-                    }&controls=0&showinfo=0&rel=0&modestbranding=1`}
-                  className="absolute inset-0 w-full h-full"
-                  title="Client Testimonial"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-
-                {/* Play/Pause overlay */}
-                <div className="absolute inset-0 z-10 bg-black/30 flex items-center justify-center">
-                  <button
-                    onClick={handlePlayPause}
-                    className="z-20 bg-emerald-500 hover:bg-emerald-600 text-black rounded-full p-4 transition-transform duration-300 hover:scale-110 shadow-lg shadow-emerald-500/20"
-                    aria-label={isPlaying ? "Pause video" : "Play video"}
-                  >
-                    {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8" />}
-                  </button>
-                </div>
+                {/* YouTube Player Component */}
+                <YouTubePlayer
+                  videoId={testimonials[0].videoId}
+                  onProgress={handleVideoProgress}
+                  onEnded={handleVideoEnd}
+                />
               </div>
             </div>
 
@@ -181,7 +153,7 @@ const VideoTestimonialSection = () => {
             </div>
           </div>
         )}
-    </div>
+      </div>
     </section>
   )
 }
