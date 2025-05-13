@@ -5,6 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Home, Briefcase, Award, Info, HelpCircle, MessageSquare } from "lucide-react"
+import { ThemeToggle } from "@/components/main/theme-toggle"
 
 // Optimized Logo Component
 function Logo() {
@@ -16,13 +17,13 @@ function Logo() {
           <path d="M35 50 L50 35 L65 50 L50 65 Z" fill="url(#logoGradient)" />
           <defs>
             <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#34D399" />
-              <stop offset="100%" stopColor="#10B981" />
+              <stop offset="0%" stopColor="#60A5FA" />
+              <stop offset="100%" stopColor="#3B82F6" />
             </linearGradient>
           </defs>
         </svg>
       </div>
-      <span className="text-2xl font-bold bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent">
+      <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
         Sami-E
       </span>
     </div>
@@ -206,7 +207,7 @@ export function Navigation() {
   return (
     <header
       ref={headerRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-zinc-950/90 backdrop-blur-md shadow-lg" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-lg" : "bg-transparent"
         }`}
     >
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -222,7 +223,7 @@ export function Navigation() {
             <div className="relative">
               <Link
                 href="/"
-                className="flex items-center gap-2 text-sm font-medium transition-all duration-300 text-gray-300 hover:text-white relative py-1"
+                className="flex items-center gap-2 text-sm font-medium transition-all duration-300 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white relative py-1"
                 onClick={() => {
                   window.scrollTo({
                     top: 0,
@@ -247,7 +248,10 @@ export function Navigation() {
                       flex items-center gap-2 
                       text-sm font-medium 
                       transition-all duration-300 
-                      ${active ? "text-green-400" : "text-gray-300 hover:text-white"}
+                      ${active
+                        ? "text-blue-600 dark:text-blue-400"
+                        : "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white"
+                      }
                       relative py-1
                     `}
                     aria-current={active ? "page" : undefined}
@@ -257,20 +261,27 @@ export function Navigation() {
                       }
                     }}
                   >
-                    <ActiveIcon className={`w-4 h-4 ${active ? "text-green-400" : "text-gray-500"}`} />
+                    <ActiveIcon
+                      className={`w-4 h-4 ${active ? "text-blue-600 dark:text-blue-400" : "text-gray-500"}`}
+                    />
                     {item.name}
 
-                    {active && <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400" />}
+                    {active && <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400" />}
                   </Link>
                 </div>
               )
             })}
+
+            {/* Theme Toggle */}
+            <div className="flex items-center">
+              <ThemeToggle />
+            </div>
           </div>
 
           {/* Chat Now Button - Hide when hamburger is visible */}
           <div className={`${isHamburgerVisible ? "hidden" : "hidden md:block"}`}>
             <Button
-              className="bg-green-500 hover:bg-green-600 text-zinc-950 font-medium border-none shadow-md shadow-green-500/20"
+              className="bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600 dark:text-zinc-950 font-medium border-none shadow-md shadow-blue-500/20 dark:shadow-blue-500/20"
               onClick={() => {
                 window.open(
                   "https://wa.me/923701247494?text=Hi%2C%20I%20would%20like%20to%20chat",
@@ -285,21 +296,24 @@ export function Navigation() {
           </div>
 
           {/* Hamburger Menu Toggle - Show based on viewport dimensions */}
-          <button
-            className={`${isHamburgerVisible || isMobileMenuOpen ? "block" : "md:hidden"} text-gray-300 hover:text-white`}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isMobileMenuOpen}
-          >
-            {isMobileMenuOpen ? <X className="text-green-400" /> : <Menu />}
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
+            <button
+              className={`text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white`}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? <X className="text-blue-600 dark:text-blue-400" /> : <Menu />}
+            </button>
+          </div>
         </div>
       </nav>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div
-          className="bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800"
+          className="bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-gray-200 dark:border-zinc-800"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
@@ -309,7 +323,7 @@ export function Navigation() {
             <div>
               <Link
                 href="/"
-                className="flex items-center gap-3 p-3 rounded-lg transition-all duration-300 text-gray-300 hover:bg-zinc-800"
+                className="flex items-center gap-3 p-3 rounded-lg transition-all duration-300 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
                 onClick={() => {
                   setIsMobileMenuOpen(false)
                   window.scrollTo({
@@ -334,7 +348,10 @@ export function Navigation() {
                     className={`
                       flex items-center gap-3 p-3 rounded-lg 
                       transition-all duration-300 
-                      ${active ? "bg-green-500/20 text-green-400" : "text-gray-300 hover:bg-zinc-800"}
+                      ${active
+                        ? "bg-blue-50 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
+                      }
                     `}
                     onClick={(e) => {
                       if (item.href.startsWith("#")) {
@@ -346,16 +363,18 @@ export function Navigation() {
                     }}
                     aria-current={active ? "page" : undefined}
                   >
-                    <ActiveIcon className={`w-5 h-5 ${active ? "text-green-400" : "text-gray-500"}`} />
+                    <ActiveIcon
+                      className={`w-5 h-5 ${active ? "text-blue-600 dark:text-blue-400" : "text-gray-500"}`}
+                    />
                     {item.name}
                   </Link>
                 </div>
               )
             })}
 
-            <div className="pt-2 mt-2 border-t border-zinc-800">
+            <div className="pt-2 mt-2 border-t border-gray-200 dark:border-zinc-800">
               <Button
-                className="w-full bg-green-500 hover:bg-green-600 text-zinc-950 font-medium"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600 dark:text-zinc-950 font-medium"
                 onClick={() => {
                   window.open(
                     "https://wa.me/923701247494?text=Hi%2C%20I%20would%20like%20to%20chat",

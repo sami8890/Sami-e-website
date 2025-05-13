@@ -1,289 +1,249 @@
-"use client";
+"use client"
+import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { ArrowRight, Eye, Star } from "lucide-react"
+import { motion } from "framer-motion"
 
-import { useState, useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { Star, Layout, Zap, Sparkles, Eye } from "lucide-react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import Image from "next/image";
+// Sample client data - replace with your actual clients
+const clients = [
+  {
+    name: "Kyle Nianga",
+    image: "/testimonial/kyle.png",
+  },
+  {
+    name: "Ahmed Hassan",
+    image: "/testimonial/ahmed.png",
+  },
+  {
+    name: "Muhammad Ibrahim",
+    image: "/testimonial/ibrahim.png",
+  },
+]
 
-export default function EnhancedHeroSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [typedText, setTypedText] = useState("");
-  const [activeTab, setActiveTab] = useState(0);
-  const fullText =
-    "I build websites that attract customers and grow your business and brand! ";
-  const heroRef = useRef(null);
-
-  const tabs = [
-    { name: "Design", icon: Layout },
-    { name: "Branding", icon: Sparkles },
-    { name: "Speed", icon: Zap },
-  ];
-
-  const clients = [
-    {
-      name: "Kyle",
-      image: "/testimonial/kyle.png",
-    },
-    {
-      name: "Muhammad Ibrahim ",
-      image: "/testimonial/ibrahim.png",
-    },
-    {
-      name: "Ahmed Hassan ",
-      image: "/testimonial/ahmed.png",
-    },
-    {
-      name: "Charles Benford",
-      image: "/testimonial/akira.png",
-    },
-  ];
-
-  useEffect(() => {
-    setIsVisible(true);
-
-    // Typing effect
-    let i = 0;
-    const typingInterval = setInterval(() => {
-      if (i < fullText.length) {
-        setTypedText(fullText.substring(0, i + 1));
-        i++;
-      } else {
-        clearInterval(typingInterval);
-      }
-    }, 70);
-
-    // Auto-rotate tabs
-    const tabInterval = setInterval(() => {
-      setActiveTab((prev) => (prev + 1) % tabs.length);
-    }, 3000);
-
-    return () => {
-      clearInterval(typingInterval);
-      clearInterval(tabInterval);
-    };
-  }, []);
-
+export default function HeroSection() {
   return (
-    <div
-      className="relative w-full min-h-screen overflow-hidden bg-[#121212] text-white font-sans pt-16"
-      ref={heroRef}
+    <section
+      id="hero"
+      className="pt-32 pb-20 md:pt-40 md:pb-28 bg-gradient-to-b from-white to-gray-50 dark:from-zinc-900 dark:to-zinc-800"
     >
-      {/* Background elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-900/10 via-zinc-900 to-zinc-950"></div>
-
-      {/* Animated grid background */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMDIwMjAiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0aDR2MWgtNHYtMXptMC0yaDF2NGgtMXYtNHptMi0yaDF2MWgtMXYtMXptLTIgMmgtMXYxaDF2LTF6bS0yLTJoMXYxaC0xdi0xem0yLTJoMXYxaC0xdi0xem0yLTJoMXYxaC0xdi0xem0tMi0yaDF2MWgtMXYtMXptLTItMmgxdjFoLTF2LTF6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-10"></div>
-
-      {/* Hero content */}
-      <div className="relative flex flex-col justify-center min-h-screen pt-8">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
-          <div className="grid lg:grid-cols-[1fr,auto] gap-8 lg:gap-12 items-center">
-            <div
-              className={`transition-all duration-1000 max-w-2xl ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
-            >
-              {/* Main heading */}
-              <h1
-                className={`mt-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl leading-[1.1] transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="space-y-8">
+            {/* Main heading */}
+            <div className="text-center">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight"
               >
                 We Build
-                <span className="text-green-400 relative inline-block ml-6 ">
-                  Website
+                <span className="text-blue-600 dark:text-blue-400 relative inline-block">
+                  Websites
                   <svg
-                    className="absolute -bottom-1 left-0 w-full"
-                    viewBox="0 0 100 15"
-                    preserveAspectRatio="none"
+                    className="absolute bottom-0 left-0 w-full"
+                    height="6"
+                    viewBox="0 0 232 8"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M0,5 Q50,15 100,5"
-                      stroke="rgba(34, 197, 94, 0.3)"
-                      strokeWidth="2"
-                      fill="none"
+                      d="M1 5.26C63.1667 2.62 196.12 -0.0733337 230.6 5.26"
+                      stroke="#2563eb"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      className="dark:stroke-blue-400"
                     />
                   </svg>
                 </span>{" "}
-                That
-                <br />
-                Grow{" "}
-                <span className="text-green-400 relative inline-block">
-                  Bussiness{" "}
-                  <svg
-                    className="absolute -bottom-1 left-0 w-full"
-                    viewBox="0 0 100 15"
-                    preserveAspectRatio="none"
-                  >
-                    <path
-                      d="M0,5 Q50,15 100,5"
-                      stroke="rgba(34, 197, 94, 0.3)"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                  </svg>
-                </span>
-              </h1>
-
-              {/* Service tabs */}
-              <div className="mt-6 flex space-x-1 bg-zinc-900/50 p-1 rounded-lg w-fit">
-                {tabs.map((tab, index) => {
-                  const Icon = tab.icon;
-                  return (
-                    <button
-                      key={index}
-                      className={`relative px-3 py-1.5 text-xs font-medium rounded-md flex items-center gap-1.5 transition-all duration-300 ${
-                        activeTab === index
-                          ? "text-black bg-green-400"
-                          : "text-zinc-400 hover:text-zinc-200"
-                      }`}
-                      onClick={() => setActiveTab(index)}
-                      aria-selected={activeTab === index}
-                      role="tab"
-                    >
-                      <Icon className="w-3.5 h-3.5" />
-                      {tab.name}
-                      {activeTab === index && (
-                        <motion.div
-                          layoutId="activeTab"
-                          className="absolute inset-0 bg-green-400 rounded-md -z-10"
-                          transition={{ type: "spring", duration: 0.5 }}
-                        />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Typed text */}
-              <div
-                className={`mt-4 transition-all duration-1000 delay-100 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+                That <br />
+                Grow <span className="text-blue-600 dark:text-blue-400">Business</span>
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="mt-6 text-lg text-gray-700 dark:text-gray-300 mx-auto max-w-2xl"
               >
-                <div className="inline-block px-3 py-1 rounded-md bg-zinc-900/80 border border-zinc-800 backdrop-blur-sm">
-                  <p className="text-sm font-medium text-green-400">
-                    {typedText}
-                    <span className="animate-pulse">|</span>
-                  </p>
-                </div>
-              </div>
-              {/* CTA buttons - with proper alignment */}
-              <div
-                className={`mt-8 flex flex-col sm:flex-row sm:items-start gap-4 transition-all duration-1000 delay-200 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
-              >
-                {/* Primary button */}
-                <Link href="#testimonial">
-                  <Button className="px-8 py-2.5 bg-green-500 hover:bg-green-400 text-sm font-semibold text-white rounded-md shadow-md transition-all duration-300 flex items-center">
-                    <Eye className="mr-2 h-4 w-4" />
-                    <span>See Live Demos</span>
-                  </Button>
-                </Link>
-
-                {/* Secondary button */}
-                <Link href="#work">
-                  <Button
-                    variant="outline"
-                    className="px-8 py-2.5 border border-zinc-700 hover:border-green-500 bg-zinc-900/50 hover:bg-zinc-800 text-sm font-medium text-zinc-200 hover:text-white rounded-md transition-all duration-300"
-                  >
-                    <span>View My Work</span>
-                  </Button>
-                </Link>
-              </div>
-              {/* Trusted by */}
-              <div className="mt-12">
-                <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 backdrop-blur-sm">
-                  <p className="text-sm font-medium uppercase tracking-wider text-green-400 flex items-center gap-2 mb-4">
-                    <Star className="h-4 w-4 fill-green-400 text-green-400" />
-                    Trusted by Top Creators
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-5 items-center justify-center md:justify-start">
-                    {/* Client avatars - kept but simplified */}
-                    {clients.slice(0, 3).map((client, i) => (
-                      <div key={i} className="relative group">
-                        <div className="h-14 w-14 rounded-full bg-gradient-to-br from-green-400 to-green-600 p-[2px] shadow-lg shadow-green-900/20">
-                          <div className="h-full w-full rounded-full bg-zinc-900 p-1">
-                            <div className="flex h-full w-full items-center justify-center rounded-full bg-zinc-800 overflow-hidden">
-                              <Image
-                                src={client.image || "/placeholder.svg"}
-                                alt={client.name}
-                                className="h-full w-full object-cover rounded-full"
-                                height={56}
-                                width={56}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="bg-zinc-800 text-zinc-200 text-xs px-2 py-1 rounded-full whitespace-nowrap">
-                            {client.name}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-
-                    {/* Rating - more meaningful metric */}
-                    <div className="flex flex-col items-center md:items-start">
-                      <div className="flex">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star
-                            key={star}
-                            className="h-4 w-4 fill-green-400 text-green-400"
-                          />
-                        ))}
-                      </div>
-                      <p className="mt-1 text-xs text-zinc-300">
-                        100% Client Satisfaction
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                I build websites that attract customers and grow your business with conversion-focused design and
+                performance optimization.
+              </motion.p>
             </div>
 
-            <div
-              className={`transition-all duration-1000 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+            {/* Service tags */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-wrap gap-3 justify-center"
             >
-              <div className="grid grid-cols-2 gap-4 max-w-lg">
-                {/* Updated Stats boxes with your specified metrics */}
-                <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group">
-                  <div className="flex items-end justify-between">
-                    <p className="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform duration-300">
-                      5+
-                    </p>
-                    <span className="text-green-500/50 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      🚀
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs text-zinc-400">
-                    Projects Delivered
-                  </p>
-                </div>
+              <div className="px-4 py-2 text-sm bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-zinc-700 rounded-md flex items-center shadow-sm">
+                <svg
+                  className="mr-2 h-4 w-4 text-blue-600 dark:text-blue-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                Design
+              </div>
+              <div className="px-4 py-2 text-sm bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-zinc-700 rounded-md flex items-center shadow-sm">
+                <svg
+                  className="mr-2 h-4 w-4 text-blue-600 dark:text-blue-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
+                </svg>
+                Branding
+              </div>
+              <div className="px-4 py-2 text-sm bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-zinc-700 rounded-md flex items-center shadow-sm">
+                <svg
+                  className="mr-2 h-4 w-4 text-blue-600 dark:text-blue-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m13 2-2 2h-2v2l-2 2 2 2v2h2l2 2 2-2h2v-2l2-2-2-2v-2h-2l-2-2Z"></path>
+                  <circle cx="13" cy="13" r="3"></circle>
+                </svg>
+                Speed
+              </div>
+            </motion.div>
 
-                <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group">
-                  <div className="flex items-end justify-between">
-                    <p className="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform duration-300">
-                      4.9/5
-                    </p>
-                    <span className="text-green-500/50 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      ★★★★★
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs text-zinc-400">Client Rating</p>
-                </div>
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-col sm:flex-row gap-5 pt-4 justify-center"
+            >
+              <Button className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white px-6 py-6 h-12 font-medium text-base rounded-md">
+                <Eye className="mr-2 h-5 w-5" />
+                See Live Demos
+              </Button>
+              <Button
+                variant="outline"
+                className="border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-800 px-6 py-6 h-12 font-medium text-base rounded-md"
+              >
+                View My Work
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </motion.div>
 
-                <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 backdrop-blur hover:border-green-500/30 hover:bg-zinc-900/50 transition-all duration-300 group col-span-2">
-                  <div className="flex items-end justify-between">
-                    <p className="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform duration-300">
-                      Fast
-                    </p>
-                    <span className="text-green-500/50 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      ⏰
-                    </span>
+            {/* Trusted by */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="mt-12"
+            >
+              <div className="bg-white/80 dark:bg-zinc-800/80 border border-gray-200 dark:border-zinc-700 rounded-xl p-5 backdrop-blur-sm shadow-md">
+                <p className="text-sm font-medium uppercase tracking-wider text-blue-600 dark:text-blue-400 flex items-center gap-2 mb-4">
+                  <Star className="h-4 w-4 fill-blue-600 dark:fill-blue-400 text-blue-600 dark:text-blue-400" />
+                  Trusted by Top Creators
+                </p>
+                <div className="mt-3 flex flex-wrap gap-5 items-center justify-center md:justify-start">
+                  {/* Client avatars */}
+                  {clients.slice(0, 3).map((client, i) => (
+                    <div key={i} className="relative group">
+                      <div className="h-14 w-14 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 p-[2px] shadow-lg shadow-blue-900/20">
+                        <div className="h-full w-full rounded-full bg-white dark:bg-zinc-900 p-1">
+                          <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-100 dark:bg-zinc-800 overflow-hidden">
+                            <Image
+                              src={client.image || "/placeholder.svg"}
+                              alt={client.name}
+                              className="h-full w-full object-cover rounded-full"
+                              height={56}
+                              width={56}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="bg-white dark:bg-zinc-800 text-gray-800 dark:text-gray-200 text-xs px-2 py-1 rounded-full whitespace-nowrap shadow-md">
+                          {client.name}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Rating */}
+                  <div className="flex flex-col items-center md:items-start">
+                    <div className="flex">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star key={star} className="h-4 w-4 fill-blue-400 text-blue-400" />
+                      ))}
+                    </div>
+                    <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">100% Client Satisfaction</p>
                   </div>
-                  <p className="mt-1 text-xs text-zinc-400">Response Time</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
+
+          {/* Stats Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
+          >
+            <div className="bg-white dark:bg-zinc-800 rounded-lg p-6 flex flex-col items-center text-center border border-gray-200 dark:border-zinc-700 shadow-sm">
+              <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">5+</div>
+              <div className="text-gray-700 dark:text-gray-300">Projects Delivered</div>
+            </div>
+
+            <div className="bg-white dark:bg-zinc-800 rounded-lg p-6 flex flex-col items-center text-center border border-gray-200 dark:border-zinc-700 shadow-sm">
+              <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">4.9/5</div>
+              <div className="text-gray-700 dark:text-gray-300">Client Rating</div>
+            </div>
+
+            <div className="bg-white dark:bg-zinc-800 rounded-lg p-6 flex flex-col items-center text-center border border-gray-200 dark:border-zinc-700 shadow-sm">
+              <div className="flex items-center text-blue-600 dark:text-blue-400 text-2xl font-bold mb-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-6 w-6 mr-2"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                Fast
+              </div>
+              <div className="text-gray-700 dark:text-gray-300">Response Time</div>
+            </div>
+          </motion.div>
         </div>
       </div>
-    </div>
-  );
+    </section>
+  )
 }

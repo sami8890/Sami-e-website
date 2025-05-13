@@ -1,7 +1,7 @@
-"use client";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
+"use client"
+import { useState, useEffect } from "react"
+import Image from "next/image"
+import { motion } from "framer-motion"
 
 const TestimonialSection = () => {
   const testimonials = [
@@ -57,42 +57,40 @@ const TestimonialSection = () => {
       rating: 5,
       source: "fiverr",
     },
-  ];
+  ]
 
-  const [showAll, setShowAll] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [expandedIds, setExpandedIds] = useState<number[]>([]);
-  const [isVisible, setIsVisible] = useState(false);
+  const [showAll, setShowAll] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [expandedIds, setExpandedIds] = useState<number[]>([])
+  const [isVisible, setIsVisible] = useState(false)
 
   const toggleExpand = (id: number) => {
-    setExpandedIds((prev) =>
-      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
-    );
-  };
+    setExpandedIds((prev) => (prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]))
+  }
 
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+      setIsMobile(window.innerWidth < 768)
+    }
 
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
+    checkIfMobile()
+    window.addEventListener("resize", checkIfMobile)
 
     return () => {
-      window.removeEventListener("resize", checkIfMobile);
-    };
-  }, []);
+      window.removeEventListener("resize", checkIfMobile)
+    }
+  }, [])
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+      setIsLoading(false)
+    }, 1500)
 
-    setIsVisible(true);
+    setIsVisible(true)
 
-    return () => clearTimeout(timer);
-  }, []);
+    return () => clearTimeout(timer)
+  }, [])
 
   const highlightKeywords = (content: string) => {
     const keywords = [
@@ -132,24 +130,24 @@ const TestimonialSection = () => {
       "fully invested",
       "perfect",
       "couldn't be more happy",
-    ];
+    ]
 
-    let highlightedContent = content;
+    let highlightedContent = content
 
     keywords.forEach((keyword) => {
-      const regex = new RegExp(`(${keyword})`, "gi");
+      const regex = new RegExp(`(${keyword})`, "gi")
       highlightedContent = highlightedContent.replace(
         regex,
-        '<span class="font-medium text-green-300 border-b border-green-300/30 px-0.5">$1</span>'
-      );
-    });
+        '<span class="font-medium text-blue-400 dark:text-blue-300 border-b border-blue-300/30 dark:border-blue-300/30 px-0.5">$1</span>',
+      )
+    })
 
-    return <div dangerouslySetInnerHTML={{ __html: highlightedContent }} />;
-  };
+    return <div dangerouslySetInnerHTML={{ __html: highlightedContent }} />
+  }
 
-  const displayCount = showAll ? testimonials.length : isMobile ? 3 : 6;
-  const displayedTestimonials = testimonials.slice(0, displayCount);
-  const remainingCount = testimonials.length - displayCount;
+  const displayCount = showAll ? testimonials.length : isMobile ? 3 : 6
+  const displayedTestimonials = testimonials.slice(0, displayCount)
+  const remainingCount = testimonials.length - displayCount
 
   const renderStars = (rating: number): JSX.Element[] => {
     return Array(5)
@@ -157,15 +155,15 @@ const TestimonialSection = () => {
       .map((_, index) => (
         <svg
           key={index}
-          className={`w-4 h-4 ${index < rating ? "text-green-400" : "text-zinc-600"}`}
+          className={`w-4 h-4 ${index < rating ? "text-blue-400 dark:text-blue-400" : "text-zinc-600"}`}
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-.118L2.98 8.72c-.783-.57-.38-1.81.588-.181h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
         </svg>
-      ));
-  };
+      ))
+  }
 
   const renderSkeletons = () => {
     return Array(6)
@@ -173,26 +171,26 @@ const TestimonialSection = () => {
       .map((_, index) => (
         <div
           key={`skeleton-${index}`}
-          className="bg-zinc-800 rounded-xl p-4 border border-zinc-700 animate-pulse"
+          className="bg-gray-100 dark:bg-zinc-800 rounded-xl p-4 border border-gray-200 dark:border-zinc-700 animate-pulse"
         >
           <div className="flex items-start mb-3">
-            <div className="w-10 h-10 bg-zinc-700 rounded-full mr-3"></div>
+            <div className="w-10 h-10 bg-gray-200 dark:bg-zinc-700 rounded-full mr-3"></div>
             <div className="flex-1">
-              <div className="h-4 bg-zinc-700 rounded w-1/3 mb-2"></div>
-              <div className="h-3 bg-zinc-700 rounded w-1/4"></div>
+              <div className="h-4 bg-gray-200 dark:bg-zinc-700 rounded w-1/3 mb-2"></div>
+              <div className="h-3 bg-gray-200 dark:bg-zinc-700 rounded w-1/4"></div>
             </div>
           </div>
           <div className="space-y-2 mb-3">
-            <div className="h-3 bg-zinc-700 rounded w-full"></div>
-            <div className="h-3 bg-zinc-700 rounded w-full"></div>
-            <div className="h-3 bg-zinc-700 rounded w-3/4"></div>
+            <div className="h-3 bg-gray-200 dark:bg-zinc-700 rounded w-full"></div>
+            <div className="h-3 bg-gray-200 dark:bg-zinc-700 rounded w-full"></div>
+            <div className="h-3 bg-gray-200 dark:bg-zinc-700 rounded w-3/4"></div>
           </div>
         </div>
-      ));
-  };
+      ))
+  }
 
   return (
-    <div id="testimonial" className="bg-black text-white py-16 px-4 md:px-8 relative">
+    <div id="testimonial" className="bg-white dark:bg-black text-gray-900 dark:text-white py-16 px-4 md:px-8 relative">
       <motion.div
         className="relative max-w-5xl mx-auto mb-12 text-center"
         initial={{ opacity: 0, y: 20 }}
@@ -204,9 +202,9 @@ const TestimonialSection = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs font-medium text-green-400"
+            className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 dark:border-blue-500/20 bg-blue-500/10 dark:bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-600 dark:text-blue-400"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-500 dark:bg-blue-500"></span>
             <span>Client Testimonials</span>
           </motion.div>
 
@@ -214,16 +212,16 @@ const TestimonialSection = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-3xl md:text-5xl font-bold"
+            className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white"
           >
-            What <span className="text-green-500">Clients</span> Say
+            What <span className="text-blue-600 dark:text-blue-500">Clients</span> Say
           </motion.h2>
 
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-zinc-400 text-sm md:text-base max-w-2xl mx-auto"
+            className="text-gray-600 dark:text-zinc-400 text-sm md:text-base max-w-2xl mx-auto"
           >
             Real feedback from satisfied clients who have experienced the quality of my work
           </motion.p>
@@ -232,11 +230,8 @@ const TestimonialSection = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="flex justify-center space-x-4 text-xs text-zinc-400 pt-2"
-          >
-           
-
-          </motion.div>
+            className="flex justify-center space-x-4 text-xs text-gray-500 dark:text-zinc-400 pt-2"
+          ></motion.div>
         </div>
       </motion.div>
 
@@ -250,12 +245,12 @@ const TestimonialSection = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`group bg-zinc-900 rounded-xl p-5 border border-zinc-800 shadow-md relative h-auto testimonial-card transition-all duration-300
-                    hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/5 hover:-translate-y-1
+                className={`group bg-gray-50 dark:bg-zinc-900 rounded-xl p-5 border border-gray-200 dark:border-zinc-800 shadow-md relative h-auto testimonial-card transition-all duration-300
+                    hover:border-blue-500/30 dark:hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 dark:hover:shadow-blue-500/5 hover:-translate-y-1
                     before:content-['"'] before:absolute before:top-2 before:left-3 before:text-3xl before:font-serif 
-                    before:text-green-500/10 before:opacity-70 before:transition-opacity before:duration-300
+                    before:text-blue-500/10 dark:before:text-blue-500/10 before:opacity-70 before:transition-opacity before:duration-300
                     after:content-['"'] after:absolute after:bottom-3 after:right-3 after:text-3xl after:font-serif 
-                    after:text-green-500/10 after:opacity-70 after:rotate-180 after:transition-opacity after:duration-300
+                    after:text-blue-500/10 dark:after:text-blue-500/10 after:opacity-70 after:rotate-180 after:transition-opacity after:duration-300
                     hover:before:opacity-100 hover:after:opacity-100
                   `}
                 style={{
@@ -266,14 +261,14 @@ const TestimonialSection = () => {
                 <div
                   className={`absolute top-3 right-3 text-xs font-bold ${testimonial.source === "linkedin"
                       ? "text-blue-500 opacity-70"
-                      : "text-green-500 opacity-50"
+                      : "text-blue-500 dark:text-blue-500 opacity-50"
                     }`}
                 >
                   {testimonial.source === "linkedin" ? "linkedin" : "fiverr."}
                 </div>
 
                 <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 rounded-full overflow-hidden mr-3 relative bg-zinc-800 flex items-center justify-center border border-zinc-700 group-hover:border-green-500/30 transition-colors duration-300 group-hover:scale-105">
+                  <div className="w-10 h-10 rounded-full overflow-hidden mr-3 relative bg-gray-200 dark:bg-zinc-800 flex items-center justify-center border border-gray-300 dark:border-zinc-700 group-hover:border-blue-500/30 dark:group-hover:border-blue-500/30 transition-colors duration-300 group-hover:scale-105">
                     {testimonial.avatar ? (
                       <Image
                         src={testimonial.avatar || "/placeholder.svg"}
@@ -283,38 +278,30 @@ const TestimonialSection = () => {
                         sizes="40px"
                       />
                     ) : (
-                      <span className="text-lg font-bold">
-                        {testimonial.name.charAt(0)}
-                      </span>
+                      <span className="text-lg font-bold">{testimonial.name.charAt(0)}</span>
                     )}
                   </div>
 
                   <div>
                     <div className="flex items-center">
-                      <h4 className="font-bold text-sm text-white">
-                        {testimonial.name}
-                      </h4>
+                      <h4 className="font-bold text-sm text-gray-900 dark:text-white">{testimonial.name}</h4>
                     </div>
-                    <p className="text-zinc-400 text-xs">
-                      {testimonial.role}
-                    </p>
+                    <p className="text-gray-500 dark:text-zinc-400 text-xs">{testimonial.role}</p>
                   </div>
-                  <div className="ml-auto flex">
-                    {renderStars(testimonial.rating)}
-                  </div>
+                  <div className="ml-auto flex">{renderStars(testimonial.rating)}</div>
                 </div>
 
                 <div className="mb-4">
-                  <div className="text-zinc-100 text-sm leading-relaxed font-normal tracking-wide">
+                  <div className="text-gray-800 dark:text-zinc-100 text-sm leading-relaxed font-normal tracking-wide">
                     {expandedIds.includes(testimonial.id)
                       ? highlightKeywords(testimonial.content)
                       : highlightKeywords(testimonial.shortContent)}
                     <button
                       onClick={(e) => {
-                        e.stopPropagation();
-                        toggleExpand(testimonial.id);
+                        e.stopPropagation()
+                        toggleExpand(testimonial.id)
                       }}
-                      className="text-green-400 hover:text-green-300 text-xs font-medium mt-3 flex items-center bg-green-500/5 px-2 py-1 rounded-md transition-all hover:bg-green-500/10"
+                      className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-xs font-medium mt-3 flex items-center bg-blue-500/5 dark:bg-blue-500/5 px-2 py-1 rounded-md transition-all hover:bg-blue-500/10 dark:hover:bg-blue-500/10"
                     >
                       {expandedIds.includes(testimonial.id) ? (
                         <>
@@ -341,7 +328,7 @@ const TestimonialSection = () => {
           >
             <button
               onClick={() => setShowAll(!showAll)}
-              className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-2 rounded-full text-sm font-medium shadow-lg shadow-green-500/20 transition-all duration-300 flex items-center"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white px-6 py-2 rounded-full text-sm font-medium shadow-lg shadow-blue-500/20 dark:shadow-blue-500/20 transition-all duration-300 flex items-center"
             >
               {showAll ? (
                 <>
@@ -352,20 +339,13 @@ const TestimonialSection = () => {
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 15l7-7 7 7"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                   </svg>
                   <span className="font-bold">Show Less</span>
                 </>
               ) : (
                 <>
-                  <span className="font-bold">
-                    Show {remainingCount} More Testimonials
-                  </span>
+                  <span className="font-bold">Show {remainingCount} More Testimonials</span>
                   <svg
                     className="w-4 h-4 ml-2"
                     fill="none"
@@ -373,12 +353,7 @@ const TestimonialSection = () => {
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </>
               )}
@@ -387,7 +362,7 @@ const TestimonialSection = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TestimonialSection;
+export default TestimonialSection

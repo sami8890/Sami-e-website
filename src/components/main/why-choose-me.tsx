@@ -31,24 +31,24 @@ export default function WhyChooseUs() {
 
   return (
     <section
-      className="bg-zinc-950 text-white py-20 px-4 relative overflow-hidden"
+      className="bg-white text-gray-800 py-20 px-4 relative overflow-hidden"
       id="why-choose-us"
     >
       {/* Simplified background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute inset-0 bg-zinc-950 opacity-90"></div>
+        <div className="absolute inset-0 bg-gray-50 opacity-90"></div>
         <div
           className="absolute inset-0 opacity-10"
           style={{
             backgroundImage: `
-              radial-gradient(circle, rgba(34, 197, 94, 0.1) 1px, transparent 1px)
+              radial-gradient(circle, rgba(0, 101, 234, 0.15) 1px, transparent 1px)
             `,
             backgroundSize: "50px 50px",
           }}
         ></div>
 
         {/* Subtle decorative element */}
-        <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-green-400 opacity-5 blur-3xl"></div>
+        <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-blue-500 opacity-10 blur-3xl"></div>
       </div>
 
       <div className="container mx-auto max-w-5xl relative z-10">
@@ -62,10 +62,10 @@ export default function WhyChooseUs() {
           <h2
             className={`${anton.className} text-4xl md:text-5xl font-normal uppercase mb-3`}
           >
-            <span className="text-green-400">WHY</span>{" "}
-            <span className="text-white">CHOOSE US</span>
+            <span style={{ color: "#0065EA" }}>WHY</span>{" "}
+            <span className="text-gray-800">CHOOSE US</span>
           </h2>
-          <p className="text-zinc-400 max-w-2xl mx-auto">
+          <p className="text-gray-600 max-w-2xl mx-auto">
             We deliver beautiful, functional websites that help your business
             grow
           </p>
@@ -81,10 +81,13 @@ export default function WhyChooseUs() {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 className="text-center"
               >
-                <p className="text-3xl md:text-4xl font-bold text-green-400 mb-1">
+                <p
+                  className="text-3xl md:text-4xl font-bold mb-1"
+                  style={{ color: "#0065EA" }}
+                >
                   {stat.value}
                 </p>
-                <p className="text-zinc-400 text-sm uppercase tracking-wider">
+                <p className="text-gray-600 text-sm uppercase tracking-wider">
                   {stat.label}
                 </p>
               </motion.div>
@@ -94,7 +97,7 @@ export default function WhyChooseUs() {
 
         {/* Main feature - Simplified */}
         <motion.div
-          className="mb-12 bg-zinc-900 border border-zinc-800 rounded-xl p-8 relative overflow-hidden"
+          className="mb-12 bg-white border border-gray-200 rounded-xl p-8 relative overflow-hidden shadow-md"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -102,15 +105,19 @@ export default function WhyChooseUs() {
         >
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/2">
-              <div className="w-16 h-16 rounded-full bg-green-400 flex items-center justify-center mx-auto md:mx-0 mb-6">
-                <HeadphonesIcon size={32} className="text-black" />
+              <div
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto md:mx-0 mb-6"
+                style={{ backgroundColor: "#0065EA" }}
+              >
+                <HeadphonesIcon size={32} className="text-white" />
               </div>
               <h3
-                className={`${anton.className} text-2xl md:text-3xl font-normal text-green-400 mb-4 text-center md:text-left`}
+                className={`${anton.className} text-2xl md:text-3xl font-normal mb-4 text-center md:text-left`}
+                style={{ color: "#0065EA" }}
               >
                 Free Support for 15 Days After Launch
               </h3>
-              <p className="text-zinc-300 text-center md:text-left">
+              <p className="text-gray-600 text-center md:text-left">
                 After project completion, we provide 15 days of dedicated
                 support at no additional cost.
               </p>
@@ -134,9 +141,10 @@ export default function WhyChooseUs() {
                   >
                     <CheckCircle
                       size={18}
-                      className="text-green-400 mr-3 flex-shrink-0 mt-0.5"
+                      style={{ color: "#0065EA" }}
+                      className="mr-3 flex-shrink-0 mt-0.5"
                     />
-                    <span className="text-zinc-300">{item}</span>
+                    <span className="text-gray-700">{item}</span>
                   </motion.li>
                 ))}
               </ul>
@@ -166,7 +174,7 @@ export default function WhyChooseUs() {
           ].map((item, index) => (
             <motion.div
               key={index}
-              className="bg-zinc-900 border border-zinc-800 p-6 rounded-lg text-center"
+              className="bg-white border border-gray-200 p-6 rounded-lg text-center shadow-md"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -175,18 +183,19 @@ export default function WhyChooseUs() {
               onMouseLeave={() => setHovered(null)}
             >
               <div
-                className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300 ${hovered === index ? "bg-green-400" : "bg-zinc-800"}`}
+                className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300 ${hovered === index ? "bg-blue-500" : "bg-gray-100"}`}
               >
                 <span
-                  className={`transition-colors duration-300 ${hovered === index ? "text-black" : "text-green-400"}`}
+                  className={`transition-colors duration-300 ${hovered === index ? "text-white" : ""}`}
+                  style={{ color: hovered === index ? "#ffffff" : "#0065EA" }}
                 >
                   {item.icon}
                 </span>
               </div>
-              <h4 className="text-lg font-medium text-white mb-2">
+              <h4 className="text-lg font-medium text-gray-800 mb-2">
                 {item.title}
               </h4>
-              <p className="text-zinc-400 text-sm">{item.description}</p>
+              <p className="text-gray-600 text-sm">{item.description}</p>
             </motion.div>
           ))}
         </div>
@@ -201,7 +210,8 @@ export default function WhyChooseUs() {
         >
           <button
             onClick={() => setShowCalendly(true)}
-            className="schedule-button inline-flex items-center justify-center px-6 py-3 bg-green-400 rounded-lg text-black font-medium text-base transition-all duration-300 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
+            className="schedule-button inline-flex items-center justify-center px-6 py-3 rounded-lg text-white font-medium text-base transition-all duration-300 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+            style={{ backgroundColor: "#0065EA" }}
           >
             <Calendar className="mr-2 h-5 w-5" />
             Schedule a Free Consultation
@@ -240,7 +250,7 @@ export default function WhyChooseUs() {
               </svg>
             </button>
             <iframe
-              src="https://calendly.com/samigabol12/45min?hide_gdpr_banner=1&background_color=121212&text_color=ffffff&primary_color=10b981"
+              src="https://calendly.com/samigabol12/45min?hide_gdpr_banner=1&background_color=121212&text_color=ffffff&primary_color=0065EA"
               width="100%"
               height="100%"
               frameBorder="0"

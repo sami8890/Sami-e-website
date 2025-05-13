@@ -7,7 +7,20 @@ import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
 import { X, ExternalLink, Github } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import type { Project } from "./Project"
+
+export interface Project {
+  id: number
+  name: string
+  metric: string
+  imageUrl: string
+  category: string
+  description: string
+  technologies: string[]
+  liveUrl: string
+  githubUrl: string
+  duration?: string
+  status?: "live" | "development"
+}
 
 interface ProjectModalProps {
   isOpen: boolean
@@ -83,7 +96,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
                 {/* Loading Spinner */}
                 {loading && !imageError && (
                   <div className="absolute top-0 left-0 flex items-center justify-center z-20 bg-gray-900/70 backdrop-blur-sm w-full h-full">
-                    <div className="h-10 w-10 text-[#00E188] animate-spin border-3 border-current border-t-transparent rounded-full" />
+                    <div className="h-10 w-10 text-blue-500 animate-spin border-3 border-current border-t-transparent rounded-full" />
                   </div>
                 )}
 
@@ -92,8 +105,8 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
                   <div className="absolute top-4 left-4 z-30">
                     <Badge
                       className={`px-3 py-1 text-xs font-medium uppercase tracking-wider ${project.status === "live"
-                        ? "bg-[#00E188]/20 text-[#00E188] border-[#00E188]/50"
-                        : "bg-amber-500/20 text-amber-400 border-amber-500/50"
+                          ? "bg-blue-500/20 text-blue-500 border-blue-500/50"
+                          : "bg-blue-500/20 text-blue-400 border-blue-500/50"
                         }`}
                     >
                       {project.status}
@@ -128,7 +141,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
               {/* Content Section */}
               <div className="p-6 md:p-8 w-full lg:w-2/5 overflow-y-auto bg-black text-white">
                 {/* Project Title */}
-                <h2 className="text-2xl md:text-3xl font-bold text-[#00E188] mb-2">{project.name}</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-blue-500 mb-2">{project.name}</h2>
 
                 {/* Category */}
                 <div className="text-sm uppercase tracking-wider text-gray-400 mb-6">{project.category}</div>
@@ -136,10 +149,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
                 {/* Visit Website Button */}
                 {project.liveUrl && (
                   <div className="mb-8">
-                    <Button
-                      asChild
-                      className="bg-[#00E188] hover:bg-[#00c077] text-black font-medium transition-colors"
-                    >
+                    <Button asChild className="bg-blue-500 hover:bg-blue-600 text-black font-medium transition-colors">
                       <a
                         href={formatExternalUrl(project.liveUrl)}
                         target="_blank"
@@ -155,7 +165,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
 
                 {/* Project Metric */}
                 <div className="mb-6 p-4 bg-gray-900/50 border border-gray-800 rounded-lg">
-                  <h3 className="text-xl font-bold text-[#f4fffb] mb-1">{project.metric}</h3>
+                  <h3 className="text-xl font-bold text-blue-50 mb-1">{project.metric}</h3>
                   <p className="text-gray-400 text-sm">
                     {project.technologies.length > 0
                       ? `Built with ${project.technologies.length} technologies`
@@ -189,7 +199,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
                     <Button
                       asChild
                       variant="outline"
-                      className="border-gray-700 hover:border-gray-500 text-white hover:text-[#00E188] transition-colors"
+                      className="border-gray-700 hover:border-gray-500 text-white hover:text-blue-500 transition-colors"
                     >
                       <a
                         href={formatExternalUrl(project.githubUrl)}

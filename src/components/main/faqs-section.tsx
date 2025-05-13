@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect } from "react"
 import { motion } from "framer-motion"
-import { ChevronDown } from 'lucide-react'
-import { Anton } from 'next/font/google'
+import { ChevronDown } from "lucide-react"
+import { Anton } from "next/font/google"
 import Link from "next/link"
 
 // Use the same font as in the Hero component
@@ -84,20 +84,26 @@ const FaqAccordionItem = ({ item, isOpen, toggleItem }: FaqAccordionItemProps) =
 
   return (
     <div
-      className={`border rounded-lg overflow-hidden mb-5 transition-all duration-300 ${isOpen ? "border-emerald-500 bg-gray-900 bg-opacity-50 shadow-md" : "border-gray-800 hover:border-gray-700"
+      className={`border rounded-lg overflow-hidden mb-5 transition-all duration-300 ${isOpen
+          ? "border-blue-500 dark:border-blue-500 bg-gray-50 dark:bg-gray-900 bg-opacity-50 shadow-md"
+          : "border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700"
         }`}
     >
       <button
-        className={`flex justify-between items-center w-full py-5 px-6 text-left focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 rounded-md ${isOpen ? "border-b-0" : ""
+        className={`flex justify-between items-center w-full py-5 px-6 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 focus:ring-opacity-50 rounded-md ${isOpen ? "border-b-0" : ""
           }`}
         onClick={() => toggleItem(item.id)}
         aria-expanded={isOpen}
       >
-        <h3 className={`text-xl font-medium ${isOpen ? "text-emerald-400" : "text-white"}`}>{item.question}</h3>
+        <h3
+          className={`text-xl font-medium ${isOpen ? "text-blue-600 dark:text-blue-400" : "text-gray-900 dark:text-white"}`}
+        >
+          {item.question}
+        </h3>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3 }}
-          className={`flex-shrink-0 ml-4 ${isOpen ? "text-emerald-400" : "text-gray-400"}`}
+          className={`flex-shrink-0 ml-4 ${isOpen ? "text-blue-600 dark:text-blue-400" : "text-gray-400 dark:text-gray-500"}`}
         >
           <ChevronDown size={24} />
         </motion.div>
@@ -111,10 +117,10 @@ const FaqAccordionItem = ({ item, isOpen, toggleItem }: FaqAccordionItemProps) =
         transition={{ duration: 0.3 }}
         className="overflow-hidden"
         style={{
-          borderTop: isOpen ? "none" : undefined
+          borderTop: isOpen ? "none" : undefined,
         }}
       >
-        <div ref={contentRef} className="px-6 pb-6 text-gray-300 text-lg leading-relaxed">
+        <div ref={contentRef} className="px-6 pb-6 text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
           <p>{item.answer}</p>
         </div>
       </motion.div>
@@ -164,10 +170,14 @@ export default function FaqSection() {
   const displayedFaqs = faqItems.slice(0, visibleItems)
 
   return (
-    <section ref={sectionRef} className="bg-black text-white py-24 px-4 relative overflow-hidden" id="faq">
+    <section
+      ref={sectionRef}
+      className="bg-white dark:bg-black text-gray-900 dark:text-white py-24 px-4 relative overflow-hidden"
+      id="faq"
+    >
       {/* Background elements */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black to-gray-900 opacity-95"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-900 opacity-95"></div>
       </div>
 
       <div className="container mx-auto max-w-5xl relative z-10">
@@ -176,11 +186,11 @@ export default function FaqSection() {
           <div className="lg:col-span-4">
             <div className="lg:sticky lg:top-24">
               <h2 className={`${anton.className} text-4xl sm:text-5xl font-normal mb-8 uppercase tracking-wide`}>
-                <span className="text-green-400 block">FREQUENTLY</span>
-                <span className="text-white block">ASKED</span>
-                <span className="text-white block">QUESTIONS</span>
+                <span className="text-blue-600 dark:text-blue-400 block">FREQUENTLY</span>
+                <span className="text-gray-900 dark:text-white block">ASKED</span>
+                <span className="text-gray-900 dark:text-white block">QUESTIONS</span>
               </h2>
-              <p className="text-gray-300 text-lg mb-4">
+              <p className="text-gray-600 dark:text-gray-300 text-lg mb-4">
                 Can &apos;t find the answer you&apos;re looking for? Feel free to connect with me directly.
               </p>
 
@@ -190,16 +200,16 @@ export default function FaqSection() {
                   href={linkedInUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-emerald-400 hover:text-emerald-300 transition-colors"
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
                 >
                   Connect on LinkedIn
                 </Link>
               </div>
 
               {/* Contact card */}
-              <div className="hidden lg:block mt-8 p-6 border border-gray-800 rounded-xl bg-gray-900 bg-opacity-50">
-                <h3 className="text-xl font-medium text-white mb-4">Get In Touch</h3>
-                <p className="text-gray-300 mb-4">
+              <div className="hidden lg:block mt-8 p-6 border border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-gray-900 bg-opacity-50">
+                <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Get In Touch</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
                   Have questions or ready to start your project? Connect with me directly.
                 </p>
                 <div className="space-y-3">
@@ -207,7 +217,7 @@ export default function FaqSection() {
                     href={linkedInUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex w-full justify-center px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full text-white font-medium transition duration-300 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+                    className="inline-flex w-full justify-center px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600 rounded-full text-white font-medium transition duration-300 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 focus:ring-opacity-50"
                   >
                     Connect on LinkedIn
                   </Link>
@@ -219,7 +229,7 @@ export default function FaqSection() {
           {/* Right Column - FAQ Accordion */}
           <div className="lg:col-span-8">
             {/* Results count */}
-            <div className="mb-6 text-gray-400 text-sm">
+            <div className="mb-6 text-gray-500 dark:text-gray-400 text-sm">
               <p>
                 Showing {displayedFaqs.length} {displayedFaqs.length === 1 ? "question" : "questions"}
                 {displayedFaqs.length < faqItems.length ? ` of ${faqItems.length}` : ""}
@@ -237,7 +247,7 @@ export default function FaqSection() {
               <div className="mt-8 text-center">
                 <button
                   onClick={handleShowMore}
-                  className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full text-white font-medium transition duration-300 hover:from-emerald-600 hover:to-green-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 shadow-lg"
+                  className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600 rounded-full text-white font-medium transition duration-300 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 focus:ring-opacity-50 shadow-lg"
                 >
                   See More FAQs
                 </button>
@@ -248,7 +258,7 @@ export default function FaqSection() {
             {displayedFaqs.length > 6 && openItemId === null && (
               <div className="mt-8 text-center">
                 <button
-                  className="px-6 py-2 border border-emerald-500 text-emerald-400 rounded-full hover:bg-emerald-500 hover:bg-opacity-10 transition-colors"
+                  className="px-6 py-2 border border-blue-500 dark:border-blue-500 text-blue-600 dark:text-blue-400 rounded-full hover:bg-blue-500 hover:bg-opacity-10 dark:hover:bg-blue-500 dark:hover:bg-opacity-10 transition-colors"
                   onClick={() => {
                     // Scroll to top of FAQ section
                     if (sectionRef.current) {
@@ -263,17 +273,19 @@ export default function FaqSection() {
 
             {/* Contact prompt */}
             {showContactPrompt && (
-              <div className="mt-12 p-6 bg-gray-900 rounded-xl border border-emerald-500 border-opacity-30 shadow-lg">
+              <div className="mt-12 p-6 bg-gray-50 dark:bg-gray-900 rounded-xl border border-blue-500 dark:border-blue-500 border-opacity-30 shadow-lg">
                 <div>
-                  <h3 className="text-lg font-medium text-white mb-2">Can&apos;t find what you&apos;re looking for?</h3>
-                  <p className="text-gray-300 mb-4">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                    Can&apos;t find what you&apos;re looking for?
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">
                     I&apos;m here to help! Connect with me directly and I&apos;ll answer all your questions.
                   </p>
                   <Link
                     href={linkedInUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex justify-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full text-white font-medium transition duration-300 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 shadow-md"
+                    className="inline-flex justify-center px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600 rounded-full text-white font-medium transition duration-300 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 focus:ring-opacity-50 shadow-md"
                   >
                     Connect on LinkedIn
                   </Link>

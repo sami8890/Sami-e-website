@@ -1,35 +1,27 @@
-import FAQSection from '@/components/main/faqs-section'
-// import { ProcessSection } from '@/components/main/how-i-work'
-import Newsection from '@/components/main/testimoniall-section'
-import { SocialFab } from '@/components/ui/call-to-action-button'
-import AboutMe from './about/page'
-import WhyChooseUs from '@/components/main/why-choose-me'
-import EnhancedHeroSection from '@/components/main/hero'
-import ProjectsSection from '@/components/main/project-section'
-import SuccessStories from '@/components/main/succes-stories'
-import TechStackMarquee from '@/components/main/marquee'
-// import ServicesShowcase from '@/components/services/services-showcase'
-// import CalendlyBooking from '@/components/main/calendly'
+import { Navigation } from "@/components/layout/navbar"
+import HeroSection from "@/components/main/hero"
+import ServicesSection from "@/components/main/services-section"
+import ProjectsSection from "@/components/main/project-section"
+import ClientSuccessStory from "@/components/main/succes-stories"
+import TestimonialSection from "@/components/main/testimoniall-section"
+import FaqSection from "@/components/main/faqs-section"
+import CtaSection from "@/components/main/why-choose-me"
+import Footer from "@/components/layout/footer"
+import ProfessionalLogoMarquee from "@/components/main/marquee"
 
-
-export default function Page() {
+export default function Home() {
   return (
-    <main className="min-h-screen ">
-      <SocialFab/> 
-      <section id='hero'>
-      <EnhancedHeroSection />
-      </section>
-      <Newsection/>
-      <SuccessStories/>
-      <TechStackMarquee/>
+    <div className="min-h-screen bg-white dark:bg-zinc-900 overflow-x-hidden">
+      <Navigation />
+      <HeroSection />
+      <ServicesSection />
+      <ProfessionalLogoMarquee/>
+      <ClientSuccessStory />
       <ProjectsSection />
-      {/* <ServicesShowcase/> */}
-      {/* <ProcessSection/>  */}
-      <WhyChooseUs/>
-      <AboutMe />
-      <FAQSection/>
-      {/* <CalendlyBooking/> */}
-    </main> 
-  )  
-} 
-  
+      <TestimonialSection />
+      <FaqSection />
+      <CtaSection />
+      <Footer />
+    </div>
+  )
+}
