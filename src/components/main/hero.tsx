@@ -139,12 +139,13 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-5 pt-4 justify-center"
             >
-              <Button className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white px-6 py-6 h-12 font-medium text-base rounded-md">
+              <Button id="testimonials" className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white px-6 py-6 h-12 font-medium text-base rounded-md">
                 <Eye className="mr-2 h-5 w-5" />
                 See Live Demos
               </Button>
               <Button
                 variant="outline"
+                id="work"
                 className="border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-800 px-6 py-6 h-12 font-medium text-base rounded-md"
               >
                 View My Work
