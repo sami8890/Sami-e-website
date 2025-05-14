@@ -91,7 +91,7 @@ export default function ClientSuccessStory() {
             {/* Clear CTAs with bolder styling */}
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/case-studies/contntr"
+                href="/video-testimonials"
                 className="inline-flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors shadow-md"
               >
                 View Full Case Study <ArrowRight className="w-4 h-4" />
@@ -125,34 +125,7 @@ export default function ClientSuccessStory() {
               </div>
             </div>
 
-            {/* Additional screenshots in grid */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="rounded-lg overflow-hidden shadow-md">
-                <Image
-                  src="/project/3-mobile.png"
-                  alt="Contntr mobile view"
-                  width={400}
-                  height={300}
-                  className="w-full h-40 object-cover"
-                />
-                <div className="bg-white dark:bg-zinc-800 p-2 border-t border-gray-100 dark:border-zinc-700">
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Mobile optimization</p>
-                </div>
-              </div>
-              <div className="rounded-lg overflow-hidden shadow-md">
-                <Image
-                  src="/project/3-dashboard.png"
-                  alt="Contntr dashboard"
-                  width={400}
-                  height={300}
-                  className="w-full h-40 object-cover"
-                />
-                <div className="bg-white dark:bg-zinc-800 p-2 border-t border-gray-100 dark:border-zinc-700">
-                  <p className="text-xs text-gray-600 dark:text-gray-400">User dashboard interface</p>
-                </div>
-              </div>
-            </div>
-
+         
             {/* Testimonial quote */}
             <div className="bg-gray-50 dark:bg-zinc-800/50 p-4 rounded-lg border border-gray-100 dark:border-zinc-700">
               <p className="text-gray-600 dark:text-gray-300 italic">
