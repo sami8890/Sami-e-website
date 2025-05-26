@@ -1,300 +1,334 @@
-"use client"
+"use client";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Minus, MessageCircle } from "lucide-react";
 
-import { useState, useRef, useEffect } from "react"
-import { motion } from "framer-motion"
-import { ChevronDown } from "lucide-react"
-import { Anton } from "next/font/google"
-import Link from "next/link"
-
-// Use the same font as in the Hero component
-const anton = Anton({
-  weight: ["400"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-anton",
-})
-
-// FAQ data
 const faqItems = [
   {
     id: 1,
-    question: "What Technologies Do You Use?",
-    answer: "We use React.js, Next.js, HTML, CSS, and JavaScript to build fast and modern websites.",
+    question: "How much do your websites cost?",
+    answer:
+      "Prices start at just $499. I'll send you a custom quote based on your goals, features, and timeline—so you only pay for what you need.",
   },
   {
     id: 2,
-    question: "How Much Does It Cost to Build a Website?",
-    answer: "It depends on what features you need. We give you a custom price after understanding your project.",
+    question: "How fast can you build my website?",
+    answer:
+      "Most websites are completed within 1–2 weeks. If you're in a hurry, I offer express delivery options too.",
   },
   {
     id: 3,
-    question: "How Long Does It Take to Build a Website?",
-    answer: "A simple website takes 1–2 weeks. Bigger or more complex sites may take 3–6 weeks.",
+    question: "What do I need to get started?",
+    answer:
+      "Just share your content, logo (if available), and business goals. If you're unsure about anything, I'll guide you step by step—no tech skills required.",
   },
   {
     id: 4,
-    question: "Will My Website Be Mobile-Friendly?",
-    answer: "Yes. We make sure your site looks great on mobile phones, tablets, and desktops.",
+    question: "Will my site look good on phones?",
+    answer:
+      "Absolutely. Every website I build is fully responsive and mobile-first, ensuring it looks perfect on all devices.",
   },
   {
     id: 5,
-    question: "Can I Update the Website Myself?",
-    answer: "Yes. We make websites easy to update, and we can guide you on how to do it.",
+    question: "Can I update the website myself later?",
+    answer:
+      "Yes! I build websites with user-friendly tools. I'll also walk you through how to make updates easily on your own.",
   },
   {
     id: 6,
-    question: "Do You Build SEO-Friendly Websites?",
-    answer: "Yes. We follow SEO best practices so your site can rank better on Google.",
+    question: "Do you offer support after launch?",
+    answer:
+      "Yes, I include 15 days of free post-launch support. If anything breaks or you need tweaks, I've got you covered.",
   },
   {
     id: 7,
-    question: "Do You Offer Website Redesign Services?",
-    answer: "Yes. We can redesign your old website to make it look modern and work better.",
+    question: "Can you improve or redesign my existing site?",
+    answer:
+      "Definitely. Whether it's outdated, slow, or off-brand—I can modernize your site without losing its identity.",
   },
   {
     id: 8,
-    question: "How Do You Ensure Website Security?",
-    answer: "We follow safety standards to protect your website from security issues.",
+    question: "Will my website be SEO-optimized?",
+    answer:
+      "Yes, I follow SEO best practices, including fast loading, clean code, and keyword-ready structure to help you rank better on search engines.",
   },
   {
     id: 9,
-    question: "How Do You Handle Website Performance?",
-    answer: "We use tools and methods that help your site load fast and run smoothly.",
+    question: "Is there a refund policy?",
+    answer:
+      "Since every project is customized, I can't offer refunds once we begin. But I promise to work closely with you through revisions until you're happy with the result.",
   },
-  {
-    id: 10,
-    question: "Do You Provide Ongoing Support?",
-    answer: "Yes. We offer support and updates to keep your site running well over time.",
-  },
-]
-
-interface FaqAccordionItemProps {
-  item: {
-    id: number
-    question: string
-    answer: string
-  }
-  isOpen: boolean
-  toggleItem: (id: number) => void
-}
-
-const FaqAccordionItem = ({ item, isOpen, toggleItem }: FaqAccordionItemProps) => {
-  const contentRef = useRef<HTMLDivElement>(null)
-  const contentHeight = isOpen && contentRef.current ? contentRef.current.scrollHeight : 0
-
-  return (
-    <div
-      className={`border rounded-lg overflow-hidden mb-5 transition-all duration-300 ${isOpen
-          ? "border-blue-500 dark:border-blue-500 bg-gray-50 dark:bg-gray-900 bg-opacity-50 shadow-md"
-          : "border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700"
-        }`}
-    >
-      <button
-        className={`flex justify-between items-center w-full py-5 px-6 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 focus:ring-opacity-50 rounded-md ${isOpen ? "border-b-0" : ""
-          }`}
-        onClick={() => toggleItem(item.id)}
-        aria-expanded={isOpen}
-      >
-        <h3
-          className={`text-xl font-medium ${isOpen ? "text-blue-600 dark:text-blue-400" : "text-gray-900 dark:text-white"}`}
-        >
-          {item.question}
-        </h3>
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
-          className={`flex-shrink-0 ml-4 ${isOpen ? "text-blue-600 dark:text-blue-400" : "text-gray-400 dark:text-gray-500"}`}
-        >
-          <ChevronDown size={24} />
-        </motion.div>
-      </button>
-      <motion.div
-        initial={false}
-        animate={{
-          height: isOpen ? contentHeight : 0,
-          opacity: isOpen ? 1 : 0,
-        }}
-        transition={{ duration: 0.3 }}
-        className="overflow-hidden"
-        style={{
-          borderTop: isOpen ? "none" : undefined,
-        }}
-      >
-        <div ref={contentRef} className="px-6 pb-6 text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
-          <p>{item.answer}</p>
-        </div>
-      </motion.div>
-    </div>
-  )
-}
+];
 
 export default function FaqSection() {
-  const [openItemId, setOpenItemId] = useState<number | null>(null)
-  const [visibleItems, setVisibleItems] = useState(5)
-  const [showContactPrompt, setShowContactPrompt] = useState(false)
-  const sectionRef = useRef(null)
+  const [openItemId, setOpenItemId] = useState<number | null>(null);
+  const [showAll, setShowAll] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  // LinkedIn profile URL
-  const linkedInUrl = "https://www.linkedin.com/in/muhammad-sami-gabol/"
+  const toggleItem = (id: number) => {
+    setOpenItemId(openItemId === id ? null : id);
+  };
 
-  type ToggleItemFunction = (id: number) => void
+  const closeAllItems = () => {
+    setOpenItemId(null);
+  };
 
-  const toggleItem: ToggleItemFunction = (id) => {
-    setOpenItemId(openItemId === id ? null : id)
-  }
-
-  // Track if user has scrolled through multiple FAQs without finding an answer
+  // Handle click outside to close opened FAQ items
   useEffect(() => {
-    let openCount = 0
-    const handleOpenCounter = () => {
-      if (openItemId !== null) {
-        openCount++
-        if (openCount >= 3) {
-          setShowContactPrompt(true)
-        }
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        openItemId &&
+        sectionRef.current &&
+        !sectionRef.current.contains(event.target as Node)
+      ) {
+        closeAllItems();
       }
+    };
+
+    // Handle escape key to close opened FAQ items
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && openItemId) {
+        closeAllItems();
+      }
+    };
+
+    if (openItemId) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEscapeKey);
     }
-    handleOpenCounter()
-    // Cleanup function
+
     return () => {
-      openCount = 0
-    }
-  }, [openItemId])
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [openItemId]);
 
-  // Handle showing more FAQs
-  const handleShowMore = () => {
-    setVisibleItems(faqItems.length)
-  }
-
-  // Get the currently visible FAQs
-  const displayedFaqs = faqItems.slice(0, visibleItems)
+  const visibleItems = showAll ? faqItems : faqItems.slice(0, 3);
 
   return (
     <section
       ref={sectionRef}
-      className="bg-white dark:bg-black text-gray-900 dark:text-white py-24 px-4 relative overflow-hidden"
+      className="py-16 bg-slate-50 dark:bg-slate-900 relative"
       id="faq"
     >
-      {/* Background elements */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-900 opacity-95"></div>
-      </div>
+      <div className="container mx-auto px-4 max-w-4xl">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className={`text-center mb-12 transition-all duration-500 ${
+            openItemId ? "blur-sm opacity-60" : "blur-none opacity-100"
+          }`}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-4 py-2 rounded-full text-sm font-medium mb-6"
+          >
+            <MessageCircle className="w-4 h-4" />
+            <span>FAQ</span>
+          </motion.div>
 
-      <div className="container mx-auto max-w-5xl relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-          {/* Left Column - Title and Introduction */}
-          <div className="lg:col-span-4">
-            <div className="lg:sticky lg:top-24">
-              <h2 className={`${anton.className} text-4xl sm:text-5xl font-normal mb-8 uppercase tracking-wide`}>
-                <span className="text-blue-600 dark:text-blue-400 block">FREQUENTLY</span>
-                <span className="text-gray-900 dark:text-white block">ASKED</span>
-                <span className="text-gray-900 dark:text-white block">QUESTIONS</span>
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300 text-lg mb-4">
-                Can &apos;t find the answer you&apos;re looking for? Feel free to connect with me directly.
-              </p>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-white leading-tight mb-6"
+          >
+            Common
+            <span className="block text-blue-600 dark:text-blue-400 relative mt-2">
+              Questions
+              <svg
+                className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-full max-w-sm"
+                height="8"
+                viewBox="0 0 300 8"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <motion.path
+                  initial={{ pathLength: 0 }}
+                  whileInView={{ pathLength: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.2, delay: 0.8 }}
+                  d="M1 4C75 1.5 225 1.5 299 4"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  className="text-blue-600 dark:text-blue-400"
+                />
+              </svg>
+            </span>
+          </motion.h2>
 
-              {/* LinkedIn Link */}
-              <div className="mb-8">
-                <Link
-                  href={linkedInUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
-                >
-                  Connect on LinkedIn
-                </Link>
-              </div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed"
+          >
+            Quick answers to help you make the right decision for your business.
+          </motion.p>
+        </motion.div>
 
-              {/* Contact card */}
-              <div className="hidden lg:block mt-8 p-6 border border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-gray-900 bg-opacity-50">
-                <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Get In Touch</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  Have questions or ready to start your project? Connect with me directly.
-                </p>
-                <div className="space-y-3">
-                  <Link
-                    href={linkedInUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex w-full justify-center px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600 rounded-full text-white font-medium transition duration-300 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 focus:ring-opacity-50"
+        {/* FAQ Items */}
+        <div className="space-y-4 relative">
+          {visibleItems.map((item, index) => {
+            const isOpen = openItemId === item.id;
+            const shouldBlur = openItemId !== null && openItemId !== item.id;
+
+            return (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className={`relative transition-all duration-500 ease-out ${
+                  shouldBlur
+                    ? "blur-sm opacity-40 scale-[0.98]"
+                    : "blur-none opacity-100 scale-100"
+                } ${
+                  isOpen
+                    ? "z-10 shadow-2xl ring-2 ring-blue-500/20 dark:ring-blue-400/20"
+                    : "z-0"
+                }`}
+              >
+                <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <button
+                    className="flex justify-between items-center w-full text-left p-6 group"
+                    onClick={() => toggleItem(item.id)}
                   >
-                    Connect on LinkedIn
-                  </Link>
+                    <h3 className="font-semibold text-slate-900 dark:text-white text-lg pr-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                      {item.question}
+                    </h3>
+                    <div className="flex-shrink-0">
+                      <motion.div
+                        animate={{
+                          rotate: isOpen ? 45 : 0,
+                          scale: isOpen ? 1.1 : 1,
+                        }}
+                        transition={{ duration: 0.2 }}
+                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${
+                          isOpen
+                            ? "bg-blue-500 text-white shadow-lg"
+                            : "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover:bg-blue-200 dark:group-hover:bg-blue-900/50"
+                        }`}
+                      >
+                        {isOpen ? (
+                          <Minus className="w-6 h-4" />
+                        ) : (
+                          <Plus className="w-4 h-4" />
+                        )}
+                      </motion.div>
+                    </div>
+                  </button>
+
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-6 pb-6">
+                          <div className="pt-2 border-t border-slate-100 dark:border-slate-700">
+                            <motion.p
+                              initial={{ y: 10, opacity: 0 }}
+                              animate={{ y: 0, opacity: 1 }}
+                              transition={{ duration: 0.3, delay: 0.1 }}
+                              className="text-slate-600 dark:text-slate-300 leading-relaxed mt-4"
+                            >
+                              {item.answer}
+                            </motion.p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column - FAQ Accordion */}
-          <div className="lg:col-span-8">
-            {/* Results count */}
-            <div className="mb-6 text-gray-500 dark:text-gray-400 text-sm">
-              <p>
-                Showing {displayedFaqs.length} {displayedFaqs.length === 1 ? "question" : "questions"}
-                {displayedFaqs.length < faqItems.length ? ` of ${faqItems.length}` : ""}
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              {displayedFaqs.map((item) => (
-                <FaqAccordionItem key={item.id} item={item} isOpen={openItemId === item.id} toggleItem={toggleItem} />
-              ))}
-            </div>
-
-            {/* See More button */}
-            {visibleItems < faqItems.length && (
-              <div className="mt-8 text-center">
-                <button
-                  onClick={handleShowMore}
-                  className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600 rounded-full text-white font-medium transition duration-300 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 focus:ring-opacity-50 shadow-lg"
-                >
-                  See More FAQs
-                </button>
-              </div>
-            )}
-
-            {/* Back to top button */}
-            {displayedFaqs.length > 6 && openItemId === null && (
-              <div className="mt-8 text-center">
-                <button
-                  className="px-6 py-2 border border-blue-500 dark:border-blue-500 text-blue-600 dark:text-blue-400 rounded-full hover:bg-blue-500 hover:bg-opacity-10 dark:hover:bg-blue-500 dark:hover:bg-opacity-10 transition-colors"
-                  onClick={() => {
-                    // Scroll to top of FAQ section
-                    if (sectionRef.current) {
-                      ; (sectionRef.current as HTMLElement).scrollIntoView({ behavior: "smooth" })
-                    }
-                  }}
-                >
-                  Back to top
-                </button>
-              </div>
-            )}
-
-            {/* Contact prompt */}
-            {showContactPrompt && (
-              <div className="mt-12 p-6 bg-gray-50 dark:bg-gray-900 rounded-xl border border-blue-500 dark:border-blue-500 border-opacity-30 shadow-lg">
-                <div>
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                    Can&apos;t find what you&apos;re looking for?
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
-                    I&apos;m here to help! Connect with me directly and I&apos;ll answer all your questions.
-                  </p>
-                  <Link
-                    href={linkedInUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex justify-center px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600 rounded-full text-white font-medium transition duration-300 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 focus:ring-opacity-50 shadow-md"
-                  >
-                    Connect on LinkedIn
-                  </Link>
-                </div>
-              </div>
-            )}
-          </div>
+              </motion.div>
+            );
+          })}
         </div>
+
+        {/* Show More/Less Button */}
+        {faqItems.length > 3 && (
+          <div
+            className={`text-center mt-8 transition-all duration-500 ${
+              openItemId ? "blur-sm opacity-60" : "blur-none opacity-100"
+            }`}
+          >
+            <motion.button
+              onClick={() => setShowAll(!showAll)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+            >
+              {showAll
+                ? "Show Less"
+                : `Show ${faqItems.length - 3} More Questions`}
+            </motion.button>
+          </div>
+        )}
+
+        {/* Contact CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className={`text-center mt-12 transition-all duration-500 ${
+            openItemId ? "blur-sm opacity-60" : "blur-none opacity-100"
+          }`}
+        >
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-8 shadow-sm">
+            <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">
+              Still have questions?
+            </h3>
+            <p className="text-slate-600 dark:text-slate-300 mb-6">
+              I&apos;m here to help! Get in touch and I&apos;ll answer any questions you
+              have.
+            </p>
+            <motion.a
+              href="https://wa.me/923701247494?text=Hi%2C%20I%20have%20a%20question"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02, y: -1 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+            >
+              <MessageCircle className="w-5 h-5 mr-2" />
+              Ask Me Anything
+            </motion.a>
+          </div>
+        </motion.div>
       </div>
+
+      {/* Click outside hint overlay - only visible when an FAQ is open */}
+      <AnimatePresence>
+        {openItemId && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 pointer-events-none"
+            onClick={closeAllItems}
+          >
+            <div className="absolute top-4 right-4 bg-black/70 dark:bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2 text-sm text-white dark:text-slate-200 pointer-events-auto cursor-pointer">
+              Click anywhere to close • Press ESC
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
-  )
+  );
 }

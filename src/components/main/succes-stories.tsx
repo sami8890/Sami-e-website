@@ -126,13 +126,7 @@ export default function ClientSuccessStory() {
             </div>
 
          
-            {/* Testimonial quote */}
-            <div className="bg-gray-50 dark:bg-zinc-800/50 p-4 rounded-lg border border-gray-100 dark:border-zinc-700">
-              <p className="text-gray-600 dark:text-gray-300 italic">
-                &quot;The redesign completely transformed our platform. W&lsquo;eve seen dramatic improvements in user engagement and conversion rates.&quot;
-              </p>
-              <p className="mt-2 text-gray-800 dark:text-gray-200 font-medium">Sarah Chen, CEO at Contntr</p>
-            </div>
+           
           </div>
         </div>
       </div>

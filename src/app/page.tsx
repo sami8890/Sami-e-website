@@ -1,5 +1,4 @@
 import HeroSection from "@/components/main/hero"
-import ServicesSection from "@/components/main/services-section"
 import ProjectsSection from "@/components/main/project-section"
 import ClientSuccessStory from "@/components/main/succes-stories"
 import TestimonialSection from "@/components/main/testimoniall-section"
@@ -11,7 +10,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-900 overflow-x-hidden">
       <HeroSection />
-      <ServicesSection />
+      {/* <ServicesSection /> */}
       <ProfessionalLogoMarquee/>
       <ClientSuccessStory />
       <ProjectsSection />

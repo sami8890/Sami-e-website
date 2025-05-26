@@ -3,9 +3,8 @@
 import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
-import { X, ExternalLink, Github } from "lucide-react"
+import { X, ExternalLink, Calendar, CheckCircle } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 export interface Project {
@@ -32,7 +31,6 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
   const [loading, setLoading] = useState(true)
   const [imageError, setImageError] = useState(false)
 
-  // Preload images when component mounts
   useEffect(() => {
     if (isOpen && project?.imageUrl) {
       const img = new window.Image()
@@ -47,7 +45,6 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
     }
   }, [isOpen, project])
 
-  // Reset loading state when project changes
   useEffect(() => {
     if (project) {
       setLoading(true)
@@ -57,7 +54,6 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
 
   if (!project) return null
 
-  // Function to ensure URL has proper format for external links
   const formatExternalUrl = (url: string) => {
     if (!url) return "#"
     return url.startsWith("http://") || url.startsWith("https://") ? url : `https://${url}`
@@ -67,50 +63,68 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
     <AnimatePresence>
       {isOpen && (
         <Dialog open={isOpen} onOpenChange={onClose}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
+            onClick={onClose}
+          />
+
           <DialogContent
-            className="w-[95%] sm:w-11/12 max-w-5xl p-0 bg-black border border-gray-800 rounded-xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col z-50"
+            className="w-[95%] sm:w-11/12 max-w-7xl p-0 bg-white dark:bg-slate-900 border-0 rounded-3xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col z-50"
             onInteractOutside={(e) => e.preventDefault()}
           >
             {/* Close Button */}
-            <DialogClose className="absolute right-3 top-3 z-50 sm:right-4 sm:top-4">
+            <DialogClose className="absolute right-6 top-6 z-50">
               <motion.div
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="p-2 rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 transition-all duration-200 border border-gray-800"
+                className="p-3 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-md hover:bg-white dark:hover:bg-slate-700 transition-all duration-200 shadow-lg"
               >
-                <X className="h-5 w-5 text-white/90" />
+                <X className="h-6 w-6 text-slate-700 dark:text-slate-300" />
                 <span className="sr-only">Close</span>
               </motion.div>
             </DialogClose>
 
             {/* Modal Content */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.4 }}
               className="flex flex-col lg:flex-row w-full h-full overflow-auto"
             >
-              {/* Image Section - Modified to show larger image */}
-              <div className="w-full lg:w-3/5 h-72 sm:h-96 lg:h-auto bg-gray-900 flex-shrink-0 relative">
+              {/* Image Section */}
+              <div className="w-full lg:w-3/5 h-80 sm:h-96 lg:h-auto bg-slate-100 dark:bg-slate-800 flex-shrink-0 relative">
                 {/* Loading Spinner */}
                 {loading && !imageError && (
-                  <div className="absolute top-0 left-0 flex items-center justify-center z-20 bg-gray-900/70 backdrop-blur-sm w-full h-full">
-                    <div className="h-10 w-10 text-blue-500 animate-spin border-3 border-current border-t-transparent rounded-full" />
+                  <div className="absolute inset-0 flex items-center justify-center z-20 bg-slate-100 dark:bg-slate-800">
+                    <div className="h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
                   </div>
                 )}
 
                 {/* Project Status Badge */}
                 {project.status && (
-                  <div className="absolute top-4 left-4 z-30">
-                    <Badge
-                      className={`px-3 py-1 text-xs font-medium uppercase tracking-wider ${project.status === "live"
-                          ? "bg-blue-500/20 text-blue-500 border-blue-500/50"
-                          : "bg-blue-500/20 text-blue-400 border-blue-500/50"
-                        }`}
+                  <div className="absolute top-8 left-8 z-30">
+                    <div
+                      className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 backdrop-blur-md shadow-lg ${
+                        project.status === "live" ? "bg-green-500/90 text-white" : "bg-blue-500/90 text-white"
+                      }`}
                     >
-                      {project.status}
-                    </Badge>
+                      {project.status === "live" ? (
+                        <>
+                          <CheckCircle className="w-4 h-4" />
+                          Live Project
+                        </>
+                      ) : (
+                        <>
+                          <Calendar className="w-4 h-4" />
+                          In Development
+                        </>
+                      )}
+                    </div>
                   </div>
                 )}
 
@@ -132,101 +146,113 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
                     />
                   </div>
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gray-900 text-gray-600">
+                  <div className="w-full h-full flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
                     <p className="text-lg font-medium">Image not available</p>
                   </div>
                 )}
               </div>
 
-              {/* Content Section */}
-              <div className="p-6 md:p-8 w-full lg:w-2/5 overflow-y-auto bg-black text-white">
-                {/* Project Title */}
-                <h2 className="text-2xl md:text-3xl font-bold text-blue-500 mb-2">{project.name}</h2>
+              {/* Content Section - Better Spacing & Alignment */}
+              <div className="w-full lg:w-2/5 bg-white dark:bg-slate-900">
+                <div className="h-full flex flex-col justify-between p-8 lg:p-12">
+                  {/* Top Content */}
+                  <div className="space-y-8">
+                    {/* Category */}
+                    <div className="inline-block px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-sm font-medium rounded-full">
+                      {project.category}
+                    </div>
 
-                {/* Category */}
-                <div className="text-sm uppercase tracking-wider text-gray-400 mb-6">{project.category}</div>
+                    {/* Project Title */}
+                    <div>
+                      <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white leading-tight">
+                        {project.name}
+                      </h2>
+                    </div>
 
-                {/* Visit Website Button */}
-                {project.liveUrl && (
-                  <div className="mb-8">
-                    <Button asChild className="bg-blue-500 hover:bg-blue-600 text-black font-medium transition-colors">
-                      <a
-                        href={formatExternalUrl(project.liveUrl)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        <span>Visit Website</span>
-                      </a>
-                    </Button>
+                    {/* Project Description */}
+                    <div>
+                      <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+                        {project.description}
+                      </p>
+                    </div>
+
+                    {/* Key Result */}
+                    <div className="p-6 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-200/50 dark:border-blue-800/50">
+                      <p className="text-xl font-semibold text-blue-900 dark:text-blue-100 text-center">
+                        {project.metric}
+                      </p>
+                    </div>
+
+                    {/* Action Button */}
+                    {project.liveUrl && (
+                      <div>
+                        <Button
+                          asChild
+                          size="lg"
+                          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-lg"
+                        >
+                          <a
+                            href={formatExternalUrl(project.liveUrl)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-3"
+                          >
+                            <ExternalLink className="h-5 w-5" />
+                            <span>View Live Project</span>
+                          </a>
+                        </Button>
+                      </div>
+                    )}
                   </div>
-                )}
 
-                {/* Project Metric */}
-                <div className="mb-6 p-4 bg-gray-900/50 border border-gray-800 rounded-lg">
-                  <h3 className="text-xl font-bold text-blue-50 mb-1">{project.metric}</h3>
-                  <p className="text-gray-400 text-sm">
-                    {project.technologies.length > 0
-                      ? `Built with ${project.technologies.length} technologies`
-                      : "Delivering exceptional results"}
-                  </p>
-                </div>
+                  {/* Bottom Content */}
+                  <div className="space-y-6 pt-8 border-t border-slate-200 dark:border-slate-700">
+                    {/* Technologies */}
+                    {project.technologies.length > 0 && (
+                      <div>
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">Built with:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {project.technologies.slice(0, 4).map((tech, index) => (
+                            <span
+                              key={index}
+                              className="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm border border-slate-200 dark:border-slate-700"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                          {project.technologies.length > 4 && (
+                            <span className="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm border border-slate-200 dark:border-slate-700">
+                              +{project.technologies.length - 4}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
 
-                {/* Project Description */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-bold mb-3">Overview</h3>
-                  <p className="text-gray-300 leading-relaxed mb-4">{project.description}</p>
-                </div>
-
-                {/* Technologies */}
-                {project.technologies.length > 0 && (
-                  <div className="mb-6">
-                    <h3 className="text-lg font-bold mb-3">Technologies</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech, index) => (
-                        <Badge key={index} className="bg-gray-800 hover:bg-gray-700 text-gray-300 border-gray-700">
-                          {tech}
-                        </Badge>
-                      ))}
+                    {/* Contact CTA */}
+                    <div className="text-center">
+                      <p className="text-slate-600 dark:text-slate-400 mb-4">Want something similar?</p>
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="w-full border-2 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium py-3 px-6 rounded-xl transition-all duration-300"
+                        onClick={() => {
+                          window.open(
+                            "https://wa.me/923701247494?text=Hi%2C%20I%20saw%20your%20project%20and%20want%20something%20similar",
+                            "_blank",
+                            "noopener,noreferrer",
+                          )
+                          onClose()
+                        }}
+                      >
+                        Get Started
+                      </Button>
                     </div>
                   </div>
-                )}
-
-                {/* Github Link */}
-                {project.githubUrl && project.githubUrl !== "#" && (
-                  <div className="mt-8">
-                    <Button
-                      asChild
-                      variant="outline"
-                      className="border-gray-700 hover:border-gray-500 text-white hover:text-blue-500 transition-colors"
-                    >
-                      <a
-                        href={formatExternalUrl(project.githubUrl)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2"
-                      >
-                        <Github className="h-4 w-4" />
-                        View Code
-                      </a>
-                    </Button>
-                  </div>
-                )}
+                </div>
               </div>
             </motion.div>
           </DialogContent>
-
-          {/* Simple overlay */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/70 z-40"
-            onClick={onClose}
-            aria-hidden="true"
-          />
         </Dialog>
       )}
     </AnimatePresence>
