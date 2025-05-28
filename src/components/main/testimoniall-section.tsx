@@ -190,7 +190,7 @@ const TestimonialSection = () => {
   }
 
   return (
-    <div id="testimonial" className="bg-white dark:bg-black text-gray-900 dark:text-white py-16 px-4 md:px-8 relative">
+    <div id="testimonials" className="bg-white dark:bg-black text-gray-900 dark:text-white py-16 px-4 md:px-8 relative">
       <motion.div
         className="relative max-w-5xl mx-auto mb-12 text-center"
         initial={{ opacity: 0, y: 20 }}

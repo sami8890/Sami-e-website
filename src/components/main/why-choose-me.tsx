@@ -1,125 +1,87 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Anton } from "next/font/google";
-import {
-  CheckCircle,
-  Shield,
-  Award,
-  HeadphonesIcon,
-  Calendar,
-} from "lucide-react";
-
-// Use the same font as in the Hero component
-const anton = Anton({
-  weight: ["400"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-anton",
-});
+import { useState } from "react"
+import { CheckCircle, Shield, Award, HeadphonesIcon, Calendar, Sparkles } from "lucide-react"
 
 export default function WhyChooseUs() {
-  const [hovered, setHovered] = useState<null | number>(null);
-  const [showCalendly, setShowCalendly] = useState(false);
+  const [hovered, setHovered] = useState<null | number>(null)
+  const [showCalendly, setShowCalendly] = useState(false)
 
   const stats = [
-    { value: "5+", label: "Projects Delivered" },
+    { value: "15+", label: "Projects Delivered" },
     { value: "4.9/5", label: "Client Rating" },
     { value: "Fast", label: "Response Time" },
-  ];
+  ]
 
   return (
     <section
-      className="bg-white text-gray-800 py-20 px-4 relative overflow-hidden"
+      className="bg-gradient-to-br from-gray-50 via-white to-blue-50 py-20 px-4 relative overflow-hidden"
       id="why-choose-us"
     >
-      {/* Simplified background */}
+      {/* Background decoration */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gray-50 opacity-90"></div>
-        <div
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: `
-              radial-gradient(circle, rgba(0, 101, 234, 0.15) 1px, transparent 1px)
-            `,
-            backgroundSize: "50px 50px",
-          }}
-        ></div>
-
-        {/* Subtle decorative element */}
-        <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-blue-500 opacity-10 blur-3xl"></div>
+        <div className="absolute top-20 right-10 w-72 h-72 bg-blue-400/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-purple-400/5 rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto max-w-5xl relative z-10">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2
-            className={`${anton.className} text-4xl md:text-5xl font-normal uppercase mb-3`}
-          >
-            <span style={{ color: "#0065EA" }}>WHY</span>{" "}
-            <span className="text-gray-800">CHOOSE US</span>
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            We deliver beautiful, functional websites that help your business
-            grow
-          </p>
-
-          {/* Stats row */}
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="text-center"
-              >
-                <p
-                  className="text-3xl md:text-4xl font-bold mb-1"
-                  style={{ color: "#0065EA" }}
-                >
-                  {stat.value}
-                </p>
-                <p className="text-gray-600 text-sm uppercase tracking-wider">
-                  {stat.label}
-                </p>
-              </motion.div>
-            ))}
+        <div className="text-center mb-16">
+          {/* Section badge - matching projects section */}
+          <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold border border-blue-200 shadow-sm mb-8">
+            <Sparkles className="h-4 w-4" />
+            Why Choose Us
           </div>
-        </motion.div>
 
-        {/* Main feature - Simplified */}
-        <motion.div
-          className="mb-12 bg-white border border-gray-200 rounded-xl p-8 relative overflow-hidden shadow-md"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+          {/* Heading - matching projects section */}
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
+            Why{" "}
+            <span className="text-blue-600 relative">
+              Choose Us
+              <svg
+                className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-full max-w-sm"
+                height="8"
+                viewBox="0 0 300 8"
+                fill="none"
+              >
+                <path
+                  d="M1 4C75 1.5 225 1.5 299 4"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  className="text-blue-600"
+                />
+              </svg>
+            </span>
+          </h2>
+
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            We deliver beautiful, functional websites that help your business grow
+          </p>
+        </div>
+
+        {/* Stats row */}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+          {stats.map((stat, index) => (
+            <div key={index} className="text-center">
+              <p className="text-3xl md:text-4xl font-bold mb-1 text-blue-600">{stat.value}</p>
+              <p className="text-gray-600 text-sm uppercase tracking-wider">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Main feature */}
+        <div className="mt-12 bg-white border border-gray-200 rounded-xl p-8 relative overflow-hidden shadow-md">
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/2">
-              <div
-                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto md:mx-0 mb-6"
-                style={{ backgroundColor: "#0065EA" }}
-              >
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto md:mx-0 mb-6 bg-blue-600">
                 <HeadphonesIcon size={32} className="text-white" />
               </div>
-              <h3
-                className={`${anton.className} text-2xl md:text-3xl font-normal mb-4 text-center md:text-left`}
-                style={{ color: "#0065EA" }}
-              >
-                Free Support for 15 Days After Launch
+              <h3 className="text-2xl md:text-3xl font-bold mb-4 text-center md:text-left text-blue-600">
+             15 Days of Support After Launch
+
               </h3>
               <p className="text-gray-600 text-center md:text-left">
-                After project completion, we provide 15 days of dedicated
-                support at no additional cost.
+                After project completion, we provide 15 days of dedicated support at no additional cost.
               </p>
             </div>
             <div className="md:w-1/2">
@@ -131,35 +93,23 @@ export default function WhyChooseUs() {
                   "Security monitoring",
                   "Training and guidance",
                 ].map((item, index) => (
-                  <motion.li
-                    key={index}
-                    className="flex items-start"
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
-                  >
-                    <CheckCircle
-                      size={18}
-                      style={{ color: "#0065EA" }}
-                      className="mr-3 flex-shrink-0 mt-0.5"
-                    />
+                  <li key={index} className="flex items-start">
+                    <CheckCircle size={18} className="text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
                     <span className="text-gray-700">{item}</span>
-                  </motion.li>
+                  </li>
                 ))}
               </ul>
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Other reasons - Simplified */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        {/* Other reasons */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
           {[
             {
               icon: <Award size={28} />,
               title: "Quality Work",
-              description:
-                "Clean code and modern design principles for every project.",
+              description: "Clean code and modern design principles for every project.",
             },
             {
               icon: <Shield size={28} />,
@@ -172,62 +122,43 @@ export default function WhyChooseUs() {
               description: "Quick replies during business hours within 24 hours.",
             },
           ].map((item, index) => (
-            <motion.div
+            <div
               key={index}
               className="bg-white border border-gray-200 p-6 rounded-lg text-center shadow-md"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
               onMouseEnter={() => setHovered(index)}
               onMouseLeave={() => setHovered(null)}
             >
               <div
-                className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300 ${hovered === index ? "bg-blue-500" : "bg-gray-100"}`}
+                className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300 ${hovered === index ? "bg-blue-600" : "bg-blue-50"}`}
               >
                 <span
-                  className={`transition-colors duration-300 ${hovered === index ? "text-white" : ""}`}
-                  style={{ color: hovered === index ? "#ffffff" : "#0065EA" }}
+                  className={`transition-colors duration-300 ${hovered === index ? "text-white" : "text-blue-600"}`}
                 >
                   {item.icon}
                 </span>
               </div>
-              <h4 className="text-lg font-medium text-gray-800 mb-2">
-                {item.title}
-              </h4>
+              <h4 className="text-lg font-medium text-gray-800 mb-2">{item.title}</h4>
               <p className="text-gray-600 text-sm">{item.description}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        {/* Simplified CTA */}
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        {/* CTA */}
+        <div className="text-center mt-12">
           <button
             onClick={() => setShowCalendly(true)}
-            className="schedule-button inline-flex items-center justify-center px-6 py-3 rounded-lg text-white font-medium text-base transition-all duration-300 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
-            style={{ backgroundColor: "#0065EA" }}
+            className="inline-flex items-center justify-center px-6 py-3 rounded-lg text-white font-medium text-base transition-all duration-300 hover:bg-blue-700 bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
           >
             <Calendar className="mr-2 h-5 w-5" />
             Schedule a Free Consultation
           </button>
-        </motion.div>
+        </div>
       </div>
 
-      {/* Calendly Modal - Simplified */}
+      {/* Calendly Modal */}
       {showCalendly && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-            className="calendly-modal-content w-full max-w-4xl h-[80vh] bg-white rounded-xl overflow-hidden shadow-xl relative"
-          >
+          <div className="w-full max-w-4xl h-[80vh] bg-white rounded-xl overflow-hidden shadow-xl relative">
             <button
               onClick={() => setShowCalendly(false)}
               className="absolute top-4 right-4 z-10 bg-white/90 rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
@@ -257,9 +188,9 @@ export default function WhyChooseUs() {
               title="Schedule a meeting"
               className="calendly-inline-widget"
             ></iframe>
-          </motion.div>
+          </div>
         </div>
       )}
     </section>
-  );
+  )
 }

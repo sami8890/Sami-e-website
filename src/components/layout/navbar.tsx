@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Home, MessageSquare, Briefcase, Award, HelpCircle, Folder } from "lucide-react"
+import { Menu, X, Home, MessageSquare, Award, HelpCircle, Folder } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 // Enhanced Logo Component
@@ -46,7 +46,7 @@ function Logo() {
         </motion.svg>
       </div>
       <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
-        Sami-E
+        Sami
       </span>
     </motion.div>
   )
@@ -151,7 +151,6 @@ export function Navigation() {
   }, [])
 
   const navItems = [
-    { name: "Services", href: "#services", icon: Briefcase },
     { name: "Projects", href: "#projects", icon: Folder },
     { name: "Testimonials", href: "#testimonial", icon: Award },
     { name: "FAQ", href: "#faq", icon: HelpCircle },

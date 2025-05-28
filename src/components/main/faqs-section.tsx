@@ -4,18 +4,20 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus, MessageCircle } from "lucide-react";
 
 const faqItems = [
+{
+  id: 1,
+  question: "How much do you charge for your websites?",
+  answer:
+    "Every project is unique, so pricing varies depending on your goals and features. Let’s discuss what you need, and I’ll create a personalized quote that works best for you.",
+},
+
   {
-    id: 1,
-    question: "How much do your websites cost?",
-    answer:
-      "Prices start at just $499. I'll send you a custom quote based on your goals, features, and timeline—so you only pay for what you need.",
-  },
-  {
-    id: 2,
-    question: "How fast can you build my website?",
-    answer:
-      "Most websites are completed within 1–2 weeks. If you're in a hurry, I offer express delivery options too.",
-  },
+  id: 2,
+  question: "How fast can you build my website?",
+  answer:
+    "Some websites take 1 to 2 weeks, while others may take 4 to 5 weeks depending on their complexity. I’ll give you a timeline once I understand your project.",
+},
+
   {
     id: 3,
     question: "What do I need to get started?",
@@ -323,8 +325,8 @@ export default function FaqSection() {
             className="fixed inset-0 z-50 pointer-events-none"
             onClick={closeAllItems}
           >
-            <div className="absolute top-4 right-4 bg-black/70 dark:bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2 text-sm text-white dark:text-slate-200 pointer-events-auto cursor-pointer">
-              Click anywhere to close • Press ESC
+            <div className="absolute mt-10 right-4 bg-black/70 backdrop-blur-xl dark:bg-white/10  rounded-lg px-3 py-2 text-sm text-white dark:text-slate-200 pointer-events-auto cursor-pointer">
+              Click this \ to Remove the Bllur  • Press ESC
             </div>
           </motion.div>
         )}

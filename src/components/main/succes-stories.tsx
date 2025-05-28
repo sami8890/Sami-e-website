@@ -6,7 +6,7 @@ import Link from "next/link"
 
 export default function ClientSuccessStory() {
   return (
-    <section id="testimonial" className="py-20 bg-white dark:bg-zinc-900 overflow-hidden">
+    <section className="py-20 bg-white dark:bg-zinc-900 overflow-hidden">
       <div className="container mx-auto px-4">
         {/* Header without animations */}
         <div className="text-center mb-16">

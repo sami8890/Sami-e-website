@@ -9,17 +9,17 @@ const clients = [
   {
     name: "Kyle Nianga",
     image: "/testimonial/kyle.png",
-    company: "Tech Startup",
+    company: "SEO Agency Startup ",
   },
   {
     name: "Ahmed Hassan",
     image: "/testimonial/ahmed.png",
-    company: "E-commerce",
+    company: "Video-Editor Agency",
   },
   {
     name: "Muhammad Ibrahim",
     image: "/testimonial/ibrahim.png",
-    company: "SaaS Company",
+    company: "Portfolio_website",
   },
 ]
 
@@ -43,19 +43,6 @@ export default function HeroSection() {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
-          {/* Trust indicator */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-8"
-          >
-            <div className="inline-flex items-center gap-2 bg-green-50/80 dark:bg-green-900/20 backdrop-blur-sm text-green-700 dark:text-green-400 px-4 py-2 rounded-full text-sm font-medium border border-green-200/50 dark:border-green-800/50 shadow-lg">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span>Trusted by 15+ businesses worldwide</span>
-            </div>
-          </motion.div>
-
           {/* Main content */}
           <div className="text-center space-y-8 max-w-5xl mx-auto">
             {/* Headline */}
