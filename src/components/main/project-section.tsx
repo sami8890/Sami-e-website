@@ -1,8 +1,16 @@
-"use client"
+"use client";
 
-import { useState, useMemo, useRef, useEffect } from "react"
-import { Sparkles, ChevronDown, ChevronUp, Filter, Search, X, ArrowRight,  } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useState, useMemo, useRef, useEffect } from "react";
+import {
+  Sparkles,
+  ChevronDown,
+  ChevronUp,
+  Filter,
+  Search,
+  X,
+  ArrowRight,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 // Define the Project type
@@ -38,7 +46,8 @@ function ProjectCard({
   }, [project.imageUrl]);
 
   return (
-    <motion.div id="projects"
+    <motion.div
+      id="projects"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -140,7 +149,8 @@ const projects: Project[] = [
     metric: "80% growth in leads",
     imageUrl: "/project/3.png",
     category: "Landing Page",
-    description: "A website for a startup SEO agency, showcasing the company's services and portfolio.",
+    description:
+      "A website for a startup SEO agency, showcasing the company's services and portfolio.",
     technologies: ["Next.js", "Tailwind CSS", "GSAP", "Framer Motion", "React"],
     liveUrl: "www.contntr.com",
     githubUrl: "#",
@@ -151,8 +161,16 @@ const projects: Project[] = [
     metric: "Increased agency visibility and user engagement",
     imageUrl: "/project/4.png",
     category: "Landing Page",
-    description: "An e-commerce platform connecting buyers and sellers, providing a seamless shopping experience.",
-    technologies: ["React", "Next.js", "Tailwind CSS", "GSAP", "Framer Motion", "Stripe"],
+    description:
+      "An e-commerce platform connecting buyers and sellers, providing a seamless shopping experience.",
+    technologies: [
+      "React",
+      "Next.js",
+      "Tailwind CSS",
+      "GSAP",
+      "Framer Motion",
+      "Stripe",
+    ],
     liveUrl: "www.contexmedia.com/",
     githubUrl: "#",
   },
@@ -162,8 +180,16 @@ const projects: Project[] = [
     metric: "Hobby project to learn Next.js and Tailwind CSS (NOT REAL)",
     imageUrl: "/project/2.png",
     category: "E-commerce",
-    description: "A fully functional e-commerce platform for buying and selling furniture (not a real project).",
-    technologies: ["React", "Next.js", "Tailwind CSS", "GSAP", "Framer Motion", "Stripe"],
+    description:
+      "A fully functional e-commerce platform for buying and selling furniture (not a real project).",
+    technologies: [
+      "React",
+      "Next.js",
+      "Tailwind CSS",
+      "GSAP",
+      "Framer Motion",
+      "Stripe",
+    ],
     liveUrl: "https://figma-hackaton.vercel.app/",
     githubUrl: "#",
   },
@@ -179,87 +205,93 @@ const projects: Project[] = [
     liveUrl: "/health-website-w.vercel.app/",
     githubUrl: "#",
   },
-]
+];
 
 export default function ProjectsSection() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const [showAllProjects, setShowAllProjects] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [isInView, setIsInView] = useState(false)
-  const [activeFilter, setActiveFilter] = useState("All")
-  const [searchQuery, setSearchQuery] = useState("")
-  const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const [,setSelectedProject] = useState<Project | null>(null);
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isInView, setIsInView] = useState(false);
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
-  const sectionRef = useRef(null)
-  const searchRef = useRef<HTMLInputElement>(null)
+  const sectionRef = useRef(null);
+  const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
-    return () => clearTimeout(timer)
-  }, [])
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsInView(true)
+          setIsInView(true);
         }
       },
-      { threshold: 0.1 },
-    )
+      { threshold: 0.1 }
+    );
 
     if (sectionRef.current) {
-      observer.observe(sectionRef.current)
+      observer.observe(sectionRef.current);
     }
 
     return () => {
       if (sectionRef.current) {
-        observer.unobserve(sectionRef.current)
+        observer.unobserve(sectionRef.current);
       }
-    }
-  }, [])
+    };
+  }, []);
 
   const categories = useMemo(() => {
-    return ["All", ...Array.from(new Set(projects.map((project) => project.category)))]
-  }, [])
+    return [
+      "All",
+      ...Array.from(new Set(projects.map((project) => project.category))),
+    ];
+  }, []);
 
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {
-      const matchesCategory = activeFilter === "All" || project.category === activeFilter
+      const matchesCategory =
+        activeFilter === "All" || project.category === activeFilter;
       const matchesSearch =
         project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.technologies.some((tech) => tech.toLowerCase().includes(searchQuery.toLowerCase()))
+        project.technologies.some((tech) =>
+          tech.toLowerCase().includes(searchQuery.toLowerCase())
+        );
 
-      return matchesCategory && matchesSearch
-    })
-  }, [activeFilter, searchQuery])
+      return matchesCategory && matchesSearch;
+    });
+  }, [activeFilter, searchQuery]);
 
   const visibleProjects = useMemo(() => {
-    return showAllProjects ? filteredProjects : filteredProjects.slice(0, 2)
-  }, [showAllProjects, filteredProjects])
+    return showAllProjects ? filteredProjects : filteredProjects.slice(0, 2);
+  }, [showAllProjects, filteredProjects]);
 
   const handleProjectClick = (project: Project) => {
-    setSelectedProject(project)
-  }
+    setSelectedProject(project);
+  };
 
   const toggleShowAllProjects = () => {
-    setShowAllProjects((prev) => !prev)
-  }
+    setShowAllProjects((prev) => !prev);
+  };
 
   const handleFilterClick = (category: string) => {
-    setActiveFilter(category)
-    setShowAllProjects(true)
-  }
+    setActiveFilter(category);
+    setShowAllProjects(true);
+  };
 
   const clearSearch = () => {
-    setSearchQuery("")
+    setSearchQuery("");
     if (searchRef.current) {
-      searchRef.current.focus()
+      searchRef.current.focus();
     }
-  }
+  };
 
   return (
     <section
@@ -285,7 +317,9 @@ export default function ProjectsSection() {
             {/* Section badge */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
-              animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }}
+              animate={
+                isInView ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }
+              }
               transition={{ duration: 0.6 }}
               className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold border border-blue-200 shadow-sm mb-8"
             >
@@ -328,7 +362,8 @@ export default function ProjectsSection() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
             >
-              Precision-crafted digital experiences that drive results and deliver exceptional user experiences.
+              Precision-crafted digital experiences that drive results and
+              deliver exceptional user experiences.
             </motion.p>
           </motion.div>
 
@@ -413,11 +448,21 @@ export default function ProjectsSection() {
               <Filter className="w-4 h-4 text-blue-600" />
               <p className="text-gray-600">
                 Showing{" "}
-                <span className="text-blue-600 font-semibold">{visibleProjects.length}</span> of{" "}
-                <span className="text-blue-600 font-semibold">{filteredProjects.length}</span> projects
+                <span className="text-blue-600 font-semibold">
+                  {visibleProjects.length}
+                </span>{" "}
+                of{" "}
+                <span className="text-blue-600 font-semibold">
+                  {filteredProjects.length}
+                </span>{" "}
+                projects
                 {activeFilter !== "All" && (
                   <span>
-                    {" "}in <span className="text-blue-600 font-semibold">{activeFilter}</span>
+                    {" "}
+                    in{" "}
+                    <span className="text-blue-600 font-semibold">
+                      {activeFilter}
+                    </span>
                   </span>
                 )}
               </p>
@@ -434,14 +479,17 @@ export default function ProjectsSection() {
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-100 mb-6">
                 <Search className="w-8 h-8 text-gray-400" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">No projects found</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                No projects found
+              </h3>
               <p className="text-gray-600 max-w-md mx-auto mb-8">
-                We couldn't find any projects matching your search criteria. Try adjusting your filters or search query.
+                We couldn&apos;t find any projects matching your search criteria. Try
+                adjusting your filters or search query.
               </p>
               <button
                 onClick={() => {
-                  setActiveFilter("All")
-                  setSearchQuery("")
+                  setActiveFilter("All");
+                  setSearchQuery("");
                 }}
                 className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all duration-300 font-semibold shadow-lg"
               >
@@ -486,7 +534,11 @@ export default function ProjectsSection() {
                     className="flex flex-col h-full"
                     layout
                   >
-                    <ProjectCard project={project} onClick={() => handleProjectClick(project)} index={index} />
+                    <ProjectCard
+                      project={project}
+                      onClick={() => handleProjectClick(project)}
+                      index={index}
+                    />
                   </motion.div>
                 ))}
               </AnimatePresence>
@@ -542,5 +594,5 @@ export default function ProjectsSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
