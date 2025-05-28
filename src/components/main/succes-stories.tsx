@@ -112,7 +112,7 @@ export default function ClientSuccessStory() {
             {/* Main image with caption */}
             <div className="rounded-lg overflow-hidden shadow-xl">
               <Image
-                src="/project/3.png"
+                src="/project/3.png"     
                 alt="Contntr website homepage redesign"
                 width={800}
                 height={500}

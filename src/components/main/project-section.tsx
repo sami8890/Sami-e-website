@@ -7,7 +7,6 @@ import {
   ChevronUp,
   Filter,
   Search,
-  X,
   ArrowRight,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -37,7 +36,7 @@ function ProjectCard({
   index: number;
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [isImageError, setIsImageError] = useState(false);
+  const [, setIsImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
@@ -60,32 +59,20 @@ function ProjectCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container */}
-      <div className="w-full h-64 relative overflow-hidden bg-gray-50">
-        <div className="relative w-full h-full">
-          {!imageLoaded && !isImageError && (
-            <div className="absolute inset-0 bg-gray-100 animate-pulse" />
-          )}
+<div className="w-full h-64 relative overflow-hidden bg-gray-50">
+  <Image
+    src={project.imageUrl || "/api/placeholder/600/400"}
+    alt={project.name}
+    fill
+    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+    className={`object-cover transition-opacity duration-700 ${
+      imageLoaded ? "opacity-100" : "opacity-0"
+    } ${isHovered ? "scale-110" : "scale-100"}`}
+    onLoad={() => setImageLoaded(true)}
+    onError={() => setIsImageError(true)}
+  />
+</div>
 
-          {isImageError && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-              <span className="text-gray-400 text-sm">Image unavailable</span>
-            </div>
-          )}
-
-          <Image
-            src={project.imageUrl || "/api/placeholder/600/400"}
-            alt={project.name}
-            className={`w-full h-full object-cover transition-all duration-700 ${
-              imageLoaded ? "opacity-100" : "opacity-0"
-            } ${isHovered ? "scale-110" : "scale-100"}`}
-            onLoad={() => setImageLoaded(true)}
-            onError={() => setIsImageError(true)}
-          />
-
-          {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        </div>
-      </div>
 
       {/* Content Section */}
       <div className="p-6">
@@ -214,10 +201,8 @@ export default function ProjectsSection() {
   const [isInView, setIsInView] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const sectionRef = useRef(null);
-  const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -286,12 +271,6 @@ export default function ProjectsSection() {
     setShowAllProjects(true);
   };
 
-  const clearSearch = () => {
-    setSearchQuery("");
-    if (searchRef.current) {
-      searchRef.current.focus();
-    }
-  };
 
   return (
     <section
@@ -396,48 +375,7 @@ export default function ProjectsSection() {
               ))}
             </div>
 
-            {/* Search Bar */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="relative max-w-lg mx-auto"
-            >
-              <div
-                className={`flex items-center bg-white rounded-xl border transition-all duration-300 shadow-sm ${
-                  isSearchFocused
-                    ? "border-blue-400 ring-4 ring-blue-100"
-                    : "border-gray-200"
-                } px-4 py-3`}
-              >
-                <Search
-                  className={`w-5 h-5 transition-colors duration-300 ${
-                    isSearchFocused ? "text-blue-500" : "text-gray-400"
-                  }`}
-                />
-                <input
-                  ref={searchRef}
-                  type="text"
-                  placeholder="Search projects..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setIsSearchFocused(true)}
-                  onBlur={() => setIsSearchFocused(false)}
-                  className="flex-1 ml-3 bg-transparent border-none outline-none text-gray-700 placeholder-gray-400"
-                />
-                {searchQuery && (
-                  <motion.button
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    onClick={clearSearch}
-                    className="text-gray-400 hover:text-gray-600 transition-colors"
-                  >
-                    <X className="w-5 h-5" />
-                  </motion.button>
-                )}
-              </div>
-            </motion.div>
-
+          
             {/* Project count indicator */}
             <motion.div
               initial={{ opacity: 0 }}
