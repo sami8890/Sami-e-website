@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import ImageMarquee from "@/components/main/marque"
+
 // Sample client data - replace with your actual clients
 const clients = [
   {
@@ -25,6 +25,7 @@ const clients = [
 ];
 
 // Typewriter effect component
+
 const tools = [
   {
     name: "Figma",
@@ -39,10 +40,10 @@ const tools = [
     height: 25,
   },
   {
-    name: "Webflow",
-    icon: "https://framerusercontent.com/images/FCRRXxTzNQozUhv4PjbXZqjSeGg.png",
-    width: 97,
-    height: 97,
+    name: "React",
+    icon: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
+    width: 24,
+    height: 24,
   },
   {
     name: "NextJS",
@@ -57,15 +58,33 @@ export default function HeroSection() {
     <section
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-center bg-white overflow-hidden pt-16 sm:pt-28 md:pt-32 pb-16 sm:pb-20 md:pb-12"
+      style={{
+        '--animate-bounce-subtle': 'bounce-subtle 2s ease-in-out 0.8s',
+        '--animate-bounce-subtle-delay': 'bounce-subtle 2s ease-in-out 1s'
+      } as React.CSSProperties}
     >
-      {/* Premium background with subtle gradient - Grid pattern removed */}
+      <style jsx>{`
+        @keyframes bounce-subtle {
+          0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+          40% { transform: translateY(-4px); }
+          60% { transform: translateY(-2px); }
+        }
+        .animate-bounce-subtle {
+          animation: bounce-subtle 2s ease-in-out 0.8s;
+        }
+        .animate-bounce-subtle-delay {
+          animation: bounce-subtle 2s ease-in-out 1s;
+        }
+      `}</style>
+
+      {/* Premium background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.05),transparent_50%)]"></div>
 
       <div className="container mx-auto px-6 sm:px-8 relative z-10 flex flex-col items-center">
         <div className="max-w-4xl mx-auto py-8 md:py-0">
           <div className="text-center space-y-6 sm:space-y-7 md:space-y-6">
-             <motion.div
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -88,12 +107,11 @@ export default function HeroSection() {
                 className="inline-flex items-center gap-1 bg-green-50 border border-green-200 rounded-full px-2.5 py-1 text-xs text-green-700 font-medium shadow-sm"
               >
                 <div className="w-1 h-1 bg-green-500 rounded-full animate-pulse" />
-                <span>We Are Accepting New Projects</span>
+                <span>Only 3 Spots Left This Month</span>
               </motion.div>
             </motion.div>
             
-
-            {/* Better sized, professional headline with improved mobile spacing */}
+            {/* Headline */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -103,71 +121,77 @@ export default function HeroSection() {
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.2] sm:leading-[1.15] md:leading-[1.1] text-slate-900">
                 We Build{" "}
                 <span className="text-blue-600 block sm:inline mt-2 sm:mt-0" style={{ fontFamily: 'Instrument Serif, serif' }}>
-                  High-Converting Websites
+                  Websites That Work
                 </span>{" "}
                 <span className="block sm:inline mt-2 sm:mt-0">
-                  That Drive Results
+                  For People, Not Just Pixels
                 </span>
               </h1>
             </motion.div>
 
-            {/* Better sized subheading with mobile spacing */}
+            {/* Subheading */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               className="space-y-3 px-4 sm:px-6 md:px-0 pt-2 sm:pt-4"
             >
-              <p className="text-base sm:text-lg md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                We build websites that convert. Average 40% increase in conversions within 60 days.
+              <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              Websites that don’t just look good—they win trust, clicks, and customers.
               </p>
-            
             </motion.div>
 
-            {/* Streamlined CTA section with much better mobile spacing */}
+            {/* CTA Section */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
               className="space-y-6 sm:space-y-7 pt-6 sm:pt-8 md:pt-2"
             >
-              {/* Clean CTA buttons with much better mobile spacing */}
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-3 justify-center items-center px-6 sm:px-4 pb-4 sm:pb-0">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-4 justify-center items-center px-6 sm:px-4 pb-4 sm:pb-0">
                 <Button
                   size="lg"
-                  className="w-full sm:w-auto bg-black hover:bg-gray-800 text-white px-8 py-6 sm:px-7 sm:py-5 text-base font-medium rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="w-full sm:w-auto bg-black hover:bg-gray-800 text-white px-8 py-6 sm:px-8 sm:py-6 text-base font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] min-w-[180px] animate-bounce-subtle"
                   onClick={() => {
                     window.open(
-                      "https://wa.me/923701247494?text=Hi%2C%20I%20want%20a%20high-converting%20website%20for%20my%20business",
+                      "https://wa.me/923701247494?text=Hi%2C%20I%20want%20to%20see%20your%20client%20results%20and%20case%20studies",
                       "_blank",
                       "noopener,noreferrer"
                     );
                   }}
                 >
-                  Our Service
+                  See Our Work
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
                 <Button
                   variant="outline"
                   size="lg"
-                  className="w-full sm:w-auto border-2 border-black text-black hover:bg-gray-100 px-8 py-6 sm:px-7 sm:py-5 text-base font-medium rounded-full transition-all duration-300 bg-transparent"
+                  className="w-full sm:w-auto border-2 border-black text-black hover:bg-black hover:text-white px-6 py-6 sm:px-8 sm:py-6 text-base font-semibold rounded-xl transition-all duration-300 bg-transparent min-w-[160px] flex items-center gap-3 animate-bounce-subtle-delay"
                   onClick={() => {
                     window.open(
-                      "https://wa.me/923701247494?text=Hi%2C%20I%20want%20a%20business%20website",
+                      "https://wa.me/923701247494?text=Hi%2C%20I%20want%20to%20book%20a%20free%20consultation%20call",
                       "_blank",
                       "noopener,noreferrer"
                     );
                   }}
                 >
-                  Business Website
+                  <div className="w-6 h-6 rounded-full overflow-hidden flex-shrink-0">
+                    <Image
+                      src="/main.png"
+                      alt="Profile photo"
+                      width={24}
+                      height={24}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  Book a Free Call
                 </Button>
               </div>
             </motion.div>
           </div>
         </div>
 
-       
-        {/* Social Proof Section with optimal spacing */}
+        {/* Social Proof */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -175,7 +199,6 @@ export default function HeroSection() {
           className="mt-16 sm:mt-20 md:mt-16 max-w-4xl mx-auto hidden md:block"
         >
           <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 rounded-3xl p-6 shadow-2xl">
-            {/* Rating with better spacing */}
             <div className="text-center mb-6">
               <div className="flex items-center justify-center gap-1 mb-2">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -193,11 +216,10 @@ export default function HeroSection() {
                 4.9/5 Client Rating
               </p>
               <p className="text-slate-600 dark:text-slate-400 text-base">
-                &quot;Increased our online sales by 65% in just 2 months&quot;
+                “They understood our vision and delivered a website that simply works.”
               </p>
             </div>
-            
-            {/* Clients and Stats with better spacing */}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
               {/* Client Avatars */}
               <div className="flex items-center justify-center md:justify-start">
@@ -239,7 +261,7 @@ export default function HeroSection() {
                 </div>
               </div>
               
-              {/* Stats with better spacing */}
+              {/* Stats */}
               <div className="grid grid-cols-3 gap-3 text-center">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -247,10 +269,10 @@ export default function HeroSection() {
                   transition={{ duration: 0.5, delay: 1.8 }}
                 >
                   <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    40%
+                    Fast
                   </div>
                   <div className="text-xs text-slate-600 dark:text-slate-400">
-                    Avg. Conversion Boost
+                    Load times that keep visitors engaged
                   </div>
                 </motion.div>
                 <motion.div
@@ -259,10 +281,10 @@ export default function HeroSection() {
                   transition={{ duration: 0.5, delay: 1.9 }}
                 >
                   <div className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                    7 Days
+                    Flexible
                   </div>
                   <div className="text-xs text-slate-600 dark:text-slate-400">
-                    Avg. Delivery
+                    Scales with your business
                   </div>
                 </motion.div>
                 <motion.div
@@ -271,60 +293,56 @@ export default function HeroSection() {
                   transition={{ duration: 0.5, delay: 2 }}
                 >
                   <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                    100%
+                    Focused
                   </div>
                   <div className="text-xs text-slate-600 dark:text-slate-400">
-                    Satisfaction Rate
+                    Built to guide users, not confuse them
                   </div>
                 </motion.div>
               </div>
             </div>
           </div>
         </motion.div>
-          <ImageMarquee />
-        {/* Tools Section */}
+
+        {/* Tools */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 2.2 }}
           className="mt-12 sm:mt-16 md:mt-12 max-w-4xl mx-auto"
         >
-          <div className="bg-[#EAEAEA] backdrop-blur-lg border border-slate-200/50 rounded-lg p-6 sm:p-8 shadow-lg">
-            <div className="text-center space-y-6">
-              {/* Tools heading */}
+          <div className="bg-[#EAEAEA] backdrop-blur-lg border border-slate-200/50 rounded-lg p-4 sm:p-6 md:p-8 shadow-lg">
+            <div className="text-center space-y-4 sm:space-y-6">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 2.4 }}
               >
-                <p className="text-slate-700 text-base sm:text-lg font-medium">
-                  We use industry standard tools like
+                <p className="text-slate-700 text-sm sm:text-base md:text-lg font-medium">
+                  We create with tools you already trust —
                 </p>
               </motion.div>
 
-              {/* Tools grid */}
-              <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8">
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8">
                 {tools.map((tool, index) => (
                   <motion.div
                     key={tool.name}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: 2.6 + index * 0.1 }}
-                    className="flex items-center gap-3 group"
+                    className="flex items-center gap-2 sm:gap-3 group"
                   >
-                    {/* Tool icon */}
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg bg-white shadow-sm border border-slate-100 group-hover:shadow-md transition-all duration-300">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 flex items-center justify-center rounded-lg bg-white shadow-sm border border-slate-100 group-hover:shadow-md transition-all duration-300">
                       <Image
                         src={tool.icon}
                         alt={`${tool.name} icon`}
-                        width={tool.name === "Webflow" ? 24 : tool.width}
-                        height={tool.name === "Webflow" ? 24 : tool.height}
-                        className="w-5 h-5 sm:w-6 sm:h-6 object-contain"
+                        width={tool.name === "React" ? 24 : tool.width}
+                        height={tool.name === "React" ? 24 : tool.height}
+                        className="w-3 h-3 sm:w-5 sm:h-5 md:w-6 md:h-6 object-contain"
+                        loading="lazy"
                       />
                     </div>
-                    
-                    {/* Tool name */}
-                    <span className="text-slate-800 font-semibold text-sm sm:text-base group-hover:text-blue-600 transition-colors duration-300">
+                    <span className="text-slate-800 font-semibold text-xs sm:text-sm md:text-base group-hover:text-blue-600 transition-colors duration-300">
                       {tool.name}
                       {index < tools.length - 1 && (
                         <span className="text-slate-400 ml-1">,</span>
@@ -343,3 +361,5 @@ export default function HeroSection() {
     </section>
   );
 }
+
+//second version of hero section 

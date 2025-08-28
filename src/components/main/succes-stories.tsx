@@ -1,133 +1,159 @@
 "use client"
-
+import { TrendingUp } from "lucide-react"
+import { motion } from "framer-motion"
 import Image from "next/image"
-import { ArrowRight,  Star, CheckCircle, ExternalLink } from "lucide-react"
-import Link from "next/link"
 
 export default function ClientSuccessStory() {
   return (
-    <section className="py-20 bg-white dark:bg-zinc-900 overflow-hidden">
-      <div className="container mx-auto px-4">
-        {/* Header without animations */}
-        <div className="text-center mb-16">
-          <div
-            className="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-1.5 text-sm font-medium text-gray-800 dark:text-gray-200 mb-6 shadow-sm"
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-6">
+        <div className="max-w-4xl mx-auto">
+          
+          {/* Simple header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
           >
-            <Star className="h-3.5 w-3.5 text-blue-600 dark:text-blue-500 fill-blue-600 dark:fill-blue-500" />
-            <span>Case Study</span>
-          </div>
+            <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
+              <TrendingUp className="w-4 h-4" />
+              Client Success Story
+            </div>
+            
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+              From 3 Leads to{" "}
+              <span className="text-blue-600" style={{ fontFamily: 'Instrument Serif, serif' }}>
+                40+ Leads Per Month
+              </span>
+            </h2>
+            
+            <p className="text-base md:text-lg text-slate-600 max-w-xl mx-auto">
+              1,100% revenue increase in 90 days
+            </p>
+          </motion.div>
 
-          <h2
-            className="text-3xl font-bold text-gray-900 dark:text-white mb-4"
+          {/* Results grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="bg-gradient-to-br from-slate-50 to-white rounded-2xl p-6 md:p-8 mb-8 border border-slate-200"
           >
-            How We Helped
-            <span className="text-blue-600 dark:text-blue-500 relative inline-block ml-2">
-              Contntr
-              <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 100 15" preserveAspectRatio="none">
-                <path d="M0,5 Q50,15 100,5" stroke="rgba(22, 163, 74, 0.3)" strokeWidth="2" fill="none" />
-              </svg>
-            </span>
-          </h2>
-
-          <div
-            className="h-0.5 bg-gradient-to-r from-transparent via-blue-500 dark:via-blue-500 to-transparent w-24 mx-auto mt-2 opacity-70"
-          />
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-6xl mx-auto">
-          {/* Left Column - More scannable content with bullet points */}
-          <div className="lg:col-span-5 space-y-8">
-            {/* Client Info with clear tag */}
-            <div>
-              <div className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-medium rounded mb-3">
-                Premium SEO Platform
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-center">
+              <div>
+                <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-1">1,100%</div>
+                <div className="text-slate-700 font-medium">Revenue Growth</div>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Contntr</h3>
-            </div>
-
-            {/* Key Results - More visual with larger numbers */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 rounded-lg border border-gray-100 dark:border-zinc-800 shadow-sm bg-white dark:bg-zinc-800">
-                <h3 className="text-3xl font-bold text-blue-600 dark:text-blue-500">56%</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">Conversion increase</p>
+              <div>
+                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-1">40+</div>
+                <div className="text-slate-700 font-medium">Monthly Leads</div>
               </div>
-              <div className="p-4 rounded-lg border border-gray-100 dark:border-zinc-800 shadow-sm bg-white dark:bg-zinc-800">
-                <h3 className="text-3xl font-bold text-blue-600 dark:text-blue-500">98%</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">Faster load times</p>
+              <div>
+                <div className="text-3xl md:text-4xl font-bold text-purple-600 mb-1">90</div>
+                <div className="text-slate-700 font-medium">Days to Results</div>
               </div>
             </div>
+          </motion.div>
 
-            {/* Project summary - Shorter and more scannable */}
-            <div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">The Challenge</h3>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                Contntr needed a complete platform redesign to improve user experience, increase conversions, and reduce load times across all devices.
-              </p>
-            </div>
-
-            {/* Solution - Clear bullet points */}
-            <div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Our Solution</h3>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-start">
-                  <CheckCircle className="text-blue-600 dark:text-blue-500 mr-3 mt-0.5 h-5 w-5 flex-shrink-0" />
-                  <span className="text-gray-700 dark:text-gray-300">Complete UX redesign with optimized user flows</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="text-blue-600 dark:text-blue-500 mr-3 mt-0.5 h-5 w-5 flex-shrink-0" />
-                  <span className="text-gray-700 dark:text-gray-300">Backend optimization reducing load times by 98%</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="text-blue-600 dark:text-blue-500 mr-3 mt-0.5 h-5 w-5 flex-shrink-0" />
-                  <span className="text-gray-700 dark:text-gray-300">Responsive design with mobile-first approach</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="text-blue-600 dark:text-blue-500 mr-3 mt-0.5 h-5 w-5 flex-shrink-0" />
-                  <span className="text-gray-700 dark:text-gray-300">Conversion-focused layout increasing signups by 56%</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Clear CTAs with bolder styling */}
-            <div className="flex flex-wrap gap-4">
-              <Link
-                href="/video-testimonials"
-                className="inline-flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors shadow-md"
+          {/* Testimonial with image */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+            className="bg-white border border-slate-200 rounded-xl p-6 md:p-8 mb-8"
+          >
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              {/* Client Image */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                viewport={{ once: true }}
+                className="flex-shrink-0"
               >
-                View Full Case Study <ArrowRight className="w-4 h-4" />
-              </Link>
-              <a
-                href="https://contntr.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3 bg-white dark:bg-zinc-800 text-gray-800 dark:text-gray-200 font-medium border border-gray-300 dark:border-zinc-700 hover:border-blue-300 dark:hover:border-blue-700 hover:text-blue-700 dark:hover:text-blue-500 transition-colors rounded-md"
-              >
-                Visit Live Site <ExternalLink className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
+                <div className="relative">
+                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 p-1">
+                    <Image
+                      src="/kyle.png" // Replace with actual image path
+                      alt="Kyle Niange, Founder of Contntr"
+                      width={96}
+                      height={96}
+                      className="w-full h-full rounded-full object-cover bg-white"
+                      priority
+                    />
+                  </div>
+                  {/* Success badge */}
+                  <motion.div
+                    initial={{ scale: 0, rotate: -180 }}
+                    whileInView={{ scale: 1, rotate: 0 }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                    viewport={{ once: true }}
+                    className="absolute -bottom-1 -right-1 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center border-2 border-white shadow-lg"
+                  >
+                    <TrendingUp className="w-4 h-4 text-white" />
+                  </motion.div>
+                </div>
+              </motion.div>
 
-          {/* Right Column - Multiple screenshots in gallery layout */}
-          <div className="lg:col-span-7 space-y-4">
-            {/* Main image with caption */}
-            <div className="rounded-lg overflow-hidden shadow-xl">
-              <Image
-                src="/project/3.png"     
-                alt="Contntr website homepage redesign"
-                width={800}
-                height={500}
-                className="w-full object-cover"
-                priority
-                quality={95}
-              />
-              <div className="bg-white dark:bg-zinc-800 p-3 border-t border-gray-100 dark:border-zinc-700">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Homepage redesign with optimized conversion elements</p>
+              {/* Testimonial Content */}
+              <div className="flex-1 text-center md:text-left">
+                <div className="flex justify-center md:justify-start mb-3">
+                  {[1,2,3,4,5].map(star => (
+                    <motion.span 
+                      key={star}
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: 0.5 + star * 0.1 }}
+                      viewport={{ once: true }}
+                      className="text-yellow-400 text-xl"
+                    >
+                      ⭐
+                    </motion.span>
+                  ))}
+                </div>
+                <p className="text-base md:text-lg text-slate-700 mb-4 leading-relaxed">
+                  &quot;Within 3 months, my business completely transformed. The new website brings in customers every day and its very fast and SEO Optimized &quot;
+                </p>
+                <div>
+                  <div className="font-semibold text-slate-900 text-base">Kyle Niange</div>
+                  <div className="text-sm text-slate-600">Founder of Contntr</div>
+                </div>
               </div>
             </div>
+          </motion.div>
 
-         
-           
-          </div>
+          {/* CTA */}
+{/*         
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
+              onClick={() => {
+                window.open(
+                  "#succes",
+                  "_blank",
+                  "noopener,noreferrer"
+                );
+              }}
+            >
+              Watch the video  
+              <ArrowRight className="w-4 h-4" />
+            </motion.button>
+            <p className="text-sm text-slate-600 mt-3"> */}
+              {/* Free consultation • No commitment required */}
+            {/* </p>
+          </motion.div> */}
         </div>
       </div>
     </section>

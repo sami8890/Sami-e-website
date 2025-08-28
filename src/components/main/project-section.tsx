@@ -1,57 +1,39 @@
-"use client";
-
-import { useState, useMemo, useRef, useEffect } from "react";
-import {
-  Sparkles,
-  ChevronDown,
-  ChevronUp,
-  Filter,
-  Search,
-  ArrowRight,
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+"use client"
+import { useState, useMemo, useRef, useEffect } from "react"
+import { Sparkles, ChevronDown, ChevronUp, Filter, Search, ArrowRight } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import Image from "next/image"
 
 // Define the Project type
 type Project = {
-  id: number;
-  name: string;
-  metric: string;
-  imageUrl: string;
-  category: string;
-  description: string;
-  technologies: string[];
-  liveUrl: string;
-  githubUrl: string;
-};
+  id: number
+  name: string
+  metric: string
+  imageUrl: string
+  category: string
+  description: string
+  technologies: string[]
+  liveUrl: string
+  githubUrl: string
+}
 
 // Mock ProjectCard component
-function ProjectCard({
-  project,
-  onClick,
-  index,
-}: {
-  project: Project;
-  onClick: () => void;
-  index: number;
-}) {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [, setIsImageError] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+function ProjectCard({ project, onClick, index }: { project: Project; onClick: () => void; index: number }) {
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [, setIsImageError] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
-    setIsImageError(false);
-    setImageLoaded(false);
-  }, [project.imageUrl]);
+    setIsImageError(false)
+    setImageLoaded(false)
+  }, [project.imageUrl])
 
   return (
     <motion.div
-      id="projects"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -8 }}
-      className="group relative rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-500 h-full w-full border border-gray-100"
+      className="group relative rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-all duration-300 h-full w-full border border-slate-200"
       onClick={onClick}
       role="button"
       tabIndex={0}
@@ -59,74 +41,63 @@ function ProjectCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container */}
-<div className="w-full h-64 relative overflow-hidden bg-gray-50">
-  <Image
-    src={project.imageUrl || "/api/placeholder/600/400"}
-    alt={project.name}
-    fill
-    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-    className={`object-cover transition-opacity duration-700 ${
-      imageLoaded ? "opacity-100" : "opacity-0"
-    } ${isHovered ? "scale-110" : "scale-100"}`}
-    onLoad={() => setImageLoaded(true)}
-    onError={() => setIsImageError(true)}
-  />
-</div>
-
+      <div className="w-full h-64 relative overflow-hidden bg-slate-50">
+        <Image
+          src={project.imageUrl || "/placeholder.svg?height=400&width=600"}
+          alt={project.name}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className={`object-cover transition-all duration-500 ${
+            imageLoaded ? "opacity-100" : "opacity-0"
+          } ${isHovered ? "scale-105" : "scale-100"}`}
+          onLoad={() => setImageLoaded(true)}
+          onError={() => setIsImageError(true)}
+        />
+      </div>
 
       {/* Content Section */}
-      <div className="p-6">
-        <div className="space-y-4">
-          {/* Project Info */}
-          <div className="space-y-2">
-            <h3 className="text-xl font-bold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors duration-300">
-              {project.name}
-            </h3>
-            <p className="text-blue-600 font-medium text-sm">
-              {project.metric}
-            </p>
-          </div>
-
-          {/* Technologies */}
-          <div className="flex flex-wrap gap-2">
-            {project.technologies.slice(0, 3).map((tech, techIndex) => (
-              <motion.span
-                key={tech}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.1 + techIndex * 0.05 }}
-                className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors duration-200"
-              >
-                {tech}
-              </motion.span>
-            ))}
-            {project.technologies.length > 3 && (
-              <span className="px-3 py-1 text-xs font-medium bg-blue-50 text-blue-600 rounded-full">
-                +{project.technologies.length - 3} more
-              </span>
-            )}
-          </div>
-
-          {/* Overview Button */}
-          <div className="pt-2">
-            <motion.button
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg"
-            >
-              View Details
-              <motion.div
-                animate={{ x: isHovered ? 4 : 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <ArrowRight className="w-4 h-4" />
-              </motion.div>
-            </motion.button>
-          </div>
+      <div className="p-6 space-y-6">
+        {/* Project Info */}
+        <div className="space-y-3">
+          <h3 className="text-xl font-bold text-slate-900 line-clamp-2 group-hover:text-slate-700 transition-colors duration-300">
+            {project.name}
+          </h3>
+          <p className="text-slate-600 font-medium text-sm">{project.metric}</p>
         </div>
+
+        {/* Technologies */}
+        <div className="flex flex-wrap gap-2">
+          {project.technologies.slice(0, 3).map((tech, techIndex) => (
+            <motion.span
+              key={tech}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 + techIndex * 0.05 }}
+              className="px-3 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-full"
+            >
+              {tech}
+            </motion.span>
+          ))}
+          {project.technologies.length > 3 && (
+            <span className="px-3 py-1 text-xs font-medium bg-blue-50 text-blue-600 rounded-full">
+              +{project.technologies.length - 3} more
+            </span>
+          )}
+        </div>
+
+        {/* View Details Button */}
+        <motion.button
+          whileTap={{ scale: 0.98 }}
+          className="w-full px-6 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-medium flex items-center justify-center gap-2 transition-all duration-300 shadow-sm hover:shadow-md"
+        >
+          View Details
+          <motion.div animate={{ x: isHovered ? 4 : 0 }} transition={{ duration: 0.3 }}>
+            <ArrowRight className="w-4 h-4" />
+          </motion.div>
+        </motion.button>
       </div>
     </motion.div>
-  );
+  )
 }
 
 const projects: Project[] = [
@@ -136,8 +107,7 @@ const projects: Project[] = [
     metric: "80% growth in leads",
     imageUrl: "/project/3.png",
     category: "Landing Page",
-    description:
-      "A website for a startup SEO agency, showcasing the company's services and portfolio.",
+    description: "A website for a startup SEO agency, showcasing the company's services and portfolio.",
     technologies: ["Next.js", "Tailwind CSS", "GSAP", "Framer Motion", "React"],
     liveUrl: "www.contntr.com",
     githubUrl: "#",
@@ -148,16 +118,8 @@ const projects: Project[] = [
     metric: "Increased agency visibility and user engagement",
     imageUrl: "/project/4.png",
     category: "Landing Page",
-    description:
-      "An e-commerce platform connecting buyers and sellers, providing a seamless shopping experience.",
-    technologies: [
-      "React",
-      "Next.js",
-      "Tailwind CSS",
-      "GSAP",
-      "Framer Motion",
-      "Stripe",
-    ],
+    description: "An e-commerce platform connecting buyers and sellers, providing a seamless shopping experience.",
+    technologies: ["React", "Next.js", "Tailwind CSS", "GSAP", "Framer Motion", "Stripe"],
     liveUrl: "www.contexmedia.com/",
     githubUrl: "#",
   },
@@ -167,16 +129,8 @@ const projects: Project[] = [
     metric: "Hobby project to learn Next.js and Tailwind CSS (NOT REAL)",
     imageUrl: "/project/2.png",
     category: "E-commerce",
-    description:
-      "A fully functional e-commerce platform for buying and selling furniture (not a real project).",
-    technologies: [
-      "React",
-      "Next.js",
-      "Tailwind CSS",
-      "GSAP",
-      "Framer Motion",
-      "Stripe",
-    ],
+    description: "A fully functional e-commerce platform for buying and selling furniture (not a real project).",
+    technologies: ["React", "Next.js", "Tailwind CSS", "GSAP", "Framer Motion", "Stripe"],
     liveUrl: "https://figma-hackaton.vercel.app/",
     githubUrl: "#",
   },
@@ -192,146 +146,122 @@ const projects: Project[] = [
     liveUrl: "/health-website-w.vercel.app/",
     githubUrl: "#",
   },
-];
+]
 
 export default function ProjectsSection() {
-  const [,setSelectedProject] = useState<Project | null>(null);
-  const [showAllProjects, setShowAllProjects] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isInView, setIsInView] = useState(false);
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const sectionRef = useRef(null);
+  const [, setSelectedProject] = useState<Project | null>(null)
+  const [showAllProjects, setShowAllProjects] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isInView, setIsInView] = useState(false)
+  const [activeFilter, setActiveFilter] = useState("All")
+  const [searchQuery, setSearchQuery] = useState("")
+  const sectionRef = useRef(null)
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
+      setIsLoading(false)
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsInView(true);
+          setIsInView(true)
         }
       },
-      { threshold: 0.1 }
-    );
+      { threshold: 0.1 },
+    )
 
     if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+      observer.observe(sectionRef.current)
     }
 
     return () => {
       if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+        observer.unobserve(sectionRef.current)
       }
-    };
-  }, []);
+    }
+  }, [])
 
   const categories = useMemo(() => {
-    return [
-      "All",
-      ...Array.from(new Set(projects.map((project) => project.category))),
-    ];
-  }, []);
+    return ["All", ...Array.from(new Set(projects.map((project) => project.category)))]
+  }, [])
 
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {
-      const matchesCategory =
-        activeFilter === "All" || project.category === activeFilter;
+      const matchesCategory = activeFilter === "All" || project.category === activeFilter
       const matchesSearch =
         project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.technologies.some((tech) =>
-          tech.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-
-      return matchesCategory && matchesSearch;
-    });
-  }, [activeFilter, searchQuery]);
+        project.technologies.some((tech) => tech.toLowerCase().includes(searchQuery.toLowerCase()))
+      return matchesCategory && matchesSearch
+    })
+  }, [activeFilter, searchQuery])
 
   const visibleProjects = useMemo(() => {
-    return showAllProjects ? filteredProjects : filteredProjects.slice(0, 2);
-  }, [showAllProjects, filteredProjects]);
+    return showAllProjects ? filteredProjects : filteredProjects.slice(0, 2)
+  }, [showAllProjects, filteredProjects])
 
   const handleProjectClick = (project: Project) => {
-    setSelectedProject(project);
-  };
+    setSelectedProject(project)
+  }
 
   const toggleShowAllProjects = () => {
-    setShowAllProjects((prev) => !prev);
-  };
+    setShowAllProjects((prev) => !prev)
+  }
 
   const handleFilterClick = (category: string) => {
-    setActiveFilter(category);
-    setShowAllProjects(true);
-  };
-
+    setActiveFilter(category)
+    setShowAllProjects(true)
+  }
 
   return (
-    <section
-      ref={sectionRef}
-      className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50 relative overflow-hidden"
-      id="work"
-    >
-      {/* Background decoration */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 right-10 w-72 h-72 bg-blue-400/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-10 w-96 h-96 bg-purple-400/5 rounded-full blur-3xl"></div>
-      </div>
+    <section ref={sectionRef} className="py-20 bg-white relative overflow-hidden" id="projects">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.03),transparent_50%)]"></div>
 
       <div className="container px-4 mx-auto relative z-10">
-        <div className="max-w-7xl mx-auto space-y-16">
-          {/* Section Heading */}
+        <div className="max-w-6xl mx-auto">
+          {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-center"
+            className="text-center mb-16"
           >
-            {/* Section badge */}
+            {/* Service tag */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
-              animate={
-                isInView ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }
-              }
+              animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold border border-blue-200 shadow-sm mb-8"
+              className="inline-block mb-6"
             >
-              <Sparkles className="h-4 w-4" />
-              Featured Projects
+              <span className="inline-block rounded-full bg-black text-white px-4 py-1.5 text-sm md:text-lg font-medium tracking-wide">
+                <Sparkles className="inline h-4 w-4 mr-2" />
+                Featured Work
+              </span>
             </motion.div>
 
+            {/* Main headline */}
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-6"
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight mb-6"
             >
-              My Latest{" "}
-              <span className="text-blue-600 relative">
-                Projects
-                <svg
-                  className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-full max-w-sm"
-                  height="8"
-                  viewBox="0 0 300 8"
-                  fill="none"
-                >
-                  <motion.path
-                    initial={{ pathLength: 0 }}
-                    animate={isInView ? { pathLength: 1 } : { pathLength: 0 }}
-                    transition={{ duration: 1.2, delay: 0.8 }}
-                    d="M1 4C75 1.5 225 1.5 299 4"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    className="text-blue-600"
-                  />
-                </svg>
+              Projects That{" "}
+              <span className="relative inline-block">
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  Drive Results
+                </span>
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 origin-left"
+                />
               </span>
             </motion.h2>
 
@@ -339,22 +269,21 @@ export default function ProjectsSection() {
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+              className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed"
             >
-              Precision-crafted digital experiences that drive results and
-              deliver exceptional user experiences.
+              Real websites that have helped businesses grow their online presence and increase revenue.
             </motion.p>
           </motion.div>
 
-          {/* Filter and Search Controls */}
+          {/* Filter Controls */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="max-w-4xl mx-auto space-y-8"
+            className="mb-12"
           >
             {/* Category Filters */}
-            <div className="flex flex-wrap justify-center gap-3">
+            <div className="flex flex-wrap justify-center gap-3 mb-8">
               {categories.map((category, index) => (
                 <motion.button
                   key={category}
@@ -362,12 +291,11 @@ export default function ProjectsSection() {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: 0.7 + index * 0.1 }}
-                  whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+                  className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
                     activeFilter === category
-                      ? "bg-blue-600 text-white shadow-lg"
-                      : "bg-white text-gray-700 border border-gray-200 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50 shadow-sm"
+                      ? "bg-slate-900 text-white shadow-lg"
+                      : "bg-white text-slate-700 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 shadow-sm"
                   }`}
                 >
                   {category}
@@ -375,7 +303,6 @@ export default function ProjectsSection() {
               ))}
             </div>
 
-          
             {/* Project count indicator */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -383,24 +310,14 @@ export default function ProjectsSection() {
               transition={{ duration: 0.6, delay: 1 }}
               className="flex justify-center items-center gap-2"
             >
-              <Filter className="w-4 h-4 text-blue-600" />
-              <p className="text-gray-600">
-                Showing{" "}
-                <span className="text-blue-600 font-semibold">
-                  {visibleProjects.length}
-                </span>{" "}
-                of{" "}
-                <span className="text-blue-600 font-semibold">
-                  {filteredProjects.length}
-                </span>{" "}
-                projects
+              <Filter className="w-4 h-4 text-slate-600" />
+              <p className="text-slate-600">
+                Showing <span className="text-slate-900 font-semibold">{visibleProjects.length}</span> of{" "}
+                <span className="text-slate-900 font-semibold">{filteredProjects.length}</span> projects
                 {activeFilter !== "All" && (
                   <span>
                     {" "}
-                    in{" "}
-                    <span className="text-blue-600 font-semibold">
-                      {activeFilter}
-                    </span>
+                    in <span className="text-slate-900 font-semibold">{activeFilter}</span>
                   </span>
                 )}
               </p>
@@ -414,22 +331,22 @@ export default function ProjectsSection() {
               animate={{ opacity: 1, scale: 1 }}
               className="text-center py-16"
             >
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-100 mb-6">
-                <Search className="w-8 h-8 text-gray-400" />
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-100 mb-6">
+                <Search className="w-8 h-8 text-slate-400" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                No projects found
-              </h3>
-              <p className="text-gray-600 max-w-md mx-auto mb-8">
-                We couldn&apos;t find any projects matching your search criteria. Try
-                adjusting your filters or search query.
+
+              <h3 className="text-2xl font-bold text-slate-900 mb-4">No projects found</h3>
+
+              <p className="text-slate-600 max-w-md mx-auto mb-8">
+                We couldn&apos;t find any projects matching your search criteria. Try adjusting your filters or search query.
               </p>
+
               <button
                 onClick={() => {
-                  setActiveFilter("All");
-                  setSearchQuery("");
+                  setActiveFilter("All")
+                  setSearchQuery("")
                 }}
-                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all duration-300 font-semibold shadow-lg"
+                className="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-full transition-all duration-300 font-medium shadow-lg"
               >
                 Clear Filters
               </button>
@@ -438,29 +355,29 @@ export default function ProjectsSection() {
 
           {/* Loading State */}
           {isLoading ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {[1, 2].map((i) => (
-                <div
-                  key={i}
-                  className="rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-lg"
-                >
-                  <div className="w-full h-64 bg-gray-200 animate-pulse" />
+                <div key={i} className="rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-sm">
+                  <div className="w-full h-64 bg-slate-200 animate-pulse" />
+
                   <div className="p-6 space-y-4">
-                    <div className="h-6 bg-gray-200 rounded animate-pulse w-3/4" />
-                    <div className="h-4 bg-gray-200 rounded animate-pulse w-1/2" />
+                    <div className="h-6 bg-slate-200 rounded animate-pulse w-3/4" />
+                    <div className="h-4 bg-slate-200 rounded animate-pulse w-1/2" />
+
                     <div className="flex gap-2 flex-wrap">
-                      <div className="h-6 bg-gray-200 rounded animate-pulse w-16" />
-                      <div className="h-6 bg-gray-200 rounded animate-pulse w-16" />
-                      <div className="h-6 bg-gray-200 rounded animate-pulse w-16" />
+                      <div className="h-6 bg-slate-200 rounded animate-pulse w-16" />
+                      <div className="h-6 bg-slate-200 rounded animate-pulse w-16" />
+                      <div className="h-6 bg-slate-200 rounded animate-pulse w-16" />
                     </div>
-                    <div className="h-12 bg-gray-200 rounded animate-pulse w-32" />
+
+                    <div className="h-12 bg-slate-200 rounded animate-pulse w-32" />
                   </div>
                 </div>
               ))}
             </div>
           ) : (
             /* Projects Grid */
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
               <AnimatePresence mode="wait">
                 {visibleProjects.map((project, index) => (
                   <motion.div
@@ -472,11 +389,7 @@ export default function ProjectsSection() {
                     className="flex flex-col h-full"
                     layout
                   >
-                    <ProjectCard
-                      project={project}
-                      onClick={() => handleProjectClick(project)}
-                      index={index}
-                    />
+                    <ProjectCard project={project} onClick={() => handleProjectClick(project)} index={index} />
                   </motion.div>
                 ))}
               </AnimatePresence>
@@ -493,9 +406,9 @@ export default function ProjectsSection() {
             >
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={toggleShowAllProjects}
-                className="flex items-center gap-3 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="flex items-center gap-3 px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 {showAllProjects ? (
                   <>
@@ -504,7 +417,7 @@ export default function ProjectsSection() {
                       animate={{ y: [0, -3, 0] }}
                       transition={{
                         duration: 1.5,
-                        repeat: Infinity,
+                        repeat: Number.POSITIVE_INFINITY,
                         repeatType: "reverse",
                       }}
                     >
@@ -518,7 +431,7 @@ export default function ProjectsSection() {
                       animate={{ y: [0, 3, 0] }}
                       transition={{
                         duration: 1.5,
-                        repeat: Infinity,
+                        repeat: Number.POSITIVE_INFINITY,
                         repeatType: "reverse",
                       }}
                     >
@@ -532,5 +445,5 @@ export default function ProjectsSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

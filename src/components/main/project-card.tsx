@@ -1,3 +1,5 @@
+//src/components/main/project-card.tsx
+
 "use client";
 
 import { useState, useEffect } from "react";
