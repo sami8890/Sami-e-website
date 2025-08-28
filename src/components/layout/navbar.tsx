@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Home, MessageSquare, Award, HelpCircle, Folder } from "lucide-react"
+import { Menu, X, Home, MessageSquare, Award, HelpCircle,  } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 // Clean Logo Component
@@ -99,8 +99,7 @@ export function Navigation() {
 
   const navItems = [
     { name: "Home", href: "/", icon: Home },
-    { name: "Projects", href: "#projects", icon: Folder },
-    { name: "Testimonials", href: "#testimonial", icon: Award },
+    { name: "Testimonials", href: "#testimonials", icon: Award },
     { name: "FAQ", href: "#faq", icon: HelpCircle },
   ]
 
