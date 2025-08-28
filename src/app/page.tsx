@@ -29,11 +29,13 @@ import ClientSuccessStory from "@/components/main/succes-stories"
 import TestimonialSection from "@/components/main/testimoniall-section"
 import FaqSection from "@/components/main/faqs-section"
 import CompetitiveAdvantages from "@/components/main/what-make-us-diffreent"
+import { SocialFab } from "@/components/ui/call-to-action-button"
 // import SmoothScroll from "@/components/ui/SmoothScroll"
 
 export default function Home() {
   return (
       <div className="min-h-screen bg-white dark:bg-zinc-900 overflow-x-hidden">
+        <SocialFab/>
         <HeroSection />
 
         <CompetitiveAdvantages />
