@@ -40,42 +40,29 @@
 //   );
 // }
 
-
 import { Analytics } from "@vercel/analytics/react";
-import { Geist, Geist_Mono } from "next/font/google";
-import Head from "next/head";
 import { Navigation } from "@/components/layout/navbar";
 import MYFooter from "@/components/layout/footer";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: 'swap', // Font display optimization
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: 'swap', // Font display optimization
-});
-
 export const metadata = {
-  title: "Website Developer",
+  title: "Sami",
   description:
     "I help content creators and small business owners to convert their audience into customers.",
+  icons: {
+    icon: [{ url: "/header-logo.png", type: "image/png", sizes: "32x32" }],
+  },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-    
-      <Head>
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      {/* Use a plain antialiased body class to avoid next/font/google turbopack issues */}
+      <body className={`antialiased`}>
         <Navigation aria-label="Main Navigation" />
         {children}
         <Analytics />

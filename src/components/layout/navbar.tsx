@@ -1,18 +1,20 @@
 "use client"
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Home, MessageSquare, Award, HelpCircle,  } from "lucide-react"
+import { Menu, X, MessageSquare } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 // Clean Logo Component
 function Logo() {
   return (
     <div className="flex items-center">
-      <div className="w-8 h-8 mr-3 bg-slate-900 rounded-lg flex items-center justify-center">
-        <span className="text-white font-bold text-sm">S</span>
-      </div>
-      <span className="text-xl font-bold text-slate-900">Sami</span>
+      <img
+        src="/sami2.png"
+        alt="Logo"
+        className="h-20 w-auto object-contain"
+      />
     </div>
   )
 }
@@ -28,10 +30,11 @@ function ScrollProgress() {
       const scrollPx = document.documentElement.scrollTop
       const winHeightPx =
         document.documentElement.scrollHeight - document.documentElement.clientHeight
-      const scrolled = scrollPx / winHeightPx
+      const scrolled = winHeightPx > 0 ? scrollPx / winHeightPx : 0
       setScrollProgress(scrolled)
     }
 
+    updateScrollProgress()
     window.addEventListener("scroll", updateScrollProgress, { passive: true })
     return () => window.removeEventListener("scroll", updateScrollProgress)
   }, [])
@@ -44,96 +47,42 @@ function ScrollProgress() {
   )
 }
 
-// Enhanced Navigation Component with Dropdown
+// Navigation (routes only: "/" and "/..."; no "#" anchors)
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState("")
-  const [scrollY, setScrollY] = useState(0) // ✅ safe scroll tracking
   const headerRef = useRef<HTMLElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const pathname = usePathname()
 
-  // Scroll & active section tracking
   useEffect(() => {
-    if (typeof window === "undefined" || typeof document === "undefined") return
-
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-      setScrollY(window.scrollY)
-
-      if (isMobileMenuOpen) setIsMobileMenuOpen(false)
-
-      const sections = document.querySelectorAll("section[id]")
-      const scrollPosition = window.scrollY + 100
-
-      sections.forEach((section) => {
-        const sectionTop = (section as HTMLElement).offsetTop
-        const sectionHeight = section.clientHeight
-        const sectionId = section.getAttribute("id") || ""
-
-        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-          setActiveSection(sectionId)
-        }
-      })
-    }
-
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [isMobileMenuOpen])
+    if (typeof window === "undefined") return
+    const onScroll = () => setIsScrolled(window.scrollY > 50)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   // Close dropdown when clicking outside
   useEffect(() => {
     if (typeof document === "undefined") return
-
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsMobileMenuOpen(false)
       }
     }
-
-    if (isMobileMenuOpen) {
-      document.addEventListener("mousedown", handleClickOutside)
-    }
+    if (isMobileMenuOpen) document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [isMobileMenuOpen])
 
+  // Only route links (no "#")
   const navItems = [
-    { name: "Home", href: "/", icon: Home },
-    { name: "Testimonials", href: "#testimonials", icon: Award },
-    { name: "FAQ", href: "#faq", icon: HelpCircle },
+    { name: "Home", href: "/" },
+    { name: "Redesign", href: "/redesign" },
+    {name:"Testimonials",href:"/video"}
   ]
 
-  const isActive = (href: string) => {
-    if (href === "/") {
-      return activeSection === "" || scrollY < 100
-    }
-    if (href.startsWith("#")) {
-      const sectionId = href.substring(1)
-      return activeSection === sectionId
-    }
-    return false
-  }
-
-  const scrollToSection = (href: string) => {
-    if (typeof window === "undefined" || typeof document === "undefined") return
-
-    if (href.startsWith("#")) {
-      const sectionId = href.substring(1)
-      const element = document.getElementById(sectionId)
-      if (element) {
-        setIsMobileMenuOpen(false)
-        const headerHeight = headerRef.current?.offsetHeight || 0
-        const elementPosition = element.getBoundingClientRect().top + window.scrollY
-        window.scrollTo({
-          top: elementPosition - headerHeight,
-          behavior: "smooth",
-        })
-      }
-    } else if (href === "/") {
-      setIsMobileMenuOpen(false)
-      window.scrollTo({ top: 0, behavior: "smooth" })
-    }
-  }
+  const isActive = (href: string) => pathname === href
 
   return (
     <header
@@ -152,21 +101,16 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => {
-              const IconComponent = item.icon
               const active = isActive(item.href)
+              const cls = `text-sm font-medium transition-all duration-300 px-3 py-2 rounded-lg ${
+                active
+                  ? "text-slate-900 bg-slate-100"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+              }`
               return (
-                <button
-                  key={item.href}
-                  onClick={() => scrollToSection(item.href)}
-                  className={`flex items-center gap-2 text-sm font-medium transition-all duration-300 px-3 py-2 rounded-lg ${
-                    active
-                      ? "text-slate-900 bg-slate-100"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-                  }`}
-                >
-                  <IconComponent className="w-4 h-4" />
+                <Link key={item.href} href={item.href} className={cls}>
                   {item.name}
-                </button>
+                </Link>
               )
             })}
           </div>
@@ -228,24 +172,27 @@ export function Navigation() {
                   >
                     <div className="p-4 space-y-1">
                       {navItems.map((item, index) => {
-                        const IconComponent = item.icon
                         const active = isActive(item.href)
+                        const cls = `w-full p-3.5 rounded-xl transition-all duration-300 font-medium text-left group ${
+                          active
+                            ? "bg-slate-100/80 text-slate-900 shadow-sm"
+                            : "text-slate-600 hover:bg-slate-50/80 hover:text-slate-900 hover:shadow-sm hover:scale-[1.02]"
+                        }`
                         return (
-                          <motion.button
+                          <motion.div
                             key={item.href}
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.05 }}
-                            onClick={() => scrollToSection(item.href)}
-                            className={`w-full flex items-center gap-3 p-3.5 rounded-xl transition-all duration-300 font-medium text-left group ${
-                              active
-                                ? "bg-slate-100/80 text-slate-900 shadow-sm"
-                                : "text-slate-600 hover:bg-slate-50/80 hover:text-slate-900 hover:shadow-sm hover:scale-[1.02]"
-                            }`}
                           >
-                            <IconComponent className="w-5 h-5 flex-shrink-0" />
-                            <span className="text-sm">{item.name}</span>
-                          </motion.button>
+                            <Link
+                              href={item.href}
+                              className={cls}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                              <span className="text-sm">{item.name}</span>
+                            </Link>
+                          </motion.div>
                         )
                       })}
 
@@ -281,7 +228,6 @@ export function Navigation() {
           </div>
         </div>
       </nav>
-
       {/* Scroll Progress */}
       <ScrollProgress />
     </header>

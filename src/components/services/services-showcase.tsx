@@ -9,7 +9,6 @@
 // import { Badge } from "@/components/ui/badge"
 // import { Tabs, TabsContent } from "@/components/ui/tabs"
 // import { motion, useScroll, useTransform } from "framer-motion"
-// import AvailableSpost from "./availablle-spot-componnet"
 
 // // Add this keyframe animation to the top of the file
 // // Add this right after the imports
@@ -387,8 +386,8 @@
 
 // // Main component
 // export default function ServicesShowcase() {
-//   const [isVisible, setIsVisible] = useState(false)
-//   const [scrollY, setScrollY] = useState(0)
+//   const [ setIsVisible] = useState(false)
+//   const [, setScrollY] = useState(0)
 //   const [, setActiveTab] = useState("services")
 //   const sectionRef = useRef<HTMLElement>(null)
 //   const { scrollYProgress } = useScroll({
@@ -569,7 +568,7 @@
 //               </div>
 //             </div>
 
-//             <AvailableSpost />
+            
 //           </TabsContent>
 //         </Tabs>
 //       </div>
