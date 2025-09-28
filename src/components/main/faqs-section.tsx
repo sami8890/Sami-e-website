@@ -217,7 +217,7 @@ export default function FaqSection() {
                         }`}
                       >
                         {isOpen ? (
-                          <Minus className="w-5 h-5" />
+                          <Minus className="w-5 h-5 text-white" />
                         ) : (
                           <Plus className="w-5 h-5" />
                         )}

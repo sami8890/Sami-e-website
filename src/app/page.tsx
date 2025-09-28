@@ -28,28 +28,26 @@ import HeroSection from "@/components/main/hero"
 import ClientSuccessStory from "@/components/main/succes-stories"
 import TestimonialSection from "@/components/main/testimoniall-section"
 import FaqSection from "@/components/main/faqs-section"
-import { SocialFab } from "@/components/ui/call-to-action-button"
-import HeroRedesignSection from "./redesign/page"
+// import { SocialFab } from "@/components/ui/call-to-action-button"
+// import HeroRedesignSection from "./redesign/page"
 import PricingSection from "@/components/services/pricing-componet"
-// import CompetitiveAdvantages from "@/components/main/what-make-us-diffreent"
 // import SmoothScroll from "@/components/ui/SmoothScroll"
+
 
 export default function Home() {
   return (
       <div className="min-h-screen bg-white dark:bg-zinc-900 overflow-x-hidden">
-        <SocialFab/>
+        {/* <SocialFab/> */}
         <HeroSection />
 
-        {/* <CompetitiveAdvantages/> */}
         {/* <ProjectsSection /> */}
         <TestimonialSection />
-        <PricingSection/>
         <ClientSuccessStory />
+        {/* <HeroRedesignSection/> */}
+        <PricingSection/>
         <FaqSection />
-        <HeroRedesignSection/>
 
       </div>
-    
   )
 }
 

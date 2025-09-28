@@ -78,8 +78,10 @@ export function Navigation() {
   // Only route links (no "#")
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "Redesign", href: "/redesign" },
-    {name:"Testimonials",href:"/video"}
+    // { name: "Redesign", href: "/redesign" },
+    {name:"Testimonials",href:"/video"},
+    {name:"Work",href:"/work"}
+
   ]
 
   const isActive = (href: string) => pathname === href
@@ -104,7 +106,7 @@ export function Navigation() {
               const active = isActive(item.href)
               const cls = `text-sm font-medium transition-all duration-300 px-3 py-2 rounded-lg ${
                 active
-                  ? "text-slate-900 bg-slate-100"
+                  ? "text-black bg-slate-200"
                   : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
               }`
               return (
@@ -137,7 +139,7 @@ export function Navigation() {
           {/* Mobile Menu Toggle */}
           <div className="md:hidden relative">
             <button
-              className="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all duration-300"
+              className="p-2 rounded-lg text-blue-600 hover:text-slate-900 hover:bg-slate-50 transition-all duration-300"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
@@ -170,7 +172,7 @@ export function Navigation() {
                         "rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.1) 0px 10px 10px -5px",
                     }}
                   >
-                    <div className="p-4 space-y-1">
+                    <div className="p-4 space-y-5">
                       {navItems.map((item, index) => {
                         const active = isActive(item.href)
                         const cls = `w-full p-3.5 rounded-xl transition-all duration-300 font-medium text-left group ${

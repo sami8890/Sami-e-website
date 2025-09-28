@@ -24,7 +24,7 @@ const TestimonialSection = () => {
       content:
         "I only had rough ideas, but Sami turned them into a site that feels 100% like my brand. The process was smooth, and the site is already attracting clients.",
       hasWebsite: true,
-      websiteUrl: "https://contexmedia.com"
+      websiteUrl: "https://www.contexmedia.com/"
     },
     {
       id: 3,
@@ -47,7 +47,7 @@ const TestimonialSection = () => {
     // },
   ];
   
-  const [showAll, setShowAll] = useState(false);
+  const [showAll] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   
@@ -87,10 +87,9 @@ const TestimonialSection = () => {
   };
   
   // Mobile: show 1 initially with button, Desktop: show all 3
-  const displayCount = isMobile ? (showAll ? testimonials.length : 1) : testimonials.length;
+  const displayCount = isMobile ? (showAll ? testimonials.length : 4) : testimonials.length;
   const displayedTestimonials = testimonials.slice(0, displayCount);
-  const remainingCount = isMobile ? testimonials.length - displayCount : 0;
-  
+  // removed the option for now because not needed for now 
   const renderSkeletons = () => {
     const skeletonCount = isMobile ? 1 : 4; // Show 4 skeletons on desktop
     return Array(skeletonCount)
@@ -140,7 +139,7 @@ const TestimonialSection = () => {
             transition={{ duration: 0.6 }}
             className="inline-block mb-6"
           >
-            <span className="inline-flex items-center gap-2 rounded-full bg-green-50 border-2 border-green-200 text-green-800 px-4 py-1.5 text-sm md:text-lg font-medium tracking-wide">
+            {/* <span className="inline-flex items-center gap-2 rounded-full bg-green-50 border-2 border-green-200 text-green-800 px-4 py-1.5 text-sm md:text-lg font-medium tracking-wide">
               <div className="flex -space-x-1">
                 {[1, 2, 3].map((i) => (
                   <div
@@ -150,7 +149,7 @@ const TestimonialSection = () => {
                 ))}
               </div>
               Real Client Reviews
-            </span>
+            </span> */}
           </motion.div>
           {/* Main headline */}
           <motion.h2
@@ -160,9 +159,9 @@ const TestimonialSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold text-slate-900 leading-tight mb-6 font-playfair"
           >
-            <span className="text-slate-600 text-xl md:text-2xl lg:text-2xl xl:text-3xl font-normal block mb-2">
+            {/* <span className="text-slate-600 text-xl md:text-2xl lg:text-2xl xl:text-3xl font-normal block mb-2">
               Don&apos;t just take our word for it...
-            </span>
+            </span> */}
             <span className="relative">
               Here&apos;s what our clients
               <br />
@@ -235,7 +234,7 @@ const TestimonialSection = () => {
                         href={testimonial.websiteUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-500 hover:text-gray-700 text-xs md:text-xs lg:text-xs xl:text-sm font-medium transition-colors duration-200"
+                        className="text-gray-700 underline hover:text-gray-700 text-xs md:text-xs lg:text-xs xl:text-sm font-medium transition-colors duration-200"
                       >
                         Visit the website
                       </a>
@@ -244,40 +243,6 @@ const TestimonialSection = () => {
                 </motion.div>
               ))}
         </div>
-        
-        {/* Show More Button - Only for Mobile */}
-        {isMobile && remainingCount > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mt-8"
-          >
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => setShowAll(!showAll)}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-full font-medium text-sm transition-all duration-300 shadow-md hover:shadow-lg"
-            >
-              {showAll ? (
-                <>
-                  Show Less
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                  </svg>
-                </>
-              ) : (
-                <>
-                  +{remainingCount} More
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </>
-              )}
-            </motion.button>
-          </motion.div>
-        )}
       </div>
     </section>
   );
