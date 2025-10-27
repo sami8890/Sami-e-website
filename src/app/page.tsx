@@ -30,7 +30,7 @@ import TestimonialSection from "@/components/main/testimoniall-section";
 import FaqSection from "@/components/main/faqs-section";
 import { SocialFab } from "@/components/ui/call-to-action-button"
 // import HeroRedesignSection from "./redesign/page"
-import PricingSection from "@/components/services/pricing-componet";
+// import PricingSection from "@/components/services/pricing-componet";
 // import ClientBookingPage from "./booking/page";
 
 export default function Home() {
@@ -40,7 +40,7 @@ export default function Home() {
       <HeroSection />
       <TestimonialSection />
       <ClientSuccessStory />
-      <PricingSection />
+      {/* <PricingSection /> */}
       <FaqSection />
       {/* <ClientBookingPage/> */}
     </div>

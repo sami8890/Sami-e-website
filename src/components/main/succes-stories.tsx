@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRight, TrendingUp } from "lucide-react";
+import { TrendingUp, Play } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,11 +21,6 @@ export default function ClientSuccessStory() {
               <TrendingUp className="w-4 h-4" />
               Client Success Story
             </div>
-
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
-              From 3 Leads to 40+ Leads Per Month
-            </h2>
-           
           </motion.div>
 
           {/* Testimonial with image - Blur Effect */}
@@ -99,16 +94,16 @@ export default function ClientSuccessStory() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-black text-white font-semibold rounded-md transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              <Link href="/video" className="flex items-center gap-2">
-                Watch what Kyle say  
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </motion.button>
+            <Link href="/video">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-2 px-8 py-4 bg-black text-white font-semibold rounded-md transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                <Play className="w-5 h-5 fill-white" />
+                Watch what Kyle say
+              </motion.button>
+            </Link>
             <p className="text-sm text-slate-600 mt-3">
               {/* Free consultation • No commitment required */}
             </p>

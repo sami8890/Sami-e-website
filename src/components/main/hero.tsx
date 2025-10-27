@@ -7,7 +7,6 @@ import Image from "next/image";
 import Ticker from "./marque";
 import Link from "next/link";
 
-
 const tools = [
   {
     name: "Figma",
@@ -101,19 +100,19 @@ export default function HeroSection() {
                 className="inline-flex items-center gap-1 bg-green-50 border border-green-200 rounded-full px-2.5 py-1 text-xs text-green-700 font-medium shadow-sm"
               >
                 <div className="w-1 h-1 bg-green-500 rounded-full animate-pulse" />
-                <span>Only 2 Spots Left (september)</span>
+                <span>Accepting new projects </span>
               </motion.div>
             </motion.div>
 
-            {/* Headline - FIXED TEXT FLOW */}
+            {/* Headline */}
             <motion.div
-              initial={{ filter: "blur(10px)" }}
-              animate={{ filter: "blur(0px)" }}
-              transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
               className="px-2 sm:px-4 md:px-0"
             >
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.2] sm:leading-[1.15] md:leading-[1.1] text-slate-900">
-                {/* Mobile: Improved alignment like desktop */}
+                {/* Mobile */}
                 <span className="block sm:hidden">
                   We Build
                   <br />
@@ -127,7 +126,7 @@ export default function HeroSection() {
                   For People, Not Just Pixels
                 </span>
 
-                {/* Desktop: Control line breaks precisely - FIXED */}
+                {/* Desktop */}
                 <span className="hidden sm:block">
                   We Build{" "}
                   <span
@@ -200,24 +199,12 @@ export default function HeroSection() {
           </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 1, filter: "blur(10px)" }}
-          whileInView={{ opacity: 1, filter: "blur(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mt-10 sm:mt-12 md:mt-16 py-8 w-full"
-        >
+        <div className="mt-10 sm:mt-12 md:mt-16 py-8 w-full">
           <Ticker />
-        </motion.div>
+        </div>
 
-        {/* Tools - BLUR EFFECT ON SCROLL */}
-        <motion.div
-          initial={{ opacity: 1, filter: "blur(10px)" }}
-          whileInView={{ opacity: 1, filter: "blur(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mt-12 sm:mt-16 md:mt-12 max-w-4xl mx-auto"
-        >
+        {/* Tools */}
+        <div className="mt-12 sm:mt-16 md:mt-12 max-w-4xl mx-auto">
           <div className="bg-[#EAEAEA] backdrop-blur-lg border border-slate-200/50 rounded-lg p-4 sm:p-6 md:p-8 shadow-lg">
             <div className="text-center space-y-4 sm:space-y-6">
               <div>
@@ -228,12 +215,8 @@ export default function HeroSection() {
 
               <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8">
                 {tools.map((tool, index) => (
-                  <motion.div
+                  <div
                     key={tool.name}
-                    initial={{ opacity: 1, filter: "blur(8px)" }}
-                    whileInView={{ opacity: 1, filter: "blur(0px)" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
                     className="flex items-center gap-2 sm:gap-3 group"
                   >
                     <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 flex items-center justify-center rounded-lg bg-white shadow-sm border border-slate-100 group-hover:shadow-md transition-all duration-300">
@@ -255,12 +238,12 @@ export default function HeroSection() {
                         <span className="text-slate-700 ml-2"></span>
                       )}
                     </span>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
