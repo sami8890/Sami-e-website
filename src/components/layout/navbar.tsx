@@ -2,19 +2,21 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Menu, X, MessageSquare } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+import Image from "next/image"
 
 // Clean Logo Component
 function Logo() {
   return (
     <div className="flex items-center">
-      <img
+      <Image
         src="/sami2.png"
         alt="Logo"
         className="h-20 w-auto object-contain"
-      />
+        width={"90"}
+        height={"90"}
+        />
     </div>
   )
 }
@@ -119,7 +121,7 @@ export function Navigation() {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button
+            {/* <Button
               className="bg-slate-900 hover:bg-slate-800 text-white font-medium shadow-sm hover:shadow-md transition-all duration-300"
               onClick={() => {
                 if (typeof window !== "undefined") {
@@ -130,10 +132,10 @@ export function Navigation() {
                   )
                 }
               }}
-            >
-              <MessageSquare className="mr-2 w-4 h-4" />
+            > */}
+              {/* <MessageSquare className="mr-2 w-4 h-4" />
               Get Started
-            </Button>
+            </Button> */}
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -198,30 +200,7 @@ export function Navigation() {
                         )
                       })}
 
-                      {/* CTA Button in Dropdown */}
-                      <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: navItems.length * 0.05 }}
-                        className="pt-3 mt-3 border-t border-slate-100"
-                      >
-                        <Button
-                          className="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-medium rounded-xl py-3.5 px-4 text-sm transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02]"
-                          onClick={() => {
-                            if (typeof window !== "undefined") {
-                              window.open(
-                                "https://wa.me/923701247494?text=Hi%2C%20I%20want%20a%20website",
-                                "_blank",
-                                "noopener,noreferrer",
-                              )
-                            }
-                            setIsMobileMenuOpen(false)
-                          }}
-                        >
-                          <MessageSquare className="mr-2 w-4 h-4" />
-                          Book a Call
-                        </Button>
-                      </motion.div>
+                    
                     </div>
                   </motion.div>
                 </>

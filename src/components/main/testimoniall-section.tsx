@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Quote, } from "lucide-react";
+import { Quote } from "lucide-react";
 
 const TestimonialSection = () => {
   const testimonials = [
@@ -35,16 +35,6 @@ const TestimonialSection = () => {
         "In under a week, Sami built a site that looks better than I imagined. It's unique, detailed, and nothing about it feels cookie-cutter.",
       hasWebsite: false,
     },
-    // {
-    //   id: 4,
-    //   name: "Sarah ",
-    //   role: "",
-    //   avatar: "/testimonial/girl.png",
-    //   content:
-    //     "Sami delivered exactly what we needed - a professional website that converts visitors into leads. His attention to detail and fast turnaround impressed our entire team.",
-    //   hasWebsite: false,
-    //   websiteUrl: ""
-    // },
   ];
   
   const [showAll] = useState(false);
@@ -86,12 +76,11 @@ const TestimonialSection = () => {
     return <div dangerouslySetInnerHTML={{ __html: highlightedContent }} />;
   };
   
-  // Mobile: show 1 initially with button, Desktop: show all 3
   const displayCount = isMobile ? (showAll ? testimonials.length : 4) : testimonials.length;
   const displayedTestimonials = testimonials.slice(0, displayCount);
-  // removed the option for now because not needed for now 
+  
   const renderSkeletons = () => {
-    const skeletonCount = isMobile ? 1 : 4; // Show 4 skeletons on desktop
+    const skeletonCount = isMobile ? 1 : 4;
     return Array(skeletonCount)
       .fill(0)
       .map((_, index) => (
@@ -123,45 +112,31 @@ const TestimonialSection = () => {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.03),transparent_50%)]"></div>
       
       <div className="container mx-auto px-4 max-w-5xl lg:max-w-4xl xl:max-w-5xl relative z-10">
-        {/* Header Design */}
+        {/* Header Design - BLUR EFFECT */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 1, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, filter: "blur(0px)" }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           className="text-center mb-12 md:mb-16 lg:mb-12"
         >
-          {/* Service tag */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 1, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, filter: "blur(0px)" }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="inline-block mb-6"
           >
-            {/* <span className="inline-flex items-center gap-2 rounded-full bg-green-50 border-2 border-green-200 text-green-800 px-4 py-1.5 text-sm md:text-lg font-medium tracking-wide">
-              <div className="flex -space-x-1">
-                {[1, 2, 3].map((i) => (
-                  <div
-                    key={i}
-                    className="w-4 h-4 rounded-full bg-green-500 border border-white"
-                  ></div>
-                ))}
-              </div>
-              Real Client Reviews
-            </span> */}
           </motion.div>
+          
           {/* Main headline */}
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 1, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, filter: "blur(0px)" }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold text-slate-900 leading-tight mb-6 font-playfair"
           >
-            {/* <span className="text-slate-600 text-xl md:text-2xl lg:text-2xl xl:text-3xl font-normal block mb-2">
-              Don&apos;t just take our word for it...
-            </span> */}
             <span className="relative">
               Here&apos;s what our clients
               <br />
@@ -177,17 +152,17 @@ const TestimonialSection = () => {
           </motion.h2>
         </motion.div>
         
-        {/* Responsive grid: 1 col on mobile, 2 centered cols on desktop */}
+        {/* Testimonials Grid - BLUR EFFECT */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-5 xl:gap-6 max-w-4xl mx-auto">
           {isLoading
             ? renderSkeletons()
             : displayedTestimonials.map((testimonial, index) => (
                 <motion.div
                   key={testimonial.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 1, filter: "blur(10px)" }}
+                  whileInView={{ opacity: 1, filter: "blur(0px)" }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="bg-white rounded-xl border border-slate-200 p-4 md:p-5 lg:p-4 xl:p-5 shadow-sm hover:shadow-md transition-all duration-300 relative group"
                 >
                   {/* Quote Icon */}
@@ -227,7 +202,7 @@ const TestimonialSection = () => {
                     {highlightKeywords(testimonial.content)}
                   </div>
 
-                  {/* Visit Website Link - Only for Kyle and Ahmed */}
+                  {/* Visit Website Link */}
                   {testimonial.hasWebsite && (
                     <div className="pt-2 border-t border-slate-100">
                       <a

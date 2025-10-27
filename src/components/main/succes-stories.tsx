@@ -9,11 +9,11 @@ export default function ClientSuccessStory() {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
-          {/* Simple header - Consistent color */}
+          {/* Simple header - Blur Effect */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 1, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, filter: "blur(0px)" }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
             className="text-center mb-12"
           >
@@ -28,27 +28,27 @@ export default function ClientSuccessStory() {
            
           </motion.div>
 
-          {/* Testimonial with image */}
+          {/* Testimonial with image - Blur Effect */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            initial={{ opacity: 1, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, filter: "blur(0px)" }}
+            transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
             className="bg-white border border-slate-200 rounded-xl p-6 md:p-8 mb-8"
           >
             <div className="flex flex-col md:flex-row items-center gap-6">
               {/* Client Image */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+                initial={{ opacity: 1, filter: "blur(8px)" }}
+                whileInView={{ opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.6, delay: 0.1 }}
                 viewport={{ once: true }}
                 className="flex-shrink-0"
               >
                 <div className="relative">
                   <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 p-1">
                     <Image
-                      src="/kyle.png" // Replace with actual image path
+                      src="/kyle.png"
                       alt="Kyle Niange, Founder of Contntr"
                       width={96}
                       height={96}
@@ -91,32 +91,28 @@ export default function ClientSuccessStory() {
             </div>
           </motion.div>
 
-          {/* CTA */}
-          {
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center"
+          {/* CTA - Blur Effect */}
+          <motion.div
+            initial={{ opacity: 1, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, filter: "blur(0px)" }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-black text-white font-semibold rounded-md transition-all duration-300 shadow-lg hover:shadow-xl"
             >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-black  text-white font-semibold rounded-md transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                
-                  <Link href="/video" className="flex items-center gap-2">
-                     Watch what Kyle say  
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-          
-              </motion.button>
-              <p className="text-sm text-slate-600 mt-3">
-                {/* Free consultation • No commitment required */}
-              </p>
-            </motion.div>
-          }
+              <Link href="/video" className="flex items-center gap-2">
+                Watch what Kyle say  
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </motion.button>
+            <p className="text-sm text-slate-600 mt-3">
+              {/* Free consultation • No commitment required */}
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>

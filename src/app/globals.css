@@ -58,3 +58,82 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+/* Add CSS animations for floating images */
+@keyframes float-up {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes float-down {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(12px);
+  }
+}
+
+.animate-float-up {
+  animation: float-up 3.5s ease-in-out infinite;
+}
+
+.animate-float-down {
+  animation: float-down 3.5s ease-in-out infinite;
+}
+
+
+/* Added custom animations for loading spinner and fade effects */
+@keyframes spin-smooth {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  .animate-spin-smooth {
+    animation: spin-smooth 2s linear infinite;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-in-out;
+  }
+}
+
+/* Responsive styles for Calendly widget and improved mobile experience */
+@media (max-width: 640px) {
+  .calendly-inline-widget {
+    min-height: 600px !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .calendly-inline-widget {
+    min-height: 650px !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .calendly-inline-widget {
+    min-height: 700px !important;
+  }
+}

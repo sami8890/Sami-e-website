@@ -1,30 +1,12 @@
 "use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Ticker from "./marque";
+import Link from "next/link";
 
-
-// Sample client data - replace with your actual clients
-const clients = [
-  {
-    name: "Kyle Nianga",
-    image: "/testimonial/kyle.png",
-    company: "SEO Agency Startup ",
-  },
-  {
-    name: "Ahmed Hassan",
-    image: "/testimonial/ahmed.png",
-    company: "Video-Editor Agency",
-  },
-  {
-    name: "Muhammad Ibrahim",
-    image: "/testimonial/ibrahim.png",
-    company: "Portfolio_website",
-  },
-];
 
 const tools = [
   {
@@ -125,9 +107,9 @@ export default function HeroSection() {
 
             {/* Headline - FIXED TEXT FLOW */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              initial={{ filter: "blur(10px)" }}
+              animate={{ filter: "blur(0px)" }}
+              transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
               className="px-2 sm:px-4 md:px-0"
             >
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.2] sm:leading-[1.15] md:leading-[1.1] text-slate-900">
@@ -174,154 +156,84 @@ export default function HeroSection() {
             </motion.div>
 
             {/* CTA Section */}
-            <motion.div
+           <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
               className="space-y-6 sm:space-y-7 pt-4 sm:pt-8 md:pt-2"
             >
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-4 justify-center items-center px-6 sm:px-4 pb-4 sm:pb-0">
-                <Button
-                  size="lg"
-                  className="w-full sm:w-auto bg-black hover:bg-gray-800 text-white px-8 py-6 sm:px-8 sm:py-6 text-base font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] min-w-[180px] animate-bounce-subtle"
-                   onClick={() => {
-                    document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                >
-                  <span className="flex items-center gap-2">
-                    See Our Review
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
-                
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full sm:w-auto border-2 border-black text-black hover:bg-black hover:text-white px-6 py-6 sm:px-8 sm:py-6 text-base font-semibold rounded-xl transition-all duration-300 bg-transparent min-w-[160px] flex items-center gap-3 animate-bounce-subtle-delay"
-                  onClick={() => {
-                    window.open(
-                      "https://wa.me/923701247494?text=Hi%2C%20I%20want%20to%20book%20a%20free%20consultation%20call",
-                      "_blank",
-                      "noopener,noreferrer"
-                    );
-                  }}
-                >
-                  <div className="w-6 h-6 rounded-full overflow-hidden flex-shrink-0">
-                    <Image
-                      src="/main.png"
-                      alt="Profile photo"
-                      width={24}
-                      height={24}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  Book a  Call
-                </Button>
+                {/* First Button - See Our Work */}
+                <Link href="/work" className="w-full sm:w-auto">
+                  <Button
+                    size="lg"
+                    className="w-full sm:w-auto bg-black hover:bg-gray-800 text-white px-8 py-6 sm:px-8 sm:py-6 text-base font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] min-w-[180px] animate-bounce-subtle"
+                  >
+                    <span className="flex items-center gap-2">
+                      See Our Work
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </span>
+                  </Button>
+                </Link>
+
+                {/* Second Button - Book a Call */}
+                <Link href="/booking" className="w-full sm:w-auto">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full sm:w-auto border-2 border-black text-black hover:bg-black hover:text-white px-6 py-6 sm:px-8 sm:py-6 text-base font-semibold rounded-xl transition-all duration-300 bg-transparent min-w-[160px] flex items-center gap-3 animate-bounce-subtle-delay"
+                  >
+                    <div className="w-6 h-6 rounded-full overflow-hidden flex-shrink-0">
+                      <Image
+                        src="/main.png"
+                        alt="Profile photo"
+                        width={24}
+                        height={24}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    Book a Call
+                  </Button>
+                </Link>
               </div>
             </motion.div>
           </div>
         </div>
 
-        <Ticker />
-
-        {/* Social Proof */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.4 }}
-          className="mt-16 sm:mt-20 md:mt-16 max-w-4xl mx-auto hidden md:block"
+          initial={{ opacity: 1, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, filter: "blur(0px)" }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mt-10 sm:mt-12 md:mt-16 py-8 w-full"
         >
-          <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 rounded-3xl p-6 shadow-2xl">
-            <div className="text-center mb-6">
-              <div className="flex items-center justify-center gap-1 mb-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <motion.div
-                    key={star}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: 1.5 + star * 0.1 }}
-                  >
-                    <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                  </motion.div>
-                ))}
-              </div>
-              <p className="text-xl font-bold text-slate-900 dark:text-white mb-1">
-                4.9/5 Client Rating
-              </p>
-              <p className="text-slate-600 dark:text-slate-400 text-base">
-                &quot;They understood our vision and delivered a website that simply
-                works.&quot;
-              </p>
-            </div>
-
-            {/* Client Avatars - Now Centered */}
-            <div className="flex items-center justify-center">
-              <div className="flex -space-x-3">
-                {clients.map((client, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 1.6 + i * 0.1 }}
-                    className="relative"
-                  >
-                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-400 to-purple-600 p-[2px] shadow-lg">
-                      <div className="h-full w-full rounded-full bg-white dark:bg-slate-900 p-1">
-                        <div className="flex h-full w-full items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                          <Image
-                            src={
-                              client.image ||
-                              "/placeholder.svg?height=48&width=48&query=client avatar"
-                            }
-                            alt={`${client.name}'s avatar`}
-                            className="h-full w-full object-cover rounded-full"
-                            height={48}
-                            width={48}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-              <div className="ml-4 text-left">
-                <p className="text-xs text-slate-600 dark:text-slate-400">
-                  Trusted by
-                </p>
-                <p className="font-bold text-slate-900 dark:text-white text-sm">
-                 Happy Clients
-                </p>
-              </div>
-            </div>
-          </div>
+          <Ticker />
         </motion.div>
 
-        {/* Tools */}
+        {/* Tools - BLUR EFFECT ON SCROLL */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 2.2 }}
+          initial={{ opacity: 1, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, filter: "blur(0px)" }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
           className="mt-12 sm:mt-16 md:mt-12 max-w-4xl mx-auto"
         >
           <div className="bg-[#EAEAEA] backdrop-blur-lg border border-slate-200/50 rounded-lg p-4 sm:p-6 md:p-8 shadow-lg">
             <div className="text-center space-y-4 sm:space-y-6">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 2.4 }}
-              >
+              <div>
                 <p className="text-slate-700 text-sm sm:text-base md:text-lg font-medium">
                   We Use Industry-Standard Tools & Technologies
                 </p>
-              </motion.div>
+              </div>
 
               <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8">
                 {tools.map((tool, index) => (
                   <motion.div
                     key={tool.name}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 2.6 + index * 0.1 }}
+                    initial={{ opacity: 1, filter: "blur(8px)" }}
+                    whileInView={{ opacity: 1, filter: "blur(0px)" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
                     className="flex items-center gap-2 sm:gap-3 group"
                   >
                     <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 flex items-center justify-center rounded-lg bg-white shadow-sm border border-slate-100 group-hover:shadow-md transition-all duration-300">
@@ -353,7 +265,6 @@ export default function HeroSection() {
     </section>
   );
 }
-
 // SECOND VERSION _____________________________________________________________________________________________________
 // ___________________________________________________________________
 // ===============================================

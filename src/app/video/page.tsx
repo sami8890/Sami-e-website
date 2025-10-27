@@ -1,14 +1,23 @@
 "use client"
 import React, { useState } from "react"
-import { Play, Volume2, VolumeX, Quote, Clock } from "lucide-react"
+import { Play, Volume2, VolumeX, Quote, Clock, ArrowLeft } from "lucide-react"
+import Link from "next/link"
 
 const testimonials = [
+  {
+    id: 1,
+    name: "Ahmed Hassan",
+    company: "Video-Editor Agency",
+    videoUrl: "https://res.cloudinary.com/dpyireagy/video/upload/v1760983513/VID-20251017-WA0001_1_wbd27t.mp4",
+    // thumbnail: "/testimonial/ahmed.png",
+    accent: "from-blue-200 to-indigo-800",
+  },
   {
     id: 1,
     name: "Kyle Nianga",
     company: "SEO Agency Startup",
     videoUrl: "https://res.cloudinary.com/dpyireagy/video/upload/v1758002457/Kyle_rfbfnp.mp4",
-    thumbnail: "/kyle.png",
+    // thumbnail: "/kyle.png",
     accent: "from-blue-500 to-indigo-600",
   },
 ]
@@ -45,6 +54,15 @@ export default function VideoTestimonialSection() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.03),transparent_50%)]"></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="mb-8 sm:mb-12">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors duration-300 group"
+          >
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
+            <span>Back to Home</span>
+          </Link>
+        </div>
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-3 py-1.5 mb-4 sm:mb-6">
             <Quote className="w-3 h-3 text-blue-600" />
@@ -73,8 +91,8 @@ export default function VideoTestimonialSection() {
                   <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
                     <video
                       ref={videoRef}
-                      className="w-full h-full object-cover"
-                      poster={currentTestimonial.thumbnail}
+                      className="w-full h-full object-contain"
+                      // poster={currentTestimonial.thumbnail}
                       src={currentTestimonial.videoUrl}
                       onEnded={() => setIsPlaying(false)}
                       playsInline
@@ -160,19 +178,7 @@ export default function VideoTestimonialSection() {
                   }`}
                 >
                   <div className="flex items-center gap-3 sm:gap-4">
-                    <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-lg overflow-hidden flex-shrink-0">
-                      <div className={`absolute inset-0 bg-gradient-to-br ${testimonial.accent} opacity-20`}></div>
-                      <img
-                        src={testimonial.thumbnail || "/placeholder.svg"}
-                        alt={testimonial.name}
-                        className="w-full h-full object-cover"
-                      />
-                      {index === activeTestimonial && (
-                        <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                          <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                        </div>
-                      )}
-                    </div>
+                
 
                     <div className="flex-1 min-w-0">
                       <h4 className={`font-semibold text-sm sm:text-base truncate ${index === activeTestimonial ? "text-white" : "text-slate-900"}`}>
