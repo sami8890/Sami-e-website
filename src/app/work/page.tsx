@@ -3,13 +3,7 @@
 import Image from "next/image";
 
 const projects = [
-  {
-    title: "One Edu",
-    desc: "Raising the Next Generation of Thinkers — Guided by AI, Driven by Purpose.",
-    img1: "/work/guided2.png",
-    img2: "/work/guided2.png",
-    link: "https://oneedu.ai/",
-  },
+ 
   {
     title: "Supreme ",
     desc: "An interface built with clarity and speed — designed for teams who move fast.",
@@ -17,7 +11,21 @@ const projects = [
     img2: "/work/supreme2.png",
     link: "https://suprema.framer.website/",
   },
- 
+  {
+    title: "Chief Bot ",
+    desc: "An AI-powered restaurant website that analyzes food photos to estimate calories personalized dish recommendations with prmopt",
+    img1: "/thelast.png",
+    img2: "/work/chef2.png",
+    link: "https://chief-bot.sami-e.com/",
+  },
+  {
+    title: "One Edu",
+    desc: "Raising the Next Generation of Thinkers — Guided by AI, Driven by Purpose.",
+    img1: "/work/guided2.png",
+    img2: "/work/guided2.png",
+    link: "https://oneedu.ai/",
+  },
+  
 
   {
     title: "Khazanay",
