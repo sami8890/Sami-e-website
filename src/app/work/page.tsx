@@ -6,7 +6,7 @@ const projects = [
  
   {
     title: "Supreme ",
-    desc: "An interface built with clarity and speed — designed for teams who move fast.",
+    desc: "A Practice project and showing my web design skill not a real one but its craeted my me in frammer motion  ",
     img1: "/work/supreme.png",
     img2: "/work/supreme2.png",
     link: "https://suprema.framer.website/",
