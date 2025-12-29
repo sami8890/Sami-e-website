@@ -1,94 +1,62 @@
-"use client";
-import React, { useState, useEffect, useMemo } from "react";
-import { motion } from "framer-motion";
-import Image from "next/image";
+"use client"
 
-const projectImages = [
-  { id: 1, image: "/project/1.png", alt: "E-commerce Platform" },
-  { id: 2, image: "/project/2.png", alt: "Mobile Banking App" },
-  { id: 3, image: "/project/3.png", alt: "SaaS Dashboard" },
-  { id: 4, image: "/project/4.png", alt: "Portfolio Website" },
-  { id: 5, image: "/project/5.png", alt: "Social Media Platform" },
-  { id: 6, image: "/project/6.png", alt: "Social Media Platform" },
-  { id: 7, image: "/project/9.png", alt: "Social Media Platform" },
-];
+import { motion } from "framer-motion"
+import Image from "next/image"
 
-const Ticker = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+const tools = [
+  {
+    name: "Figma",
+    icon: "https://framerusercontent.com/images/i0ob5TnIF36Osq1Gd7Tb2UaOCRE.svg",
+  },
+  {
+    name: "Framer",
+    icon: "https://framerusercontent.com/images/q0LOsiH3qEkXl83edU0uXNuRQ.svg",
+  },
+  {
+    name: "React",
+    icon: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
+  },
+  {
+    name: "Next.js",
+    icon: "https://framerusercontent.com/images/Y0hOrMC1SZrltsBnp8CUVxdu0Hw.svg",
+  },
+]
 
-  // Detect mobile viewport
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  // Auto-advance slideshow for mobile
-  useEffect(() => {
-    if (!isMobile) return;
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % projectImages.length);
-    }, 2500);
-    return () => clearInterval(interval);
-  }, [isMobile]);
-
-  // Duplicate images for seamless desktop loop
-  const loopImages = useMemo(() => [...projectImages, ...projectImages], []);
-
+export default function Ticker() {
   return (
-    <div className="relative w-full overflow-hidden py-12">
-      {/* 📱 Mobile Slideshow */}
-      {isMobile && (
-        <div className="relative w-full h-[220px] rounded-xl overflow-hidden shadow-md">
-          <Image
-            src={projectImages[currentImageIndex].image}
-            alt={projectImages[currentImageIndex].alt}
-            fill
-            className="object-cover"
-            sizes="100vw"
-          />
-        </div>
-      )}
+    <div className="w-full max-w-4xl mx-auto mt-12 md:mt-8 lg:mt-12 overflow-hidden">
+      <p className="text-center text-sm text-slate-500 mb-4">Built with modern tools</p>
+      <div className="relative">
+        {/* Gradient masks */}
+        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent z-10" />
 
-      {/* 💻 Desktop Ticker */}
-      {!isMobile && (
-        <div className="relative">
-          {/* Edge fades */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10" />
-
-          <motion.div
-            className="flex gap-8"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{
-              repeat: Infinity,
-              duration: 20,
-              ease: "linear",
-            }}
-          >
-            {loopImages.map((item, index) => (
-              <div
-                key={`${item.id}-${index}`}
-                className="relative flex-shrink-0 group"
-              >
-                <div className="relative w-[340px] h-[220px] rounded-xl overflow-hidden shadow-lg bg-neutral-100">
-                  <Image
-                    src={item.image}
-                    alt={item.alt}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="340px"
-                  />
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      )}
+        <motion.div
+          className="flex gap-12 lg:gap-16"
+          animate={{ x: [0, -200] }}
+          transition={{
+            duration: 10,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "linear",
+          }}
+        >
+          {[...tools, ...tools, ...tools].map((tool, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-2 flex-shrink-0 opacity-60 hover:opacity-100 transition-opacity"
+            >
+              <Image
+                src={tool.icon || "/placeholder.svg"}
+                alt={tool.name}
+                width={24}
+                height={24}
+                className="w-6 h-6 lg:w-7 lg:h-7"
+              />
+              <span className="text-sm lg:text-base text-slate-600 font-medium">{tool.name}</span>
+            </div>
+          ))}
+        </motion.div>
+      </div>
     </div>
-  );
-};
-
-export default Ticker;
+  )
+}

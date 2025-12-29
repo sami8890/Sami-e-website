@@ -1,216 +1,192 @@
-"use client"
-import { useState, useEffect, useRef } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Menu, X } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import Image from "next/image"
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 // Clean Logo Component
 function Logo() {
   return (
     <div className="flex items-center">
       <Image
-        src="/sami2.png"
+        src="/sami2.png" 
         alt="Logo"
-        className="h-20 w-auto object-contain"
-        width={"90"}
-        height={"90"}
-        />
+        className="h-auto w-auto object-contain max-h-12" // Logo size fixed
+        width={90}
+        height={90}
+      />
     </div>
-  )
+  );
 }
 
-// Scroll Progress Indicator
+// Scroll Progress Indicator (Amber/Gold)
 function ScrollProgress() {
-  const [scrollProgress, setScrollProgress] = useState(0)
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    if (typeof window === "undefined" || typeof document === "undefined") return
+    if (typeof window === "undefined") return;
 
     const updateScrollProgress = () => {
-      const scrollPx = document.documentElement.scrollTop
+      const scrollPx = document.documentElement.scrollTop;
       const winHeightPx =
-        document.documentElement.scrollHeight - document.documentElement.clientHeight
-      const scrolled = winHeightPx > 0 ? scrollPx / winHeightPx : 0
-      setScrollProgress(scrolled)
-    }
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      const scrolled = winHeightPx > 0 ? scrollPx / winHeightPx : 0;
+      setScrollProgress(scrolled);
+    };
 
-    updateScrollProgress()
-    window.addEventListener("scroll", updateScrollProgress, { passive: true })
-    return () => window.removeEventListener("scroll", updateScrollProgress)
-  }, [])
+    updateScrollProgress();
+    window.addEventListener("scroll", updateScrollProgress, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollProgress);
+  }, []);
 
   return (
     <div
-      className="absolute bottom-0 left-0 h-0.5 bg-slate-900 origin-left"
+      className="absolute bottom-0 left-0 h-[2px] bg-amber-700 origin-left z-50"
       style={{ width: `${scrollProgress * 100}%` }}
     />
-  )
+  );
 }
 
-// Navigation (routes only: "/" and "/..."; no "#" anchors)
 export function Navigation() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const headerRef = useRef<HTMLElement>(null)
-  const dropdownRef = useRef<HTMLDivElement>(null)
-  const pathname = usePathname()
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined") return
-    const onScroll = () => setIsScrolled(window.scrollY > 50)
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
+    if (typeof window === "undefined") return;
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    if (typeof document === "undefined") return
+    if (typeof document === "undefined") return;
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsMobileMenuOpen(false)
+        setIsMobileMenuOpen(false);
       }
-    }
-    if (isMobileMenuOpen) document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [isMobileMenuOpen])
+    };
+    if (isMobileMenuOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isMobileMenuOpen]);
 
-  // Only route links (no "#")
   const navItems = [
     { name: "Home", href: "/" },
-    // { name: "Redesign", href: "/redesign" },
-    {name:"Testimonials",href:"/video"},
-    {name:"Work",href:"/work"}
-
-  ]
-
-  const isActive = (href: string) => pathname === href
+    { name: "Work", href: "/#projects" },
+    { name: "Services", href: "/#services" },
+    { name: "Reviews", href: "/#testimonials" },
+  ];
 
   return (
     <header
-      ref={headerRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-sm border-b border-slate-200" : "bg-white"
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+        isScrolled
+          ? "bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm" // Sirf Background change hoga
+          : "bg-transparent" // Transparent start mein
       }`}
     >
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
+        {/* FIXED HEIGHT: h-20 (80px) for both states */}
+        <div className="flex items-center justify-between h-20 transition-all duration-300">
+          
           {/* Logo */}
           <Link href="/" aria-label="Home" className="flex items-center">
-            <Logo />
+             <Logo />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => {
-              const active = isActive(item.href)
-              const cls = `text-sm font-medium transition-all duration-300 px-3 py-2 rounded-lg ${
-                active
-                  ? "text-black bg-slate-200"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-              }`
-              return (
-                <Link key={item.href} href={item.href} className={cls}>
-                  {item.name}
-                </Link>
-              )
-            })}
-          </div>
-
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            {/* <Button
-              className="bg-slate-900 hover:bg-slate-800 text-white font-medium shadow-sm hover:shadow-md transition-all duration-300"
-              onClick={() => {
-                if (typeof window !== "undefined") {
-                  window.open(
-                    "https://wa.me/923701247494?text=Hi%2C%20I%20want%20a%20website",
-                    "_blank",
-                    "noopener,noreferrer",
-                  )
-                }
-              }}
-            > */}
-              {/* <MessageSquare className="mr-2 w-4 h-4" />
-              Get Started
-            </Button> */}
+          <div className="hidden md:flex items-center space-x-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`text-sm font-medium px-4 py-2 rounded-full transition-all duration-300 ${
+                    isScrolled 
+                    ? "text-slate-600 hover:text-slate-900 hover:bg-slate-100" 
+                    : "text-slate-700 hover:text-slate-900 hover:bg-white/50"
+                }`}
+                onClick={(e) => {
+                    if (item.href.startsWith("/#")) {
+                        e.preventDefault();
+                        const id = item.href.replace("/#", "");
+                        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+                    }
+                }}
+              >
+                {item.name}
+              </Link>
+            ))}
+            
+            {/* CTA Button */}
+            <Link
+                href="https://wa.me/923701247494"
+                target="_blank"
+                className="ml-4 bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium px-6 py-3 rounded-sm transition-all shadow-md hover:shadow-lg"
+            >
+                Let&apos;s Talk
+            </Link>
           </div>
 
           {/* Mobile Menu Toggle */}
-          <div className="md:hidden relative">
+          <div className="md:hidden">
             <button
-              className="p-2 rounded-lg text-blue-600 hover:text-slate-900 hover:bg-slate-50 transition-all duration-300"
+              className="p-2 text-slate-700 hover:text-slate-900"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
-
-            {/* Modern Dropdown Menu */}
-            <AnimatePresence>
-              {isMobileMenuOpen && (
-                <>
-                  {/* Backdrop */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 bg-black/20 backdrop-blur-sm -z-10"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  />
-
-                  {/* Dropdown Card */}
-                  <motion.div
-                    ref={dropdownRef}
-                    initial={{ opacity: 0, scale: 0.95, y: -10, transformOrigin: "top right" }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute top-full right-0 mt-3 w-72 bg-white rounded-2xl shadow-2xl border overflow-hidden backdrop-blur-xl border-white/10"
-                    style={{
-                      boxShadow:
-                        "rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.1) 0px 10px 10px -5px",
-                    }}
-                  >
-                    <div className="p-4 space-y-5">
-                      {navItems.map((item, index) => {
-                        const active = isActive(item.href)
-                        const cls = `w-full p-3.5 rounded-xl transition-all duration-300 font-medium text-left group ${
-                          active
-                            ? "bg-slate-100/80 text-slate-900 shadow-sm"
-                            : "text-slate-600 hover:bg-slate-50/80 hover:text-slate-900 hover:shadow-sm hover:scale-[1.02]"
-                        }`
-                        return (
-                          <motion.div
-                            key={item.href}
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.05 }}
-                          >
-                            <Link
-                              href={item.href}
-                              className={cls}
-                              onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </Link>
-                          </motion.div>
-                        )
-                      })}
-
-                    
-                    </div>
-                  </motion.div>
-                </>
-              )}
-            </AnimatePresence>
           </div>
         </div>
       </nav>
-      {/* Scroll Progress */}
+
+      {/* Mobile Menu Dropdown */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            <motion.div
+              ref={dropdownRef}
+              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              className="absolute top-20 right-4 w-64 bg-white/95 backdrop-blur-xl rounded-xl shadow-2xl border border-white/20 overflow-hidden z-50"
+            >
+              <div className="py-2">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="block px-6 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+                <div className="h-px bg-slate-100 my-2" />
+                <Link
+                    href="https://wa.me/923701247494"
+                    className="block px-6 py-3 text-sm font-bold text-amber-700 hover:bg-amber-50"
+                >
+                    Book Consultation
+                </Link>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       <ScrollProgress />
     </header>
-  )
+  );
 }

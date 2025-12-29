@@ -1,115 +1,84 @@
-"use client";
-import { TrendingUp, Play } from "lucide-react";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
+"use client"
+import { Star } from "lucide-react"
+import { motion } from "framer-motion"
+import Image from "next/image"
 
 export default function ClientSuccessStory() {
   return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-6">
-        <div className="max-w-4xl mx-auto">
-          {/* Simple header - Blur Effect */}
-          <motion.div
-            initial={{ opacity: 1, filter: "blur(10px)" }}
-            whileInView={{ opacity: 1, filter: "blur(0px)" }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
-              <TrendingUp className="w-4 h-4" />
-              Client Success Story
-            </div>
-          </motion.div>
+    <section className="py-12 sm:py-16 md:py-24 bg-white relative">
+      {/* Subtle background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.02),transparent_70%)]" />
 
-          {/* Testimonial with image - Blur Effect */}
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <div className="max-w-3xl mx-auto">
+          {/* Compact Card */}
           <motion.div
-            initial={{ opacity: 1, filter: "blur(10px)" }}
-            whileInView={{ opacity: 1, filter: "blur(0px)" }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="bg-white border border-slate-200 rounded-xl p-6 md:p-8 mb-8"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-6 sm:p-8 md:p-10 shadow-sm hover:shadow-md transition-shadow duration-300"
           >
-            <div className="flex flex-col md:flex-row items-center gap-6">
-              {/* Client Image */}
-              <motion.div
-                initial={{ opacity: 1, filter: "blur(8px)" }}
-                whileInView={{ opacity: 1, filter: "blur(0px)" }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                viewport={{ once: true }}
-                className="flex-shrink-0"
-              >
-                <div className="relative">
-                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 p-1">
+            {/* Star Rating */}
+            <div className="flex items-center gap-1 mb-4">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+              ))}
+            </div>
+
+            {/* Quote */}
+            <blockquote className="text-base sm:text-lg text-slate-700 leading-relaxed mb-6 sm:mb-8">
+              &quot;Within 3 months, my business completely transformed. The website brings in customers consistently&mdash;it&apos;s fast, SEO-optimized, and feels like a real brand.&quot;
+            </blockquote>
+
+            {/* Client Info + Metric */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+              <div className="flex items-center gap-3">
+                <div className="relative flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 p-0.5">
                     <Image
-                      src="/kyle.png"
-                      alt="Kyle Niange, Founder of Contntr"
-                      width={96}
-                      height={96}
+                      src="/testimonial/kyle.png"
+                      alt="Kyle Niange"
+                      width={48}
+                      height={48}
                       className="w-full h-full rounded-full object-cover bg-white"
-                      priority
                     />
                   </div>
-                  {/* Success badge */}
-                  <motion.div
-                    initial={{ scale: 0, rotate: -180 }}
-                    whileInView={{ scale: 1, rotate: 0 }}
-                    transition={{ duration: 0.5, delay: 0.8 }}
-                    viewport={{ once: true }}
-                    className="absolute -bottom-1 -right-1 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center border-2 border-white shadow-lg"
-                  >
-                    <TrendingUp className="w-4 h-4 text-white" />
-                  </motion.div>
                 </div>
-              </motion.div>
-
-              {/* Testimonial Content */}
-              <div className="flex-1 text-center md:text-left">
-                <div className="flex justify-center md:justify-start mb-3">
-                
-                </div>
-                <p className="text-base md:text-lg text-slate-700 mb-4 leading-relaxed">
-                  &quot;Within 3 months, my business completely transformed. The
-                  new website brings in customers every day and its very fast
-                  and SEO Optimized &quot;
-                </p>
                 <div>
-                  <div className="font-semibold text-slate-900 text-base">
-                    Kyle Niange
-                  </div>
-                  <div className="text-sm text-slate-600">
-                    Founder of Contntr
-                  </div>
+                  <p className="font-semibold text-slate-900 text-sm sm:text-base">Kyle Niange</p>
+                  <p className="text-xs sm:text-sm text-slate-500">Founder, Contntr</p>
                 </div>
               </div>
+
+              {/* Single, subtle metric */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="flex flex-col sm:text-right"
+              >
+                <p className="text-xs sm:text-xs text-slate-500 uppercase tracking-wide mb-0.5">
+                  Business Growth
+                </p>
+                <p className="text-2xl sm:text-3xl font-bold text-slate-900">+340%</p>
+              </motion.div>
             </div>
           </motion.div>
 
-          {/* CTA - Blur Effect */}
-          <motion.div
-            initial={{ opacity: 1, filter: "blur(10px)" }}
-            whileInView={{ opacity: 1, filter: "blur(0px)" }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+          {/* Subtle CTA Text */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
-            className="text-center"
+            className="text-center text-sm text-slate-500 mt-6 sm:mt-8"
           >
-            <Link href="/video">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-black text-white font-semibold rounded-md transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                <Play className="w-5 h-5 fill-white" />
-                Watch what Kyle say
-              </motion.button>
-            </Link>
-            <p className="text-sm text-slate-600 mt-3">
-              {/* Free consultation • No commitment required */}
-            </p>
-          </motion.div>
+            Read more in the testimonials section below
+          </motion.p>
         </div>
       </div>
     </section>
-  );
+  )
 }
