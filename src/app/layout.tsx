@@ -45,12 +45,29 @@ import { Navigation } from "@/components/layout/navbar";
 import MYFooter from "@/components/layout/footer";
 import "./globals.css";
 
-export const metadata = {
-  title: "Sami",
-  description:
-    "I help content creators and small business owners to convert their audience into customers.",
-  icons: {
-    icon: [{ url: "/header-logo.png", type: "image/png", sizes: "32x32" }],
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    default: " Muhammad Sami | Luxury Real Estate Web Architect",
+    template: "%s | Zia Khan"
+  },
+  description: "Specialized Web Architect for Real Estate Developers in Dubai & KSA. We build high-speed, investor-ready digital estates using Next.js.",
+  keywords: ["Real Estate Web Design", "Dubai Web Developer", "Next.js Architecture", "Luxury Property Portals", "Riyadh Web Design"],
+  openGraph: {
+    title: "Zia Khan | Luxury Real Estate Web Architect",
+    description: "Don't sell millions on a cheap website. Upgrade to a digital estate.",
+    url: "www.sami-e.com",
+    siteName: "Zia Khan Architecture",
+    images: [
+      {
+        url: "/about-mee.png", 
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "en_US",
+    type: "website",
   },
 };
 
