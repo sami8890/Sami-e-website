@@ -50,15 +50,15 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: {
     default: " Muhammad Sami | Luxury Real Estate Web Architect",
-    template: "%s | Zia Khan"
+    template: "%s | Sami"
   },
   description: "Specialized Web Architect for Real Estate Developers in Dubai & KSA. We build high-speed, investor-ready digital estates using Next.js.",
   keywords: ["Real Estate Web Design", "Dubai Web Developer", "Next.js Architecture", "Luxury Property Portals", "Riyadh Web Design"],
   openGraph: {
-    title: "Zia Khan | Luxury Real Estate Web Architect",
+    title: "Sami  | Luxury Real Estate Web Architect",
     description: "Don't sell millions on a cheap website. Upgrade to a digital estate.",
     url: "www.sami-e.com",
-    siteName: "Zia Khan Architecture",
+    siteName: "Sami Architecture",
     images: [
       {
         url: "/about-mee.png", 

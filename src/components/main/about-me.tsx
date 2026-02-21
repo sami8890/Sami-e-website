@@ -29,7 +29,7 @@ return (
               {/* Apni Professional Photo yahan lagana */}
               <Image 
                 src="/about-mee.png" 
-                alt="Zia Khan - Web Architect" 
+                alt="Sami  - Web Architect" 
                 fill
                 className="object-cover object-top"
               />
@@ -60,7 +60,6 @@ return (
             
             <h2 className={`${instrumentSerif.className} text-5xl md:text-6xl text-slate-900 mb-8 leading-[1.1]`}>
               I don&apos;t just build websites. <br/>
-              <span className="text-slate-400 italic">I build digital assets.</span>
             </h2>
 
             <div className="space-y-6 text-slate-600 text-lg leading-relaxed font-light">

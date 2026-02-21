@@ -4,8 +4,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-// --- FONT ---
-const instrumentSerif = Instrument_Serif({ weight: "400", subsets: ["latin"] });
+// --- FONT CONFIGURATION ---
+// Using weight 400 as requested for the "Editorial" look
+const instrumentSerif = Instrument_Serif({ 
+  weight: "400", 
+  subsets: ["latin"],
+  variable: "--font-instrument", // Optional: allows use in CSS variables
+});
 
 // --- DATA ---
 const servicesContent = {
@@ -71,25 +76,24 @@ const servicesContent = {
   },
 };
 
-// FIX 1: Updated Type Definition for Next.js 15 (params is a Promise)
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-// FIX 2: Updated generateMetadata to await params
+// --- METADATA ---
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
   const service = servicesContent[params.slug as keyof typeof servicesContent];
-  
+   
   if (!service) return { title: "Service Not Found" };
-  
+   
   return {
     title: `${service.title} | Luxury Real Estate Web Dev`,
     description: service.subtitle,
   };
 }
 
-// FIX 3: Updated Component to be async and await params
+// --- MAIN PAGE COMPONENT ---
 export default async function ServicePage(props: Props) {
   const params = await props.params;
   const service = servicesContent[params.slug as keyof typeof servicesContent];
@@ -103,26 +107,27 @@ export default async function ServicePage(props: Props) {
   const whatsappLink = `https://wa.me/923701247494?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
-    <main className="bg-white min-h-screen pb-20">
-      
+    <main className="bg-white min-h-screen pb-20 selection:bg-amber-100 selection:text-amber-900">
+       
       {/* --- HERO SECTION --- */}
       <div className="relative min-h-[45vh] lg:min-h-[50vh] bg-slate-900 overflow-hidden flex items-center justify-center py-20 px-4">
+        {/* Gradients to add depth to the slate background */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-800 to-slate-900" />
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,white_1px,transparent_1px)] bg-[size:24px_24px]" />
         
         <div className="relative z-10 text-center max-w-4xl mx-auto w-full">
           <Link 
             href="/#services" 
-            className="inline-flex items-center text-slate-400 hover:text-white mb-6 transition-colors text-[10px] md:text-xs font-bold uppercase tracking-widest border border-slate-700 rounded-full px-3 py-1.5 md:px-4 md:py-2 hover:bg-slate-800 hover:border-slate-600 bg-slate-900/50 backdrop-blur-sm"
+            className="inline-flex items-center text-slate-400 hover:text-white mb-6 transition-colors text-[10px] md:text-xs font-bold uppercase tracking-widest border border-slate-700 rounded-full px-3 py-1.5 md:px-4 md:py-2 hover:bg-slate-800 hover:border-slate-600 bg-slate-900/50 backdrop-blur-sm group"
           >
-            <ArrowLeft className="w-3 h-3 mr-2" /> Back to Services
+            <ArrowLeft className="w-3 h-3 mr-2 transition-transform group-hover:-translate-x-1" /> Back to Services
           </Link>
           
-          <h1 className={`${instrumentSerif.className} text-3xl sm:text-4xl md:text-6xl text-white mb-3 md:mb-4 leading-tight px-2`}>
+          <h1 className={`${instrumentSerif.className} text-4xl sm:text-5xl md:text-7xl text-white mb-4 md:mb-6 leading-tight px-2`}>
             {service.title}
           </h1>
           
-          <p className="text-base sm:text-lg md:text-xl text-amber-500 font-light italic px-4">
+          <p className="text-base sm:text-lg md:text-xl text-amber-500/90 font-light italic px-4 tracking-wide">
             {service.subtitle}
           </p>
         </div>
@@ -130,24 +135,24 @@ export default async function ServicePage(props: Props) {
 
       {/* --- CONTENT SECTION --- */}
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl -mt-8 md:-mt-16 relative z-20">
-        <div className="bg-white p-6 sm:p-8 md:p-12 shadow-2xl rounded-xl border-t-4 border-amber-600">
-          
+        <div className="bg-white p-6 sm:p-8 md:p-12 shadow-2xl shadow-slate-200/50 rounded-xl border-t-4 border-amber-600">
+           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 md:gap-16">
             
             {/* Left Column: Description & Process */}
             <div className="lg:col-span-2 space-y-8 md:space-y-12 order-2 lg:order-1">
               <div>
-                <h3 className={`${instrumentSerif.className} text-2xl md:text-3xl text-slate-900 mb-3 md:mb-4`}>Overview</h3>
-                <div className="w-12 md:w-16 h-1 bg-amber-600 mb-4 md:mb-6"></div>
-                <p className="text-slate-600 text-base md:text-lg leading-relaxed">
+                <h3 className={`${instrumentSerif.className} text-3xl md:text-4xl text-slate-900 mb-4`}>Overview</h3>
+                <div className="w-12 md:w-16 h-1 bg-amber-600 mb-6"></div>
+                <p className="text-slate-600 text-base md:text-lg leading-relaxed font-light">
                   {service.description}
                 </p>
               </div>
 
               <div>
-                <h3 className={`${instrumentSerif.className} text-2xl md:text-3xl text-slate-900 mb-3 md:mb-4`}>Our Process</h3>
-                <div className="w-12 md:w-16 h-1 bg-slate-200 mb-4 md:mb-6"></div>
-                <p className="text-slate-600 leading-relaxed text-base md:text-lg">
+                <h3 className={`${instrumentSerif.className} text-3xl md:text-4xl text-slate-900 mb-4`}>Our Process</h3>
+                <div className="w-12 md:w-16 h-1 bg-slate-200 mb-6"></div>
+                <p className="text-slate-600 leading-relaxed text-base md:text-lg font-light">
                   {service.process}
                 </p>
               </div>
@@ -166,14 +171,14 @@ export default async function ServicePage(props: Props) {
                   <span className="text-[10px] font-bold text-green-700 uppercase tracking-wide">Online</span>
                 </div>
 
-                <h4 className="font-bold text-slate-900 uppercase tracking-widest text-[10px] md:text-xs mb-4 md:mb-6 text-amber-700">
+                <h4 className="font-bold text-slate-900 uppercase tracking-widest text-[10px] md:text-xs mb-6 text-amber-700">
                   Key Benefits
                 </h4>
-                <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8">
+                <ul className="space-y-4 mb-8">
                   {service.benefits.map((benefit, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 text-amber-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-slate-700 text-xs md:text-sm font-medium leading-relaxed">{benefit}</span>
+                      <CheckCircle2 className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                      <span className="text-slate-700 text-sm md:text-[15px] font-medium leading-relaxed">{benefit}</span>
                     </li>
                   ))}
                 </ul>
@@ -183,12 +188,12 @@ export default async function ServicePage(props: Props) {
                   <Link 
                     href={whatsappLink}
                     target="_blank"
-                    className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 md:py-4 rounded-lg transition-all shadow-lg active:scale-95 group mb-3"
+                    className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 md:py-4 rounded-lg transition-all shadow-lg hover:shadow-xl active:scale-95 group mb-3"
                   >
                     <MessageCircle className="w-5 h-5 fill-current" />
                     <span className="font-bold text-sm md:text-base">Chat on WhatsApp</span>
                   </Link>
-                  
+                   
                   {/* Trust Text */}
                   <div className="flex items-center justify-center gap-1.5 text-slate-400">
                     <Zap className="w-3 h-3 text-amber-500" />
@@ -206,7 +211,7 @@ export default async function ServicePage(props: Props) {
 
       {/* --- BOTTOM CTA --- */}
       <div className="container mx-auto px-4 max-w-4xl mt-16 md:mt-32 text-center pb-10">
-        <h2 className={`${instrumentSerif.className} text-2xl md:text-4xl text-slate-900 mb-4 md:mb-6 leading-tight`}>
+        <h2 className={`${instrumentSerif.className} text-3xl md:text-5xl text-slate-900 mb-6 leading-tight`}>
           Ready to elevate your digital presence?
         </h2>
         {/* Bottom Link */}
