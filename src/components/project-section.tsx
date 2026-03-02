@@ -9,54 +9,41 @@ import { ArrowUpRight } from "lucide-react";
 const instrumentSerif = Instrument_Serif({ weight: "400", subsets: ["latin"] });
 
 const projects = [
-  {
-    id: 1,
-    title: "Emaar Launch",
-    category: "Lead Gen Portal",
-    image: "/project/b.png", // Make sure path is correct
-    slug: "Blue Zone"
-  },
-  {
-    id: 2,
-    title: "Sobha Hartland",
-    category: "3D Visualization",
-    image: "/project/c.png",
-    slug: "sobha-villas"
-  },
-  {
-    id: 3,
-    title: "Damac Lagoons",
-    category: "Interactive Map",
-    image: "/project/d.png",
-    slug: "damac-lagoons"
-  },
-  {
-    id: 4,
-    title: "Red Sea Project",
-    category: "Investor Dashboard",
-    image: "/project/a.png",
-    slug: "red-sea-project"
-  }
+  { id: 1, title: "Emaar Launch", category: "Lead Gen Portal", image: "/project/b.png", slug: "emaar-launch" },
+  { id: 2, title: "Sobha Hartland", category: "3D Visualization", image: "/project/c.png", slug: "sobha-villas" },
+  { id: 3, title: "Damac Lagoons", category: "Interactive Map", image: "/project/d.png", slug: "damac-lagoons" },
+  { id: 4, title: "Red Sea Project", category: "Investor Dashboard", image: "/project/a.png", slug: "red-sea-project" }
 ];
 
 export default function RecentWork() {
-  return (
-    <section className="py-20 md:py-24 bg-white" id="projects">
+  // Arrow Animation Variants
+  const draw = {
+    hidden: { pathLength: 0, opacity: 0 },
+    visible: {
+      pathLength: 1,
+      opacity: 1,
+      transition: {
+        pathLength: { delay: 0.3, type: "spring", duration: 1.5, bounce: 0 },
+        opacity: { delay: 0.3, duration: 0.01 }
+      }
+    }
+  };
 
-      {/* Hide Scrollbar CSS */}
+  return (
+    <section className="py-24 md:py-40 bg-[#F7FAFC] overflow-hidden" id="projects">
       <style jsx global>{`
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
-
+        
         {/* --- HEADER --- */}
-        <div className="text-center mb-10 md:mb-16">
+        <div className="text-center mb-16 md:mb-28">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            whileTap={{ scale: 0.98 }}
+            viewport={{ once: true }}
             className={`${instrumentSerif.className} text-4xl md:text-5xl text-slate-900 mb-4`}
           >
             Recent <span className="text-amber-600 italic">Work</span>
@@ -66,113 +53,110 @@ export default function RecentWork() {
           </p>
         </div>
 
-        {/* --- DESKTOP VIEW (Grid) --- */}
-        <div className="hidden md:grid grid-cols-2 gap-x-8 gap-y-12">
+        {/* --- DESKTOP GRID --- */}
+        <div className="hidden md:grid grid-cols-2 gap-x-12 gap-y-20">
           {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="group"
-            >
+            <motion.div key={index} className="group">
               <Link href={`/projects/${project.slug}`} className="block mb-6 relative">
-                 {/* Desktop: Aspect Video (Wide) */}
-                 <div className="relative aspect-video w-full bg-slate-50 rounded-2xl overflow-hidden p-6 group-hover:bg-slate-100 transition-colors duration-500 border border-slate-100">
-                    <div className="relative w-full h-full rounded-lg overflow-hidden shadow-sm group-hover:shadow-xl transition-all duration-500 bg-white">
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          // CHANGE: Removed 'transform group-hover:scale-105'
-                          className="object-cover object-top"
-                        />
-                    </div>
-                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-slate-900 z-20 shadow-sm border border-slate-100">
-                       {project.category}
+                 <div className="relative aspect-video w-full bg-slate-50 rounded-2xl overflow-hidden p-8 group-hover:bg-slate-100 transition-colors border border-slate-100">
+                    <div className="relative w-full h-full rounded-lg overflow-hidden shadow-sm bg-white">
+                        <Image src={project.image} alt={project.title} fill className="object-contain p-2" />
                     </div>
                  </div>
               </Link>
-              <div className="pl-1">
-                <h3 className={`${instrumentSerif.className} text-3xl text-slate-900 mb-2 group-hover:text-amber-600 transition-colors`}>
-                  {project.title}
-                </h3>
-                <Link href={`/projects/${project.slug}`} className="inline-flex items-center gap-2 group/link">
-                  <span className="text-slate-500 text-sm font-medium border-b border-slate-300 pb-0.5 group-hover/link:text-amber-700 transition-all">See Project</span>
-                  <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover/link:text-amber-700 transition-colors" />
-                </Link>
+              <h3 className={`${instrumentSerif.className} text-3xl text-slate-900 mb-2`}>{project.title}</h3>
+              <div className="inline-flex items-center gap-2 text-slate-500">
+                <span className="text-sm font-medium border-b border-slate-300">See Project</span>
+                <ArrowUpRight className="w-4 h-4" />
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* --- MOBILE VIEW (Slider) --- */}
-        <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 scrollbar-hide">
-          
+        {/* --- MOBILE SLIDER --- */}
+        <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 -mx-4 px-4 scrollbar-hide">
           {projects.map((project, index) => (
-            <div key={index} className="snap-center min-w-[85vw] relative flex-shrink-0">
-               <Link href={`/projects/${project.slug}`} className="block group">
-                 
-                 {/* aspect-[4/3] (Tall for Mobile) | md:aspect-video (Wide for Desktop if resizing) */}
-                 <div className="relative aspect-[4/3] w-full bg-slate-50 rounded-2xl overflow-hidden mb-4 p-5 border border-slate-100">
-                   
-                   <div className="relative w-full h-full rounded-lg overflow-hidden shadow-sm bg-white">
-                       <Image src={project.image} alt={project.title} fill className="object-cover object-top" />
-                   </div>
-                   <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest text-slate-900 shadow-sm">
-                     {project.category}
+            <div key={index} className="snap-center min-w-[85vw] flex-shrink-0">
+               <div className="block">
+                 <div className="relative aspect-[4/5] w-full bg-slate-50 rounded-2xl overflow-hidden mb-4 p-4 border border-slate-100">
+                   <div className="relative w-full h-full rounded-lg overflow-hidden bg-white shadow-sm">
+                       <Image src={project.image} alt={project.title} fill className="object-contain p-1" />
                    </div>
                  </div>
-                 
-                 <div className="px-1">
-                     <h3 className={`${instrumentSerif.className} text-2xl text-slate-900 mb-1`}>
-                        {project.title}
-                     </h3>
-                     <div className="flex items-center gap-1 text-amber-600">
-                        <span className="text-xs font-bold uppercase tracking-wider">View Case Study</span>
-                        <ArrowUpRight className="w-3 h-3" />
-                     </div>
+                 <h3 className={`${instrumentSerif.className} text-2xl text-slate-900 mb-1`}>{project.title}</h3>
+                 <div className="flex items-center gap-1 text-amber-600 text-xs font-bold uppercase tracking-wider">
+                    View Case Study <ArrowUpRight className="w-3 h-3" />
                  </div>
-               </Link>
+               </div>
             </div>
           ))}
 
-          {/* --- SPECIAL CARD (RESTORED HEIGHT) --- */}
-          <div className="snap-center min-w-[85vw] relative flex-shrink-0">
-             <Link href="/contact" className="block h-full group">
-                
-                {/* Fixed: aspect-[4/3] wapis laya hoon taake content fit ho jaye */}
-                <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden mb-4 bg-slate-900 border border-slate-800 flex flex-col items-center justify-center text-center p-6 shadow-md group-hover:border-amber-500/50 transition-colors">
-                  
-                  {/* Ab icon aur text ke liye poori jagah hai */}
-                  <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                     <ArrowUpRight className="w-6 h-6 text-amber-500" />
-                  </div>
-                  
-                  <h3 className={`${instrumentSerif.className} text-3xl text-white mb-2`}>
-                    Your Project <br/> <span className="text-amber-500 italic">Next?</span>
-                  </h3>
-                  <p className="text-slate-400 text-xs mb-6">
-                    Join the top 1% of developers.
-                  </p>
-                  
-                  <span className="bg-white text-slate-900 px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest group-hover:bg-amber-500 group-hover:text-white transition-colors">
-                    Start a Project
-                  </span>
-
+          {/* --- SPECIAL BLACK CARD --- */}
+          <div className="snap-center min-w-[85vw] flex-shrink-0">
+             <div className="relative aspect-[4/5] w-full rounded-[2.5rem] overflow-hidden mb-4 bg-[#0a0a0a] border border-white/5 flex flex-col items-center justify-center text-center p-8 shadow-2xl">
+                <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-8">
+                    <ArrowUpRight className="w-10 h-10 text-amber-500" />
                 </div>
-             </Link>
+                <h3 className={`${instrumentSerif.className} text-5xl text-white mb-6 leading-[0.9]`}>
+                  Your Project <br/> <span className="text-amber-500 italic font-light">Next?</span>
+                </h3>
+                <p className="text-slate-400 text-lg mb-10 leading-relaxed max-w-[260px]">
+                  Let&apos;s build something extraordinary together.
+                </p>
+                
+             </div>
+          </div>
+        </div>
+
+        {/* --- BOTTOM CTA AREA (FIXED OVERLAP) --- */}
+        <div className="mt-32 md:mt-48 flex flex-col items-center relative">
+          
+          {/* ANIMATED ARROW: Fixed Positioning to avoid overlap on mobile */}
+          <div className="absolute -top-16 left-1/2 translate-x-[70px] md:translate-x-28 pointer-events-none z-0">
+             <motion.svg 
+              width="100" 
+              height="80" 
+              viewBox="0 0 100 80" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.8 }}
+              className="rotate-[-10deg] md:rotate-0 scale-90 md:scale-110"
+             >
+                <motion.path 
+                  d="M80 5C70 15 35 30 25 60" 
+                  stroke="#0f172a" 
+                  strokeWidth="3" 
+                  strokeLinecap="round" 
+                  variants={draw}
+                />
+                <motion.path 
+                  d="M25 60L15 48" 
+                  stroke="#0f172a" 
+                  strokeWidth="3" 
+                  strokeLinecap="round" 
+                  variants={draw}
+                />
+                <motion.path 
+                  d="M25 60L40 55" 
+                  stroke="#0f172a" 
+                  strokeWidth="3" 
+                  strokeLinecap="round" 
+                  variants={draw}
+                />
+             </motion.svg>
           </div>
 
-        </div>
-
-        {/* --- BOTTOM CTA --- */}
-        <div className="mt-8 md:mt-20 text-center">
-          <Link href="/portfolio" className="inline-block bg-amber-600 text-white px-8 py-3 md:px-10 md:py-4 rounded-full font-bold uppercase tracking-widest text-[10px] md:text-xs hover:bg-amber-700 transition-colors shadow-lg shadow-amber-600/20">
-              View Full Portfolio
+          {/* VIEW ALL WORKS BUTTON: Added clear background and high Z-index */}
+          <Link 
+            href="/portfolio" 
+            className="relative z-10 px-12 py-5 bg-white text-slate-900 border border-slate-200 rounded-2xl shadow-sm hover:shadow-md hover:border-slate-900 transition-all duration-300 font-bold text-sm tracking-tight active:scale-95 text-center min-w-[200px]"
+          >
+            View all works
           </Link>
         </div>
+
       </div>
     </section>
   );

@@ -171,7 +171,7 @@ export default async function ServicePage(props: Props) {
                   <span className="text-[10px] font-bold text-green-700 uppercase tracking-wide">Online</span>
                 </div>
 
-                <h4 className="font-bold text-slate-900 uppercase tracking-widest text-[10px] md:text-xs mb-6 text-amber-700">
+                <h4 className="font-bold text-slate-900 uppercase tracking-widest text-[10px] md:text-xs mb-6">
                   Key Benefits
                 </h4>
                 <ul className="space-y-4 mb-8">

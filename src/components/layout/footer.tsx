@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export default function Footer() {
   return (
-    <footer className="relative bg-white flex flex-col items-center justify-center py-16 sm:py-20 overflow-hidden border-t border-gray-100">
+    <footer className="relative bg-[#F7FAFC] flex flex-col items-center justify-center py-16 sm:py-20 overflow-hidden border-t border-gray-100">
       {/* Soft top divider */}
       <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-gray-300 to-transparent mb-10" />
 
