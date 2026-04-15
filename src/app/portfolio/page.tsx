@@ -17,7 +17,7 @@ const allProjects = [
     title: "Blue Zone",
     category: "Real Estate",
     image: "/project/b.png", 
-    slug: "blue-zone",
+    url: "https://www.sami-e.com",
     status: "Live"
   },
   {
@@ -25,7 +25,7 @@ const allProjects = [
     title: "Sobha Hartland",
     category: "Real Estate",
     image: "/project/c.png",
-    slug: "sobha-villas",
+    url: "https://sobha-hartland.com",
     status: "Live"
   },
   {
@@ -33,7 +33,7 @@ const allProjects = [
     title: "Finnishify Store",
     category: "E-commerce",
     image: "/project/a.png",
-    slug: "damac-lagoons",
+    url: "https://finnishify.com",
     status: "Live"
   },
   {
@@ -41,10 +41,9 @@ const allProjects = [
     title: "Damac Lagoons",
     category: "Interactive Map",
     image: "/project/d.png",
-    slug: "finnishify",
+    url: "https://damac-lagoons.com",
     status: "Concept"
   },
-
 ];
 
 // Categories for Filter
@@ -122,10 +121,15 @@ export default function PortfolioPage() {
                 key={project.id}
                 className="group"
               >
-                <Link href={`/projects/${project.slug}`} className="block mb-6 relative">
+                <Link 
+                  href={project.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block"
+                >
                    
-                   {/* CARD IMAGE (Hybrid Fix Applied: Tall Mobile, Wide Desktop) */}
-                   <div className="relative aspect-[4/3] md:aspect-video w-full bg-slate-50 rounded-2xl overflow-hidden p-6 md:p-8 group-hover:bg-slate-100 transition-colors duration-500 border border-slate-100">
+                   {/* CARD IMAGE */}
+                   <div className="relative aspect-[4/3] md:aspect-video w-full bg-slate-50 rounded-2xl overflow-hidden p-6 md:p-8 group-hover:bg-slate-100 transition-colors duration-500 border border-slate-100 mb-6">
                       
                       {/* Inner Image Frame */}
                       <div className="relative w-full h-full rounded-lg overflow-hidden shadow-sm group-hover:shadow-xl transition-all duration-500 bg-white">
@@ -133,7 +137,7 @@ export default function PortfolioPage() {
                             src={project.image}
                             alt={project.title}
                             fill
-                            className="object-cover object-top" // No Zoom effect as requested
+                            className="object-cover object-top"
                           />
                       </div>
 
@@ -146,24 +150,24 @@ export default function PortfolioPage() {
                       </div>
 
                    </div>
-                </Link>
 
-                {/* Project Info */}
-                <div className="pl-2">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className={`${instrumentSerif.className} text-3xl text-slate-900 mb-2 group-hover:text-amber-600 transition-colors`}>
-                        {project.title}
-                      </h3>
-                      <Link href={`/projects/${project.slug}`} className="inline-flex items-center gap-2 group/link">
-                        <span className="text-slate-500 text-sm font-medium border-b border-slate-300 pb-0.5 group-hover/link:text-amber-700 transition-all">
-                          View Case Study
-                        </span>
-                        <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover/link:text-amber-700 transition-colors" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+                   {/* Project Info */}
+                   <div className="pl-2">
+                     <div className="flex justify-between items-start">
+                       <div>
+                         <h3 className={`${instrumentSerif.className} text-3xl text-slate-900 mb-2 group-hover:text-amber-600 transition-colors`}>
+                           {project.title}
+                         </h3>
+                         <span className="inline-flex items-center gap-2">
+                           <span className="text-slate-500 text-sm font-medium border-b border-slate-300 pb-0.5 group-hover:text-amber-700 transition-all">
+                             See Project
+                           </span>
+                           <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-amber-700 transition-colors" />
+                         </span>
+                       </div>
+                     </div>
+                   </div>
+                </Link>
 
               </motion.div>
             ))}
@@ -201,10 +205,10 @@ export default function PortfolioPage() {
                 </p>
 
                 {/* Button */}
-                <Link href="/contact" className="inline-flex items-center gap-3 bg-white text-slate-950 px-8 py-4 md:px-10 md:py-5 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-amber-500 hover:text-white transition-all duration-300 hover:scale-105 shadow-lg shadow-white/10 hover:shadow-amber-500/20">
+                {/* <Link href="/" className="inline-flex items-center gap-3 bg-white text-slate-950 px-8 py-4 md:px-10 md:py-5 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-amber-500 hover:text-white transition-all duration-300 hover:scale-105 shadow-lg shadow-white/10 hover:shadow-amber-500/20">
                    Start a Project
                    <ArrowUpRight className="w-4 h-4" />
-                </Link>
+                </Link> */}
               </div>
 
            </div>

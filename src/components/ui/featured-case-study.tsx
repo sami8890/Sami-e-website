@@ -4,6 +4,7 @@ import { Instrument_Serif, DM_Sans } from "next/font/google";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 const instrumentSerif = Instrument_Serif({ weight: "400", subsets: ["latin"] });
 const dmSans = DM_Sans({ weight: ["400", "500", "700"], subsets: ["latin"] });
@@ -65,100 +66,105 @@ export default function CaseStudySection() {
 
         
             {/* Metric 1: The "Growth" Animation */}
-<div className="flex items-start gap-4 group">
-  <div className="flex-shrink-0 mt-1">
-    <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-500/5 border border-emerald-500/10 relative overflow-hidden">
-      {/* Animated Bar Chart */}
-      <div className="flex items-end gap-[2px] h-4">
-        {[0.4, 0.7, 0.5, 0.9].map((h, i) => (
-          <motion.div
-            key={i}
-            initial={{ height: "20%" }}
-            animate={{ height: `${h * 100}%` }}
-            transition={{ 
-              duration: 1, 
-              repeat: Infinity, 
-              repeatType: "reverse", 
-              delay: i * 0.2 
-            }}
-            className="w-[3px] bg-emerald-400 rounded-full"
-          />
-        ))}
-      </div>
-    </div>
-  </div>
-  <div className="flex-1">
-    <p className="text-sm font-bold text-white uppercase tracking-wider">Full Inventory Liquidation</p>
-    <p className="text-xs text-slate-400 mt-1">Achieved 100% sell-through of 13 primary listings.</p>
-  </div>
-</div>
+            <div className="flex items-start gap-4 group">
+              <div className="flex-shrink-0 mt-1">
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-500/5 border border-emerald-500/10 relative overflow-hidden">
+                  {/* Animated Bar Chart */}
+                  <div className="flex items-end gap-[2px] h-4">
+                    {[0.4, 0.7, 0.5, 0.9].map((h, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ height: "20%" }}
+                        animate={{ height: `${h * 100}%` }}
+                        transition={{ 
+                          duration: 1, 
+                          repeat: Infinity, 
+                          repeatType: "reverse", 
+                          delay: i * 0.2 
+                        }}
+                        className="w-[3px] bg-emerald-400 rounded-full"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-bold text-white uppercase tracking-wider">Full Inventory Liquidation</p>
+                <p className="text-xs text-slate-400 mt-1">Achieved 100% sell-through of 13 primary listings.</p>
+              </div>
+            </div>
 
-{/* Metric 2: The "Speed" Animation */}
-{/* Metric 2: The "Velocity" Animation */}
-<div className="flex items-start gap-4 group">
-  <div className="flex-shrink-0 mt-1">
-    <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-blue-500/5 border border-blue-500/10 overflow-hidden">
-      
-      {/* Background Ring */}
-      <svg className="absolute w-8 h-8 transform -rotate-90">
-        <circle
-          cx="16"
-          cy="16"
-          r="14"
-          stroke="currentColor"
-          strokeWidth="2"
-          fill="transparent"
-          className="text-blue-500/10"
-        />
-        {/* Animated Progress Path */}
-        <motion.circle
-          cx="16"
-          cy="16"
-          r="14"
-          stroke="currentColor"
-          strokeWidth="2"
-          fill="transparent"
-          strokeDasharray="88"
-          initial={{ strokeDashoffset: 88 }}
-          animate={{ strokeDashoffset: [88, 20, 88] }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="text-blue-400"
-          strokeLinecap="round"
-        />
-      </svg>
+            {/* Metric 2: The "Velocity" Animation */}
+            <div className="flex items-start gap-4 group">
+              <div className="flex-shrink-0 mt-1">
+                <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-blue-500/5 border border-blue-500/10 overflow-hidden">
+                  
+                  {/* Background Ring */}
+                  <svg className="absolute w-8 h-8 transform -rotate-90">
+                    <circle
+                      cx="16"
+                      cy="16"
+                      r="14"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      fill="transparent"
+                      className="text-blue-500/10"
+                    />
+                    {/* Animated Progress Path */}
+                    <motion.circle
+                      cx="16"
+                      cy="16"
+                      r="14"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      fill="transparent"
+                      strokeDasharray="88"
+                      initial={{ strokeDashoffset: 88 }}
+                      animate={{ strokeDashoffset: [88, 20, 88] }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      className="text-blue-400"
+                      strokeLinecap="round"
+                    />
+                  </svg>
 
-      {/* Center Bolt Icon - using Lucide or just a Dot */}
-      <motion.div
-        animate={{ opacity: [0.4, 1, 0.4] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
-        className="z-10 w-1.5 h-1.5 bg-blue-400 rounded-full shadow-[0_0_12px_#60a5fa]"
-      />
-    </div>
-  </div>
-  
-  <div className="flex-1">
-    <p className="text-sm font-bold text-white uppercase tracking-wider">
-      Enterprise Velocity
-    </p>
-    <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-      Sub-100ms global latency ensuring zero friction during high-intent search.
-    </p>
-  </div>
-</div>
+                  {/* Center Dot */}
+                  <motion.div
+                    animate={{ opacity: [0.4, 1, 0.4] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                    className="z-10 w-1.5 h-1.5 bg-blue-400 rounded-full shadow-[0_0_12px_#60a5fa]"
+                  />
+                </div>
+              </div>
+              
+              <div className="flex-1">
+                <p className="text-sm font-bold text-white uppercase tracking-wider">
+                  Enterprise Velocity
+                </p>
+                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                  Sub-100ms global latency ensuring zero friction during high-intent search.
+                </p>
+              </div>
+            </div>
+
             {/* CTA Button */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.6 }}
             >
-              <button className="group inline-flex items-center gap-2 text-red-500 hover:text-red-400 transition-colors text-sm font-bold uppercase tracking-wider pt-2">
-                View Full Case Study
+              <Link 
+                href="https://www.bayut.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 text-red-500 hover:text-red-400 transition-colors text-sm font-bold uppercase tracking-wider pt-2"
+              >
+                View website live
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-              </button>
+              </Link>
             </motion.div>
 
           </motion.div>

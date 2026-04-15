@@ -9,25 +9,25 @@ import { ArrowUpRight } from "lucide-react";
 const instrumentSerif = Instrument_Serif({ weight: "400", subsets: ["latin"] });
 
 const projects = [
-  { id: 1, title: "Emaar Launch", category: "Lead Gen Portal", image: "/project/b.png", slug: "emaar-launch" },
-  { id: 2, title: "Sobha Hartland", category: "3D Visualization", image: "/project/c.png", slug: "sobha-villas" },
-  { id: 3, title: "Damac Lagoons", category: "Interactive Map", image: "/project/d.png", slug: "damac-lagoons" },
-  { id: 4, title: "Red Sea Project", category: "Investor Dashboard", image: "/project/a.png", slug: "red-sea-project" }
+  { id: 1, title: "Emaar Launch", category: "Lead Gen Portal", image: "/project/b.png", url: "https://bluezonerealty.com/" },
+  { id: 3, title: "Finnishify ", category: " Dropshippng", image: "/project/d.png", url: "https://www.finnishify.com" },
+  { id: 2, title: "Danah Hartland", category: "Real estate ", image: "/project/c.png", url: "https://www.danah.com.sa/" },
+  { id: 4, title: "Contnr ", category: "Seo agency website", image: "/project/kyle.png", url: "https://www.contntr.com" }
 ];
 
 export default function RecentWork() {
   // Arrow Animation Variants
-  const draw = {
-    hidden: { pathLength: 0, opacity: 0 },
-    visible: {
-      pathLength: 1,
-      opacity: 1,
-      transition: {
-        pathLength: { delay: 0.3, type: "spring", duration: 1.5, bounce: 0 },
-        opacity: { delay: 0.3, duration: 0.01 }
-      }
-    }
-  };
+  // const draw = {
+  //   hidden: { pathLength: 0, opacity: 0 },
+  //   visible: {
+  //     pathLength: 1,
+  //     opacity: 1,
+  //     transition: {
+  //       pathLength: { delay: 0.3, type: "spring", duration: 1.5, bounce: 0 },
+  //       opacity: { delay: 0.3, duration: 0.01 }
+  //     }
+  //   }
+  // };
 
   return (
     <section className="py-24 md:py-40 bg-[#F7FAFC] overflow-hidden" id="projects">
@@ -57,18 +57,23 @@ export default function RecentWork() {
         <div className="hidden md:grid grid-cols-2 gap-x-12 gap-y-20">
           {projects.map((project, index) => (
             <motion.div key={index} className="group">
-              <Link href={`/projects/${project.slug}`} className="block mb-6 relative">
-                 <div className="relative aspect-video w-full bg-slate-50 rounded-2xl overflow-hidden p-8 group-hover:bg-slate-100 transition-colors border border-slate-100">
-                    <div className="relative w-full h-full rounded-lg overflow-hidden shadow-sm bg-white">
-                        <Image src={project.image} alt={project.title} fill className="object-contain p-2" />
-                    </div>
-                 </div>
+              <Link 
+                href={project.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <div className="relative aspect-video w-full bg-slate-50 rounded-2xl overflow-hidden p-8 group-hover:bg-slate-100 transition-colors border border-slate-100 mb-6">
+                  <div className="relative w-full h-full rounded-lg overflow-hidden shadow-sm bg-white">
+                    <Image src={project.image} alt={project.title} fill className="object-contain p-2" />
+                  </div>
+                </div>
+                <h3 className={`${instrumentSerif.className} text-3xl text-slate-900 mb-2 group-hover:text-amber-600 transition-colors`}>{project.title}</h3>
+                <div className="inline-flex items-center gap-2 text-slate-500 group-hover:text-amber-600 transition-colors">
+                  <span className="text-sm font-medium border-b border-slate-300 group-hover:border-amber-600">See Project</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </div>
               </Link>
-              <h3 className={`${instrumentSerif.className} text-3xl text-slate-900 mb-2`}>{project.title}</h3>
-              <div className="inline-flex items-center gap-2 text-slate-500">
-                <span className="text-sm font-medium border-b border-slate-300">See Project</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </div>
             </motion.div>
           ))}
         </div>
@@ -76,18 +81,23 @@ export default function RecentWork() {
         {/* --- MOBILE SLIDER --- */}
         <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 -mx-4 px-4 scrollbar-hide">
           {projects.map((project, index) => (
-            <div key={index} className="snap-center min-w-[85vw] flex-shrink-0">
-               <div className="block">
-                 <div className="relative aspect-[4/5] w-full bg-slate-50 rounded-2xl overflow-hidden mb-4 p-4 border border-slate-100">
-                   <div className="relative w-full h-full rounded-lg overflow-hidden bg-white shadow-sm">
-                       <Image src={project.image} alt={project.title} fill className="object-contain p-1" />
-                   </div>
-                 </div>
-                 <h3 className={`${instrumentSerif.className} text-2xl text-slate-900 mb-1`}>{project.title}</h3>
-                 <div className="flex items-center gap-1 text-amber-600 text-xs font-bold uppercase tracking-wider">
-                    View Case Study <ArrowUpRight className="w-3 h-3" />
-                 </div>
-               </div>
+            <div key={index} className="snap-center min-w-[85vw] flex-shrink-0 group">
+              <Link 
+                href={project.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <div className="relative aspect-[4/5] w-full bg-slate-50 rounded-2xl overflow-hidden mb-4 p-4 border border-slate-100">
+                  <div className="relative w-full h-full rounded-lg overflow-hidden bg-white shadow-sm">
+                    <Image src={project.image} alt={project.title} fill className="object-contain p-1" />
+                  </div>
+                </div>
+                <h3 className={`${instrumentSerif.className} text-2xl text-slate-900 mb-1 group-hover:text-amber-600 transition-colors`}>{project.title}</h3>
+                <div className="flex items-center gap-1 text-amber-600 text-xs font-bold uppercase tracking-wider">
+                  See Project <ArrowUpRight className="w-3 h-3" />
+                </div>
+              </Link>
             </div>
           ))}
 
@@ -112,7 +122,7 @@ export default function RecentWork() {
         <div className="mt-32 md:mt-48 flex flex-col items-center relative">
           
           {/* ANIMATED ARROW: Fixed Positioning to avoid overlap on mobile */}
-          <div className="absolute -top-16 left-1/2 translate-x-[70px] md:translate-x-28 pointer-events-none z-0">
+          {/* <div className="absolute -top-16 left-1/2 translate-x-[70px] md:translate-x-28 pointer-events-none z-0">
              <motion.svg 
               width="100" 
               height="80" 
@@ -146,15 +156,15 @@ export default function RecentWork() {
                   variants={draw}
                 />
              </motion.svg>
-          </div>
+          </div> */}
 
           {/* VIEW ALL WORKS BUTTON: Added clear background and high Z-index */}
-          <Link 
+          {/* <Link 
             href="/portfolio" 
             className="relative z-10 px-12 py-5 bg-white text-slate-900 border border-slate-200 rounded-2xl shadow-sm hover:shadow-md hover:border-slate-900 transition-all duration-300 font-bold text-sm tracking-tight active:scale-95 text-center min-w-[200px]"
           >
             View all works
-          </Link>
+          </Link> */}
         </div>
 
       </div>

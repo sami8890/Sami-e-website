@@ -44,34 +44,34 @@ export default function Footer() {
         className="mt-12 flex items-center justify-center space-x-4 text-sm sm:text-base text-gray-800"
       >
         {/* Home - clickable now */}
-        <Link
+        {/* <Link
           href="/"
           className="relative font-medium text-gray-600 hover:text-black transition-colors after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-[1px] after:bg-black hover:after:w-full after:transition-all after:duration-300"
         >
           Home
-        </Link>
+        </Link> */}
 
         {/* Divider dot */}
         <span className="text-gray-400">•</span>
 
         {/* Works - clickable */}
-        <Link
+        {/* <Link
           href="/work"
           className="relative font-medium text-gray-600 hover:text-black transition-colors after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-[1px] after:bg-black hover:after:w-full after:transition-all after:duration-300"
         >
           Works
-        </Link>
+        </Link> */}
 
         {/* Divider dot */}
         <span className="text-gray-400">•</span>
 
         {/* Client Stories - new link */}
-        <Link
+        {/* <Link
           href="/video"
           className="relative font-medium text-gray-800 hover:text-black transition-colors px-2 py-[2px] border border-gray-200 rounded-full hover:border-black hover:bg-gray-50"
         >
           Clients
-        </Link>
+        </Link> */}
       </motion.div>
     </footer>
   );
